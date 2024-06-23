@@ -6,7 +6,8 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject baseRoomPrefab;
     public GameObject enemyRoomPrefab;
     public GameObject rewardRoomPrefab;
-    public GameObject hallwayPrefab;
+    public GameObject hallwayHorizontalPrefab;
+    public GameObject hallwayVerticalPrefab;
     public int numOfEnemyRooms = 3;
     public int numOfRewardRooms = 0;
     public int gridWidth = 10;
@@ -14,8 +15,10 @@ public class DungeonGenerator : MonoBehaviour
 
     private Dictionary<Vector2Int, GameObject> roomGrid = new Dictionary<Vector2Int, GameObject>();
     private List<Vector2Int> availablePositions = new List<Vector2Int>();
-    private Vector2Int currentRoom;
-    private Vector2Int previousRoom;
+    private GameObject currentRoom;
+    private GameObject previousRoom;
+    private Vector2Int currentRoomGridPos;
+    private Vector2Int previousRoomGridPos;
     private List<Vector2Int> allRooms = new List<Vector2Int>();
 
     void Start()
@@ -38,27 +41,25 @@ public class DungeonGenerator : MonoBehaviour
     void GenerateRooms()
     {
         Vector2Int basePosition = new Vector2Int(0, gridHeight / 2);
-        PlaceRoom(baseRoomPrefab, basePosition);
-        currentRoom = basePosition;
-        allRooms.Add(currentRoom);
+        PlaceRoom(baseRoomPrefab, basePosition, new (0,0,0));
+        currentRoomGridPos = basePosition;
+        allRooms.Add(currentRoomGridPos);
 
         for (int i = 0; i < numOfEnemyRooms + numOfRewardRooms; i++)
         {
             GameObject roomPrefab = i < numOfEnemyRooms ? enemyRoomPrefab : rewardRoomPrefab;
             PlaceNextRoom(roomPrefab);
         }
-
-        //ConnectRooms();
     }
 
-    void PlaceRoom(GameObject roomPrefab, Vector2Int position)
+    void PlaceRoom(GameObject roomPrefab, Vector2Int gridPosition, Vector3 position)
     {
-        if (!roomGrid.ContainsKey(position))
+        if (!roomGrid.ContainsKey(gridPosition))
         {
-            GameObject room = Instantiate(roomPrefab, new Vector3(position.x * 10, position.y * 10, 0), Quaternion.identity);
-            room.transform.parent = this.transform;
-            roomGrid[position] = room;
-            availablePositions.Remove(position);
+            previousRoom = Instantiate(roomPrefab, position, Quaternion.identity);
+            previousRoom.transform.parent = this.transform;
+            roomGrid[gridPosition] = previousRoom;
+            availablePositions.Remove(gridPosition);
         }
     }
 
@@ -66,47 +67,61 @@ public class DungeonGenerator : MonoBehaviour
     {
         List<Vector2Int> possiblePositions = new List<Vector2Int>
         {
-            new Vector2Int(currentRoom.x + 1, currentRoom.y),
-            new Vector2Int(currentRoom.x - 1, currentRoom.y),
-            new Vector2Int(currentRoom.x, currentRoom.y + 1),
-            new Vector2Int(currentRoom.x, currentRoom.y - 1)
+            new Vector2Int(currentRoomGridPos.x + 1, currentRoomGridPos.y),
+            new Vector2Int(currentRoomGridPos.x - 1, currentRoomGridPos.y),
+            new Vector2Int(currentRoomGridPos.x, currentRoomGridPos.y + 1),
+            new Vector2Int(currentRoomGridPos.x, currentRoomGridPos.y - 1)
         };
 
         possiblePositions.RemoveAll(pos => !availablePositions.Contains(pos) || allRooms.Contains(pos));
 
         if (possiblePositions.Count == 0) return; // No available position
 
-        previousRoom = currentRoom;
-        currentRoom = possiblePositions[Random.Range(0, possiblePositions.Count)];
-        PlaceRoom(roomPrefab, currentRoom);
-        allRooms.Add(currentRoom);
+        previousRoomGridPos = currentRoomGridPos;
+        currentRoomGridPos = possiblePositions[Random.Range(0, possiblePositions.Count)];
+
+        
+        Vector3 previousRoomPosition = previousRoom.transform.localPosition;
+        Vector3 newRoomPosition = Vector3.zero;
+
+        switch (currentRoomGridPos)
+        {
+            case var pos when pos == new Vector2Int(previousRoomGridPos.x + 1, previousRoomGridPos.y):
+                newRoomPosition = previousRoomPosition + new Vector3(20,0,0);
+                break;
+            case var pos when pos == new Vector2Int(previousRoomGridPos.x - 1, previousRoomGridPos.y):
+                newRoomPosition = previousRoomPosition + new Vector3(-20,0,0);
+                break;
+            case var pos when pos == new Vector2Int(previousRoomGridPos.x, previousRoomGridPos.y + 1):
+                newRoomPosition = previousRoomPosition + new Vector3(0,20,0);
+                break;
+            case var pos when pos == new Vector2Int(previousRoomGridPos.x, previousRoomGridPos.y - 1):
+                newRoomPosition = previousRoomPosition + new Vector3(0,-20,0);
+                break;
+        }
+
+        PlaceRoom(roomPrefab, currentRoomGridPos, newRoomPosition);
+        ConnectRooms(previousRoomGridPos, currentRoomGridPos);
+        allRooms.Add(currentRoomGridPos);
     }
 
-    void ConnectRooms()
+    void ConnectRooms(Vector2Int roomA, Vector2Int roomB)
     {
-        foreach (var room in roomGrid)
-        {
-            List<Vector2Int> possibleConnections = new List<Vector2Int>
-            {
-                new Vector2Int(room.Key.x + 1, room.Key.y),
-                new Vector2Int(room.Key.x - 1, room.Key.y),
-                new Vector2Int(room.Key.x, room.Key.y + 1),
-                new Vector2Int(room.Key.x, room.Key.y - 1)
-            };
+        Vector3 hallwayPosition = (roomGrid[roomA].transform.position + roomGrid[roomB].transform.position) / 2;
 
-            foreach (Vector2Int connection in possibleConnections)
-            {
-                if (roomGrid.ContainsKey(connection))
-                {
-                    if ((room.Key == previousRoom && connection == currentRoom) || (room.Key == currentRoom && connection == previousRoom))
-                    {
-                        GameObject roomA = roomGrid[room.Key];
-                        GameObject roomB = roomGrid[connection];
-                        Vector3 hallwayPosition = (roomA.transform.position + roomB.transform.position) / 2;
-                        Instantiate(hallwayPrefab, hallwayPosition, Quaternion.identity);
-                    }
-                }
-            }
+        // Determine hallway orientation
+        Vector3 hallwayRotation = Vector3.zero;
+        GameObject hallway;
+
+        if (roomA.x != roomB.x)
+        {
+            hallway = Instantiate(hallwayHorizontalPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+            hallway.transform.parent = this.transform;
+        }
+        else
+        {
+            hallway = Instantiate(hallwayVerticalPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+            hallway.transform.parent = this.transform;
         }
     }
 }

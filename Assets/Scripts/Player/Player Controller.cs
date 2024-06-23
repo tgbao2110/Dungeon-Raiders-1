@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Joystick joystick;
+    [SerializeField] public Joystick joystick;
     GameObject player;
     [SerializeField] float movementSpeed;
     float vInput, hInput;
+    Rigidbody2D rb;
 
     // Start is called before the first frame update
-    void Start()
-    {    
+    private void Awake() 
+    {
         player = GameObject.FindGameObjectWithTag("Player");
+        rb = player.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -39,7 +41,7 @@ public class PlayerController : MonoBehaviour
             //animator.SetBool("isWalking",false);
         }
         
-
-        player.transform.Translate(hInput,vInput,0);
+        
+        rb.velocity = new UnityEngine.Vector2(hInput, vInput);
     }
 }

@@ -320,8 +320,8 @@ GameObject:
   - component: {fileID: 3642605945536201553}
   - component: {fileID: 7363093463671265080}
   m_Layer: 0
-  m_Name: Enemy Room
-  m_TagString: Untagged
+  m_Name: Base
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
