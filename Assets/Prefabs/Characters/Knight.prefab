@@ -357,3 +357,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 0}
   movementSpeed: 5
+  equippedWeapon: {fileID: 0}
+  playerSprite: {fileID: 2789835541238372328}

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
     public Weapon equippedWeapon;
+    [SerializeField] GameObject playerSprite;
 
     // Start is called before the first frame update
     private void Awake() 

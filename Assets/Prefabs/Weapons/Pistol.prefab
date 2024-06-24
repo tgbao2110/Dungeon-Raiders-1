@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7093434649716022496}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.204, y: -0.413, z: -0.017806664}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -97,5 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d017f57410a89ef4cb612e4a368723d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   coolDown: 0
   gunData: {fileID: 11400000, guid: 5f7d8b490aeed0441b77bc8e1fa987d4, type: 2}

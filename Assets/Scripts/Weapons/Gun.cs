@@ -13,32 +13,16 @@ public class Gun : Weapon
     {
         shootingPoint = this.transform;
     }
-    private void Update() 
-    {
-        RotateWeapon();
-    }
 
     public override void AttackAction()
     {
         Enemy nearestEnemy = NearestEnemy();
-
-        Vector3 direction = new Vector3();
-
-        if (nearestEnemy != null)
-        {
-            Vector3 currentEnemyPosition = nearestEnemy.transform.position;
-            // Calculate direction vector towards the nearest slime
-            direction = (currentEnemyPosition - shootingPoint.position).normalized;
-        }
-        else
-        {
-            direction = player.joystick.Direction;
-        }
-
+        
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         GameObject bullet = Instantiate(gunData.bulletPrefab, shootingPoint.position, Quaternion.identity);
         Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
+        if (direction == Vector3.zero) direction = new Vector3(1,1,1);
         bulletRigidbody.velocity = direction * gunData.bulletSpeed;
         bullet.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
@@ -65,21 +49,7 @@ public class Gun : Weapon
     }
 
 
-    void RotateWeapon()
-    {
-        Vector3 direction = player.joystick.Direction;
 
-        if (direction.sqrMagnitude > 0.01f)
-        {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            if (direction.x < 0)
-            {
-                angle += 180f; // Add 180 degrees to flip the weapon
-            }
-
-            this.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-        }
-    }
 
 
 

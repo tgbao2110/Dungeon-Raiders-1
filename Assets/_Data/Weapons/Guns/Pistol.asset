@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   itemName: Pistol
-  bulletSpeed: 1
+  bulletSpeed: 5
   bulletPrefab: {fileID: 2565155471826398697, guid: 50a2ede2b93935d4095c24897d00b50f, type: 3}

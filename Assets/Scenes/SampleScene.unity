@@ -987,6 +987,18 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1557754550}
+    - target: {fileID: 4853785063501597063, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 5819830829770006531, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 5819830829770006531, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6019850467378399921, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
