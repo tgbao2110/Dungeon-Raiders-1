@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Gun : Weapon
 {
@@ -9,6 +10,11 @@ public class Gun : Weapon
     protected float bulletSpeed;
 
     // Start is called before the first frame update
+        private void Update() 
+        {
+            RotateWeapon();
+        }
+
 
     protected override void AttackAction()
     {
@@ -64,10 +70,23 @@ public class Gun : Weapon
         return nearestSlime;
     }
 
-    private void Update() {
+
+    void RotateWeapon()
+    {
         Vector3 direction = player.joystick.Direction;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        this.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        if (direction.sqrMagnitude > 0.01f)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            if (direction.x < 0)
+            {
+                angle += 180f; // Add 180 degrees to flip the weapon
+            }
+
+            this.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        }
     }
+
+
 
 }

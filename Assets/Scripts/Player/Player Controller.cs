@@ -10,12 +10,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float movementSpeed;
     float vInput, hInput;
     Rigidbody2D rb;
+    Animator animator;
 
     // Start is called before the first frame update
     private void Awake() 
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = player.GetComponent<Rigidbody2D>();
+        animator = player.GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
         if (joystick.Vertical !=0 || joystick.Horizontal !=0)
         {
-            //animator.SetBool("isWalking",true);
+            animator.SetBool("isWalking",true);
             if (joystick.Horizontal<0)
             {
                 player.transform.localScale = new (-1,1,0);
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //animator.SetBool("isWalking",false);
+            animator.SetBool("isWalking",false);
         }
         
         
