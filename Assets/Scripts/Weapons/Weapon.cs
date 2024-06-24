@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    protected PlayerController player;
-    protected string itemName;
-    protected string description;
+    [SerializeField] protected PlayerController player;
     protected float lastAtkTime;
     public float coolDown;
-    virtual protected void AttackAction() { }
+    virtual public void AttackAction() { }
+    bool isAtacking = false;
 
-    private void Awake()
+    private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        player = GetComponentInParent<PlayerController>();
+        Debug.Log("FUCK OFF");
     }
 
     public void Attack()

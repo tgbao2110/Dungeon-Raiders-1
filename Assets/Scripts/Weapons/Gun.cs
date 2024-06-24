@@ -5,23 +5,25 @@ using UnityEngine.UIElements;
 
 public class Gun : Weapon
 {
-    [SerializeField] GameObject bulletPrefab; // Prefab for the bullet
     protected Transform shootingPoint; // Point from where the bullet is shot
-    protected float bulletSpeed;
+    [SerializeField] GunData gunData;
 
     // Start is called before the first frame update
-        private void Update() 
-        {
-            RotateWeapon();
-        }
+    private void Awake()
+    {
+        shootingPoint = this.transform;
+    }
+    private void Update() 
+    {
+        RotateWeapon();
+    }
 
-
-    protected override void AttackAction()
+    public override void AttackAction()
     {
         Enemy nearestEnemy = NearestEnemy();
 
         Vector3 direction = new Vector3();
-        // If a slime is found, aim towards it
+
         if (nearestEnemy != null)
         {
             Vector3 currentEnemyPosition = nearestEnemy.transform.position;
@@ -35,17 +37,9 @@ public class Gun : Weapon
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Instantiate bullet
-        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
-
-        // Get bullet rigidbody
+        GameObject bullet = Instantiate(gunData.bulletPrefab, shootingPoint.position, Quaternion.identity);
         Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-
-        // Set bullet velocity based on shooting point's rotation
-        bulletRigidbody.velocity = direction * bulletSpeed;
-        
-
-        // Set bullet rotation to match its direction
+        bulletRigidbody.velocity = direction * gunData.bulletSpeed;
         bullet.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
         Destroy(bullet, 2f);

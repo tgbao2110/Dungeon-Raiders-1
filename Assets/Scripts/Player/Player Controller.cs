@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     float vInput, hInput;
     Rigidbody2D rb;
     Animator animator;
+    public Weapon equippedWeapon;
 
     // Start is called before the first frame update
     private void Awake() 
@@ -45,5 +46,10 @@ public class PlayerController : MonoBehaviour
         
         
         rb.velocity = new UnityEngine.Vector2(hInput, vInput);
+    }
+
+    public void Equip(Weapon weapon)
+    {
+        equippedWeapon = weapon;
     }
 }

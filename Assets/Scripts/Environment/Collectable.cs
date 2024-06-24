@@ -24,7 +24,7 @@ public class Collectable : MonoBehaviour
                 var currentObject = Instantiate(prefab, player.transform.position,Quaternion.identity);
                 currentObject.transform.SetParent(player.transform);
                 currentObject.transform.position += new Vector3((float)0.4,(float)-0.15,0);
-                //player.EquipWeapon();
+                player.Equip(currentObject.GetComponent<Weapon>());
 
                 Debug.Log("picked up Gun");
                 break;
