@@ -7,6 +7,7 @@ TagManager:
   - Base
   - Door
   - Collider
+  - Collectable
   layers:
   - Default
   - TransparentFX

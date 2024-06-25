@@ -21,7 +21,7 @@ public abstract class Gun : Weapon
         Shoot(shootingPoint, shootDirection, angle);
 
     }
-
+    
     Enemy NearestEnemy()
     {
         Enemy[] enemies = FindObjectsOfType<Enemy>();

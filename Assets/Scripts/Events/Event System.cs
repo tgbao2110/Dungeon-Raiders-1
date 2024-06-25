@@ -2,42 +2,50 @@ using UnityEngine;
 
 public class EventSystem : MonoBehaviour
 {
+    PlayerController player;
+    [SerializeField] GameObject attackButton;
+    [SerializeField] GameObject switchWeaponButton;
+    Collectable currentCollectable;
+    
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+
         // Example of how to subscribe methods to events
         PlayerActions.OnAttack += Attack;
-        PlayerActions.OnPickUp += PickUp;
         PlayerActions.OnSwitchWeapon += SwitchWeapon;
+        PlayerActions.OnEnterCollectable += ShowSwitchWeaponButton;
+        PlayerActions.OnExitCollectable += ShowAttackButton;
     }
 
     private void OnDestroy()
     {
         // Unsubscribe to prevent memory leaks
         PlayerActions.OnAttack -= Attack;
-        PlayerActions.OnPickUp -= PickUp;
         PlayerActions.OnSwitchWeapon -= SwitchWeapon;
+    }
+
+    private void ShowSwitchWeaponButton()
+    {
+        attackButton.SetActive(false);
+        switchWeaponButton.SetActive(true);
+    }
+
+    private void ShowAttackButton()
+    {
+        switchWeaponButton.SetActive(false);
+        attackButton.SetActive(true);
     }
 
     private void Attack()
     {
-        // Implement attack logic here
-        Debug.Log("Attack action triggered");
-
-        PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
         Weapon equippedWeapon = player.equippedWeapon;
         equippedWeapon?.Attack();
     }
 
-    private void PickUp()
-    {
-        // Implement pick-up logic here
-        Debug.Log("Pick-up action triggered");
-    }
-
     private void SwitchWeapon()
     {
-        // Implement switch weapon logic here
-        Debug.Log("Switch weapon action triggered");
+        player.SwitchWeapon(currentCollectable);
     }
 
     // Methods to be called by UI buttons
@@ -46,13 +54,13 @@ public class EventSystem : MonoBehaviour
         PlayerActions.OnAttack?.Invoke();
     }
 
-    public void TriggerPickUp()
-    {
-        PlayerActions.OnPickUp?.Invoke();
-    }
-
     public void TriggerSwitchWeapon()
     {
         PlayerActions.OnSwitchWeapon?.Invoke();
+    }
+
+    public void SetCurrentCollectable(Collectable collectable)
+    {
+         currentCollectable = collectable;
     }
 }

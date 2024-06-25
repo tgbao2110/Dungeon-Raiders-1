@@ -12,7 +12,7 @@ public class Collectable : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            ApplyEffect(other.GetComponentInChildren<PlayerController>());
+            //ApplyEffect(other.GetComponentInChildren<PlayerController>());
         }    
     }
 
