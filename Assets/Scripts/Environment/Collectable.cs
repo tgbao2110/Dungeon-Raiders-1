@@ -1,41 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public ItemData itemData;
     public CollectableType type;
-    [SerializeField] GameObject prefab;
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    public void Initialize(ItemData itemData, CollectableType type)
     {
-        if(other.CompareTag("Player"))
-        {
-            //ApplyEffect(other.GetComponentInChildren<PlayerController>());
-        }    
-    }
-
-    private void ApplyEffect(PlayerController player)
-    {
-        switch (type)
-        {
-            case CollectableType.Weapon:
-            // Instantiate the weapon at the player's position
-            var currentObject = Instantiate(prefab, player.transform.position, Quaternion.identity);
-            currentObject.transform.SetParent(player.transform);
-
-            // Set the weapon's local position relative to the player
-            Vector3 localPosition = new Vector3(0.2f,-0.15f,0);
-            currentObject.transform.localPosition = localPosition;
-
-            player.Equip(currentObject.GetComponent<Weapon>());
-
-            Debug.Log("Picked up Gun");
-            break;
-    }
-
-    Destroy(this.gameObject);
+        this.gameObject.AddComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = this.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = itemData.sprite;
+        spriteRenderer.sortingLayerName = "Characters"; 
+        this.gameObject.AddComponent<BoxCollider2D>();
+        this.GetComponent<BoxCollider2D>().isTrigger = true;
+        this.tag = "Collectable";
+        this.type = type;
+        this.itemData = itemData;
     }
 
     public enum CollectableType

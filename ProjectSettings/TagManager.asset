@@ -8,6 +8,7 @@ TagManager:
   - Door
   - Collider
   - Collectable
+  - Bullet
   layers:
   - Default
   - TransparentFX

@@ -3,6 +3,7 @@ using UnityEngine;
 public class EventSystem : MonoBehaviour
 {
     PlayerController player;
+    PlayerItemInteraction interaction;
     [SerializeField] GameObject attackButton;
     [SerializeField] GameObject switchWeaponButton;
     Collectable currentCollectable;
@@ -10,10 +11,11 @@ public class EventSystem : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        interaction = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerItemInteraction>();
 
         // Example of how to subscribe methods to events
         PlayerActions.OnAttack += Attack;
-        PlayerActions.OnSwitchWeapon += SwitchWeapon;
+        PlayerActions.OnSwitchWeapon += SwitchWeaponPressed;
         PlayerActions.OnEnterCollectable += ShowSwitchWeaponButton;
         PlayerActions.OnExitCollectable += ShowAttackButton;
     }
@@ -22,7 +24,7 @@ public class EventSystem : MonoBehaviour
     {
         // Unsubscribe to prevent memory leaks
         PlayerActions.OnAttack -= Attack;
-        PlayerActions.OnSwitchWeapon -= SwitchWeapon;
+        PlayerActions.OnSwitchWeapon -= SwitchWeaponPressed;
     }
 
     private void ShowSwitchWeaponButton()
@@ -39,13 +41,13 @@ public class EventSystem : MonoBehaviour
 
     private void Attack()
     {
-        Weapon equippedWeapon = player.equippedWeapon;
+        Weapon equippedWeapon = interaction.equippedWeapon;
         equippedWeapon?.Attack();
     }
 
-    private void SwitchWeapon()
+    private void SwitchWeaponPressed()
     {
-        player.SwitchWeapon(currentCollectable);
+        interaction.SwitchWeaponPressed(currentCollectable);
     }
 
     // Methods to be called by UI buttons
@@ -61,6 +63,6 @@ public class EventSystem : MonoBehaviour
 
     public void SetCurrentCollectable(Collectable collectable)
     {
-         currentCollectable = collectable;
+        currentCollectable = collectable;
     }
 }

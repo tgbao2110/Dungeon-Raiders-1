@@ -197,13 +197,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 773133489442296106, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
+      propertyPath: itemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f7d8b490aeed0441b77bc8e1fa987d4, type: 2}
     - target: {fileID: 1730444466406790227, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
       propertyPath: m_Name
       value: Revolver_Clt
-      objectReference: {fileID: 0}
-    - target: {fileID: 1730444466406790227, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
-      propertyPath: m_TagString
-      value: Collectable
       objectReference: {fileID: 0}
     - target: {fileID: 8019523698092640362, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -357,56 +357,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   offset: {x: 0, y: 0, z: -10}
---- !u!1 &1031379756 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4853785063501597063, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-  m_PrefabInstance: {fileID: 3846236122832780630}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &1031379759
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031379756}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.23006976, y: -0.050693333}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.57105637, y: 1.0701908}
-  m_EdgeRadius: 0
 --- !u!1 &1123842774
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,10 +800,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shotgun_Clt
       objectReference: {fileID: 0}
-    - target: {fileID: 1730444466406790227, guid: d444490b84786cb4b830d58a891eff73, type: 3}
-      propertyPath: m_TagString
-      value: Collectable
-      objectReference: {fileID: 0}
     - target: {fileID: 8019523698092640362, guid: d444490b84786cb4b830d58a891eff73, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.69
@@ -911,30 +857,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Knight
       objectReference: {fileID: 0}
-    - target: {fileID: 2617429910557791063, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_Color.b
-      value: 0.9622642
-      objectReference: {fileID: 0}
-    - target: {fileID: 2617429910557791063, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_Color.g
-      value: 0.7623947
-      objectReference: {fileID: 0}
-    - target: {fileID: 2617429910557791063, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_Color.r
-      value: 0.7244215
-      objectReference: {fileID: 0}
     - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1557754553}
-    - target: {fileID: 5673437441901581513, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_Size.y
-      value: 0.43902427
-      objectReference: {fileID: 0}
-    - target: {fileID: 5673437441901581513, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.39021114
-      objectReference: {fileID: 0}
     - target: {fileID: 6019850467378399921, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -978,10 +904,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4853785063501597063, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1031379759}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
 --- !u!1 &5651640666421758830
 GameObject:

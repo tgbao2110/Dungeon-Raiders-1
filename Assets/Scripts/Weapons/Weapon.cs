@@ -1,20 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [SerializeField] protected PlayerController player;
+    protected WeaponData weaponData;
+    public WeaponData WeaponData => weaponData;
+    public GameObject player;
+    public PlayerController playerController;
+    protected Health health;
     protected float lastAtkTime = -9999f;
     protected abstract float coolDown{ get; }
     virtual public void AttackAction() { }
     bool isAtacking = false;
     protected Vector3 direction;
 
-    private void Start()
+    public void Initialize()
     {
-        Debug.Log(coolDown);
-        player = GetComponentInParent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponentInChildren<PlayerController>();
+        health = player.GetComponentInChildren<Health>();
+
+        Debug.Log(player.gameObject.name + playerController.name + health.name);
     }
 
     private void Update() 
@@ -22,18 +30,24 @@ public abstract class Weapon : MonoBehaviour
         Rotate();
     }
 
+    protected void InitializeWeaponData(WeaponData data)
+    {
+        weaponData = data;
+    }
+
     public void Attack()
     {
-        if (Time.time - lastAtkTime > coolDown)
+        if ((Time.time - lastAtkTime > coolDown) && health.GetCurrentEnergy()>0)
         {
             AttackAction();
+            health.UseEnergy(weaponData.energy);
             lastAtkTime = Time.time;
         }
     }
 
     void Rotate()
     {
-        direction = player.joystick.Direction;
+        direction = playerController.joystick.Direction;
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

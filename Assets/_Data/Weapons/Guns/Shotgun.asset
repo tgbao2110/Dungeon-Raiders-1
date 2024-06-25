@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: Assembly-CSharp::GunData
   itemName: Shotgun
-  damage: 0
+  sprite: {fileID: 1807957142, guid: b7d090e41a9d2ad44a30e8da31147fcd, type: 3}
+  prefab: {fileID: 7093434649716022496, guid: 267ab54e56c1924488c1f7191c49917e, type: 3}
+  damage: 10
+  energy: 10
   coolDown: 0.75
   bulletSpeed: 5
   bulletPrefab: {fileID: 2565155471826398697, guid: 50a2ede2b93935d4095c24897d00b50f, type: 3}

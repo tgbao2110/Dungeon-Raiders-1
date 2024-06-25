@@ -7,9 +7,13 @@ using UnityEngine.UIElements;
 public abstract class Gun : Weapon
 {
     [SerializeField] Transform shootingPoint; // Point from where the bullet is shot
-    [SerializeField] protected GunData gunData;
+    [SerializeField] public GunData gunData;
 
     protected override float coolDown => gunData.coolDown;
+
+    private void Start() {
+        InitializeWeaponData(gunData);
+    }
 
     public override void AttackAction()
     {

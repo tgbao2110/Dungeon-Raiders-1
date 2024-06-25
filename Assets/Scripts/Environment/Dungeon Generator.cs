@@ -12,10 +12,10 @@ public class DungeonGenerator : MonoBehaviour
     public int numOfRewardRooms = 0;
     public int gridWidth = 10;
     public int gridHeight = 10;
+    public bool isLocked = false;
 
     private Dictionary<Vector2Int, GameObject> roomGrid = new Dictionary<Vector2Int, GameObject>();
     private List<Vector2Int> availablePositions = new List<Vector2Int>();
-    private GameObject currentRoom;
     private GameObject previousRoom;
     private Vector2Int currentRoomGridPos;
     private Vector2Int previousRoomGridPos;

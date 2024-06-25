@@ -6,14 +6,15 @@ using UnityEngine;
  
 public class Door : MonoBehaviour
 {
-    GameObject[] colliders;
+    GameObject[] colliders; 
+    [SerializeField] DungeonGenerator dg;
 
     private void Awake() {
         
         colliders = GameObject.FindGameObjectsWithTag("Collider");
     }
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && dg.isLocked)
         {
             foreach (var collider in colliders)
             collider.SetActive(false);
