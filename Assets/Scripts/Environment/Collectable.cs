@@ -18,19 +18,24 @@ public class Collectable : MonoBehaviour
 
     private void ApplyEffect(PlayerController player)
     {
-        switch(type)
+        switch (type)
         {
             case CollectableType.Weapon:
-                var currentObject = Instantiate(prefab, player.transform.position,Quaternion.identity);
-                currentObject.transform.SetParent(player.transform);
-                currentObject.transform.position += new Vector3((float)0.4,(float)-0.15,0);
-                player.Equip(currentObject.GetComponent<Weapon>());
+            // Instantiate the weapon at the player's position
+            var currentObject = Instantiate(prefab, player.transform.position, Quaternion.identity);
+            currentObject.transform.SetParent(player.transform);
 
-                Debug.Log("picked up Gun");
-                break;
-        }
+            // Set the weapon's local position relative to the player
+            Vector3 localPosition = new Vector3(0.2f,-0.15f,0);
+            currentObject.transform.localPosition = localPosition;
 
-        Destroy(this.gameObject);
+            player.Equip(currentObject.GetComponent<Weapon>());
+
+            Debug.Log("Picked up Gun");
+            break;
+    }
+
+    Destroy(this.gameObject);
     }
 
     public enum CollectableType

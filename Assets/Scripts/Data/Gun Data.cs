@@ -8,4 +8,5 @@ public class GunData : ScriptableObject
     public string itemName;
     public float bulletSpeed;
     public GameObject bulletPrefab;
+    public float coolDown =10;
 }

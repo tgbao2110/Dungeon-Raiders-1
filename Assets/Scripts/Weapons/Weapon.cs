@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] protected PlayerController player;
-    protected float lastAtkTime;
-    public float coolDown;
+    protected float lastAtkTime = -9999f;
+    protected abstract float coolDown{ get; }
     virtual public void AttackAction() { }
     bool isAtacking = false;
     protected Vector3 direction;
 
     private void Start()
     {
+        Debug.Log(coolDown);
         player = GetComponentInParent<PlayerController>();
-        Debug.Log("FUCK OFF");
     }
 
-    private void Update() {
+    private void Update() 
+    {
         Rotate();
     }
 

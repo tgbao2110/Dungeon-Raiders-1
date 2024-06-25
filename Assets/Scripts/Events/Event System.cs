@@ -25,7 +25,7 @@ public class EventSystem : MonoBehaviour
 
         PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
         Weapon equippedWeapon = player.equippedWeapon;
-        equippedWeapon?.AttackAction();
+        equippedWeapon?.Attack();
     }
 
     private void PickUp()

@@ -1,29 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Gun : Weapon
 {
-    protected Transform shootingPoint; // Point from where the bullet is shot
+    [SerializeField] Transform shootingPoint; // Point from where the bullet is shot
     [SerializeField] GunData gunData;
 
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        shootingPoint = this.transform;
-    }
+    protected override float coolDown => gunData.coolDown;
 
     public override void AttackAction()
     {
         Enemy nearestEnemy = NearestEnemy();
         
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Vector3 shootDirection = transform.right;
+        float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
 
-        GameObject bullet = Instantiate(gunData.bulletPrefab, shootingPoint.position, Quaternion.identity);
+        GameObject bullet = Instantiate(gunData.bulletPrefab, shootingPoint.position, Quaternion.Euler(0f, 0f, angle));
         Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-        if (direction == Vector3.zero) direction = new Vector3(1,1,1);
-        bulletRigidbody.velocity = direction * gunData.bulletSpeed;
+
+        bulletRigidbody.velocity = shootDirection * gunData.bulletSpeed;
         bullet.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
         Destroy(bullet, 2f);

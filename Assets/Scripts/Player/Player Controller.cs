@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 
@@ -9,6 +7,7 @@ public class PlayerController : MonoBehaviour
     GameObject player;
     [SerializeField] float movementSpeed;
     float vInput, hInput;
+    UnityEngine.Vector3 lastFacingDirection;
     Rigidbody2D rb;
     Animator animator;
     public Weapon equippedWeapon;
@@ -27,6 +26,9 @@ public class PlayerController : MonoBehaviour
     {  
         vInput = joystick.Vertical * movementSpeed;
         hInput = joystick.Horizontal * movementSpeed;
+
+        UnityEngine.Vector3 currentDirection = new UnityEngine.Vector3(hInput, vInput, 0).normalized;
+        lastFacingDirection = currentDirection;
 
         if (joystick.Vertical !=0 || joystick.Horizontal !=0)
         {
@@ -47,6 +49,11 @@ public class PlayerController : MonoBehaviour
         
         
         rb.velocity = new UnityEngine.Vector2(hInput, vInput);
+    }
+
+    public UnityEngine.Vector3 GetFacingDirection()
+    {
+        return lastFacingDirection;
     }
 
     public void Equip(Weapon weapon)
