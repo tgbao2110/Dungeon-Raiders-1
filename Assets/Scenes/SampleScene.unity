@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1873803271
+--- !u!1001 &1926273022
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -808,15 +808,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1730444466406790227, guid: d444490b84786cb4b830d58a891eff73, type: 3}
       propertyPath: m_Name
-      value: Shotgun
+      value: Shotgun_Clt
       objectReference: {fileID: 0}
     - target: {fileID: 8019523698092640362, guid: d444490b84786cb4b830d58a891eff73, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.37
+      value: -2.69
       objectReference: {fileID: 0}
     - target: {fileID: 8019523698092640362, guid: d444490b84786cb4b830d58a891eff73, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.15
+      value: -0.24
       objectReference: {fileID: 0}
     - target: {fileID: 8019523698092640362, guid: d444490b84786cb4b830d58a891eff73, type: 3}
       propertyPath: m_LocalPosition.z
@@ -866,18 +866,6 @@ PrefabInstance:
     - target: {fileID: 1023906843379935920, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: m_Name
       value: Knight
-      objectReference: {fileID: 0}
-    - target: {fileID: 2705028903143960987, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7815729
-      objectReference: {fileID: 0}
-    - target: {fileID: 2705028903143960987, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.015
-      objectReference: {fileID: 0}
-    - target: {fileID: 2705028903143960987, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.523
       objectReference: {fileID: 0}
     - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: joystick
@@ -938,4 +926,4 @@ SceneRoots:
   - {fileID: 1123842778}
   - {fileID: 1381556025}
   - {fileID: 498753400}
-  - {fileID: 1873803271}
+  - {fileID: 1926273022}

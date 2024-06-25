@@ -4,10 +4,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Gun : Weapon
+public abstract class Gun : Weapon
 {
     [SerializeField] Transform shootingPoint; // Point from where the bullet is shot
-    [SerializeField] GunData gunData;
+    [SerializeField] protected GunData gunData;
 
     protected override float coolDown => gunData.coolDown;
 
@@ -18,13 +18,8 @@ public class Gun : Weapon
         Vector3 shootDirection = transform.right;
         float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
 
-        GameObject bullet = Instantiate(gunData.bulletPrefab, shootingPoint.position, Quaternion.Euler(0f, 0f, angle));
-        Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
+        Shoot(shootingPoint, shootDirection, angle);
 
-        bulletRigidbody.velocity = shootDirection * gunData.bulletSpeed;
-        bullet.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-        Destroy(bullet, 2f);
     }
 
     Enemy NearestEnemy()
@@ -47,7 +42,7 @@ public class Gun : Weapon
     }
 
 
-
+    protected abstract void Shoot(Transform shootingPoint, Vector3 shootDirection, float angle);
 
 
 

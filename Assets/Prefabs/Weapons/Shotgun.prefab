@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7109356189298292484}
   - component: {fileID: 7045239010439513353}
-  - component: {fileID: 5832624234133686427}
+  - component: {fileID: 4339342079893249491}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -117,7 +117,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5832624234133686427
+--- !u!114 &4339342079893249491
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,9 +126,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7093434649716022496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d017f57410a89ef4cb612e4a368723d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 345a7cefe4f9a5f47b05f4865d5038f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   shootingPoint: {fileID: 5290334851434595535}
-  gunData: {fileID: 11400000, guid: b87fe81d153b0fc43b2bf201e616ad61, type: 2}
+  gunData: {fileID: 11400000, guid: a0657f141c8548a4ab4fd73ca88c42c9, type: 2}

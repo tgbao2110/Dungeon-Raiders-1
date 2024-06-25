@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7109356189298292484}
   - component: {fileID: 7045239010439513353}
-  - component: {fileID: 5832624234133686427}
+  - component: {fileID: 2517495937740519118}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -117,7 +117,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5832624234133686427
+--- !u!114 &2517495937740519118
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7093434649716022496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d017f57410a89ef4cb612e4a368723d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 066c6fe39d97bd948ac8529b3b85d57d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
