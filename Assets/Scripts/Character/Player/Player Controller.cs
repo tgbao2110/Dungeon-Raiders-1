@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
     [SerializeField] GameObject playerSprite;
+    EnemyRoom room;
 
     private void Awake() 
     {
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update() 
     {  
-      HandleMovement();  
+        HandleMovement();  
     }
 
     void HandleMovement()
@@ -59,7 +60,10 @@ public class PlayerController : MonoBehaviour
         return lastFacingDirection;
     }
 
-
+    public void SetRoom(EnemyRoom enemyRoom)
+    {
+        room = enemyRoom;
+    }
 
     
 }

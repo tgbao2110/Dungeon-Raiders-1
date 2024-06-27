@@ -22,7 +22,7 @@ public abstract class Gun : Weapon
         Vector3 shootDirection = transform.right;
         float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
 
-        Shoot(shootingPoint, shootDirection, angle);
+        attackType.ExecuteAttack(gunData, shootingPoint, shootDirection, angle);
 
     }
     
@@ -44,10 +44,4 @@ public abstract class Gun : Weapon
 
         return nearestSlime;
     }
-
-
-    protected abstract void Shoot(Transform shootingPoint, Vector3 shootDirection, float angle);
-
-
-
 }

@@ -13,14 +13,17 @@ public abstract class Weapon : MonoBehaviour
     protected float lastAtkTime = -9999f;
     protected abstract float coolDown{ get; }
     virtual public void AttackAction() { }
+    protected AttackType attackType;
     bool isAtacking = false;
     protected Vector3 direction;
+
 
     public void Initialize()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponentInChildren<PlayerController>();
         health = player.GetComponentInChildren<Health>();
+        SetAttackType();
 
         Debug.Log(player.gameObject.name + playerController.name + health.name);
     }
@@ -44,6 +47,8 @@ public abstract class Weapon : MonoBehaviour
             lastAtkTime = Time.time;
         }
     }
+
+    public abstract void SetAttackType();
 
     void Rotate()
     {

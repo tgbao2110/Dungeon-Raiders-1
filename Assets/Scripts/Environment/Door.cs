@@ -14,11 +14,12 @@ public class Door : MonoBehaviour
         colliders = GameObject.FindGameObjectsWithTag("Collider");
     }
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Player" && dg.isLocked)
+        if (other.tag == "Player" )
         {
             foreach (var collider in colliders)
             collider.SetActive(false);
         }
+        else{}
     }
 
     private void OnTriggerExit2D(Collider2D other) {

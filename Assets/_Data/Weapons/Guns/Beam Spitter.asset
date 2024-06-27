@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Beam Spitter
+  m_EditorClassIdentifier: Assembly-CSharp::GunData
+  itemName: 
+  sprite: {fileID: 0}
+  prefab: {fileID: 0}
+  damage: 1
+  energy: 0
+  coolDown: 0
+  bulletSpeed: 5
+  bulletPrefab: {fileID: 2565155471826398697, guid: 247224c29fc9d8b4aa8d92d4bc26eb10, type: 3}
