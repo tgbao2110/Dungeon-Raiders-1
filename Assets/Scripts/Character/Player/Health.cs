@@ -16,13 +16,10 @@ public class Health : MonoBehaviour
         energyBar.SetMaxStat(playerData.maxEnergy);
     }
 
-    private void Update() {
-    }
-
     public void TakeDamage(int amount)
     {
         playerData.CurrentHealth -= amount;
-        healthBar.SetStat(playerData.CurrentHealth);
+        ReloadHealth();
         if (playerData.CurrentHealth <= 0)
         {
             Die();
@@ -32,6 +29,7 @@ public class Health : MonoBehaviour
     public void UseEnergy(int amount)
     {
         playerData.CurrentEnergy -= amount;
+        ReloadEnergy();
         if (playerData.CurrentEnergy < 0)
         {
             playerData.CurrentEnergy = 0;
@@ -41,6 +39,7 @@ public class Health : MonoBehaviour
     public void RestoreHealth(int amount)
     {
         playerData.CurrentHealth += amount;
+        ReloadHealth();
         if (playerData.CurrentHealth > playerData.maxHealth)
         {
             playerData.CurrentHealth = playerData.maxHealth;
@@ -50,6 +49,7 @@ public class Health : MonoBehaviour
     public void RestoreEnergy(int amount)
     {
         playerData.CurrentEnergy += amount;
+        ReloadEnergy();
         if (playerData.CurrentEnergy > playerData.maxEnergy)
         {
             playerData.CurrentEnergy = playerData.maxEnergy;
@@ -71,4 +71,16 @@ public class Health : MonoBehaviour
     {
         return playerData.CurrentEnergy;
     }
+
+    public void ReloadHealth()
+    {
+        healthBar.SetStat(playerData.CurrentHealth);
+    }
+
+    public void ReloadEnergy()
+    {
+        energyBar.SetStat(playerData.CurrentEnergy);
+    }
+
+
 }
