@@ -1,16 +1,10 @@
+using System.Data.Common;
 using UnityEngine;
 
 public class BeamSpitter : Enemy
 {
-    // Start is called before the first frame update
-
-    [SerializeField] GunData attackData;
-    
     public Transform shootingPoint;
-    public float speed = 10f;
-    float interval = 0.25f;
-    public int numberOfBullets = 8;
-
+    float interval = 0.5f;
     public Transform Player; 
 
     void Start()
@@ -27,10 +21,9 @@ public class BeamSpitter : Enemy
         else
         {
             Shoot();
-            interval=0.25f;
+            interval = enemyData.fireRate;
         }
         
-         //InvokeRepeating("Shoot", 1f,1f);
     }
 
     void Shoot()
@@ -41,7 +34,7 @@ public class BeamSpitter : Enemy
         // Calculate the angle in degrees
         float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        attackType.ExecuteAttack(attackData, shootingPoint,directionToPlayer, angleToPlayer);
+        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint,directionToPlayer, angleToPlayer);
     }
 
     public override void SetAttackType()

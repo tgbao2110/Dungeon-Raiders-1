@@ -2,17 +2,29 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private PlayerData playerData;
+    [SerializeField] PlayerData playerData;
+
+    [SerializeField] StatBar healthBar;
+    [SerializeField] StatBar energyBar;
 
     void Awake()
     {
         playerData.CurrentHealth = playerData.maxHealth;
+        healthBar.SetMaxStat(playerData.maxHealth);
+        Debug.Log("HealthBar assigned to: " + healthBar.gameObject.name);
+
         playerData.CurrentEnergy = playerData.maxEnergy;
+        energyBar.SetMaxStat(playerData.maxEnergy);
+        Debug.Log("EnergyBar assigned to: " + energyBar.gameObject.name);
+    }
+
+    private void Update() {
     }
 
     public void TakeDamage(int amount)
     {
         playerData.CurrentHealth -= amount;
+        healthBar.SetStat(playerData.CurrentHealth);
         if (playerData.CurrentHealth <= 0)
         {
             Die();

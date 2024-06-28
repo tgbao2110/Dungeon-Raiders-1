@@ -22,7 +22,7 @@ public abstract class Gun : Weapon
         Vector3 shootDirection = transform.right;
         float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
 
-        attackType.ExecuteAttack(gunData, shootingPoint, shootDirection, angle);
+        attackType.ExecuteAttack(gunData.bulletPrefab, gunData.bulletSpeed, shootingPoint, shootDirection, angle);
 
     }
     
