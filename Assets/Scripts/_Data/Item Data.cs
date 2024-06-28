@@ -11,6 +11,7 @@ using UnityEngine;
         public GameObject prefab;
     }
 
+    [System.Serializable]
     public abstract class WeaponData : ItemData
     {
         public int damage;
@@ -18,7 +19,7 @@ using UnityEngine;
         public float coolDown;
     }
 
-
+    [System.Serializable]
     [CreateAssetMenu(fileName = "Gun Data", menuName = "Scriptable Objects/Gun")]
     public class GunData : WeaponData
     {

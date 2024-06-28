@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc1cedd10c9bb441bd709261ecaa55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackData: {fileID: 11400000, guid: c8b70bb0331249d4698d6eed67f6a262, type: 2}
+  enemyData: {fileID: 11400000, guid: 4088f7c6f2ed5c846974523cd29afb7a, type: 2}
   shootingPoint: {fileID: 1934724211970031640}
   Player: {fileID: 0}
 --- !u!1 &5517716371760415540

@@ -9,11 +9,10 @@ public class EnemyRoom : Room
     public int enemiesCount;
     private bool isCleared = false;
     private PlayerController playerController;
+    [SerializeField] private EnemySpawner spawner;
 
-    private void Awake()
-    {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
-        numberOfEnemies = 5;
+    private void Start() {
+        spawner = GetComponentInChildren<EnemySpawner>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -26,9 +25,13 @@ public class EnemyRoom : Room
 
     public override void InitializeRoom()
     {
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
         playerController.SetRoom(this);
+
+        numberOfEnemies = spawner.GetLength();
         enemiesCount = numberOfEnemies;
         Lock();
+        spawner.Spawn();
     }
 
     protected void Lock()

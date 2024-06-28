@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 3642605945536201553}
   - component: {fileID: 7363093463671265080}
   - component: {fileID: 8473388729229429135}
+  - component: {fileID: 2309409502750594109}
   m_Layer: 0
   m_Name: Reward Room
   m_TagString: Untagged
@@ -1929,6 +1930,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10.082996, y: 9.372208}
   m_EdgeRadius: 0
+--- !u!114 &2309409502750594109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7842218640123279631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b331456dc1ce7f34fbfd2a9f9aee53fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8461169952423144145
 GameObject:
   m_ObjectHideFlags: 0
