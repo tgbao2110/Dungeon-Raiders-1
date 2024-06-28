@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 7368474792602894849}
   m_Layer: 0
   m_Name: Door_2
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,7 +219,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 4.9868116, y: 0}
+  m_Offset: {x: 4.3432484, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -230,7 +230,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9900665, y: 3.402979}
+  m_Size: {x: 0.6799965, y: 3.402979}
   m_EdgeRadius: 0
 --- !u!114 &7368474792602894849
 MonoBehaviour:
@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b0cf53e0bd69c4ba60ae632af9ea30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocked: 0
 --- !u!1 &3407365312712928967
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +258,7 @@ GameObject:
   - component: {fileID: 52370158841363401}
   m_Layer: 0
   m_Name: Door_1
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,7 +310,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -4.743629, y: 0}
+  m_Offset: {x: -4.5151606, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -320,7 +321,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5138772, y: 3.402979}
+  m_Size: {x: 0.9521141, y: 3.402979}
   m_EdgeRadius: 0
 --- !u!114 &52370158841363401
 MonoBehaviour:
@@ -334,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b0cf53e0bd69c4ba60ae632af9ea30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocked: 0
 --- !u!1 &7826908231147078232
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +347,7 @@ GameObject:
   - component: {fileID: 4822192868222504063}
   - component: {fileID: 5641830831389821996}
   - component: {fileID: 5176743448072102092}
+  - component: {fileID: 7915616321818116719}
   m_Layer: 0
   m_Name: Hallway Horizontal
   m_TagString: Untagged
@@ -1113,7 +1116,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1433048717
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1122,3 +1125,18 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!114 &7915616321818116719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826908231147078232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43fe669c0e2529747b38d1ebe7dcf265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 52370158841363401}
+  - {fileID: 7368474792602894849}

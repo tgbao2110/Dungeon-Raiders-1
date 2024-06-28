@@ -1,34 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyRoom : MonoBehaviour
+public class EnemyRoom : Room
 {
     public int numberOfEnemies;
     public int enemiesCount;
-    PlayerController playerController;
+    private bool isCleared = false;
+    private PlayerController playerController;
 
-    private void Awake() {
+    private void Awake()
+    {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        numberOfEnemies = 5;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Player"))
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && !isCleared)
         {
-            playerController.SetRoom(this);
-            enemiesCount = numberOfEnemies;
-            Lock();
+            InitializeRoom();
         }
+    }
+
+    public override void InitializeRoom()
+    {
+        playerController.SetRoom(this);
+        enemiesCount = numberOfEnemies;
+        Lock();
     }
 
     protected void Lock()
     {
-        Debug.Log("Player Entered, room locked");
-        this.GetComponent<BoxCollider2D>().isTrigger = false;
+        if (fromHallway != null)
+        { fromHallway.SetDoorsLocked(true); }
+        if (toHallway != null)
+        { toHallway.SetDoorsLocked(true); }
     }
 
     public void Unlock()
     {
+        if (fromHallway != null)
+        { fromHallway.SetDoorsLocked(false); }
+        if (toHallway != null)
+        { toHallway.SetDoorsLocked(false); }
+    }
 
+    public void KillEnemy()
+    {
+        enemiesCount--;
+        if (enemiesCount <= 0)
+        {
+            isCleared=true;
+            Unlock();
+        }
     }
 }

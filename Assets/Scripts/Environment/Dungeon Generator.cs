@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    public GameObject baseRoomPrefab;
-    public GameObject enemyRoomPrefab;
-    public GameObject rewardRoomPrefab;
-    public GameObject hallwayHorizontalPrefab;
-    public GameObject hallwayVerticalPrefab;
-    public int numOfEnemyRooms = 3;
-    public int numOfRewardRooms = 0;
-    public int gridWidth = 10;
-    public int gridHeight = 10;
-    public bool isLocked = false;
+    [SerializeField] GameObject baseRoomPrefab;
+    [SerializeField] GameObject enemyRoomPrefab;
+    [SerializeField] GameObject rewardRoomPrefab;
+    [SerializeField] GameObject hallwayHorizontalPrefab;
+    [SerializeField] GameObject hallwayVerticalUpPrefab;
+    [SerializeField] GameObject hallwayVerticalDownPrefab;
+    [SerializeField] int numOfEnemyRooms = 3;
+    [SerializeField] int numOfRewardRooms = 0;
+    [SerializeField] int gridWidth = 10;
+    [SerializeField] int gridHeight = 10;
 
     private Dictionary<Vector2Int, GameObject> roomGrid = new Dictionary<Vector2Int, GameObject>();
     private List<Vector2Int> availablePositions = new List<Vector2Int>();
@@ -25,6 +25,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         InitializeGridPositions();
         GenerateRooms();
+        MiniMap();
     }
 
     void InitializeGridPositions()
@@ -112,16 +113,64 @@ public class DungeonGenerator : MonoBehaviour
         // Determine hallway orientation
         Vector3 hallwayRotation = Vector3.zero;
         GameObject hallway;
-
         if (roomA.x != roomB.x)
         {
             hallway = Instantiate(hallwayHorizontalPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
             hallway.transform.parent = this.transform;
+            if(roomA.x > roomB.x) hallway.transform.localScale = new Vector3(-1,1,1);
         }
         else
         {
-            hallway = Instantiate(hallwayVerticalPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+            if(roomA.y < roomB.y)
+            {
+                hallway = Instantiate(hallwayVerticalUpPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+            }
+            else
+            {
+                hallway = Instantiate(hallwayVerticalDownPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+            }
             hallway.transform.parent = this.transform;
+            
+        }
+
+        Hallway hallwayComponent = hallway.GetComponent<Hallway>();
+        roomGrid[roomA].GetComponent<Room>().SetToHallway(hallwayComponent);
+        roomGrid[roomB].GetComponent<Room>().SetFromHallway(hallwayComponent);
+    }
+
+    //DEBUG
+    void MiniMap()
+{
+    // Create a 2D array to represent the grid
+    string[,] grid = new string[gridWidth, gridHeight];
+
+    // Initialize the grid with empty spaces
+    for (int x = 0; x < gridWidth; x++)
+    {
+        for (int y = 0; y < gridHeight; y++)
+        {
+            grid[x, y] = " ";
         }
     }
+
+    // Fill the grid with room types
+    foreach (var kvp in roomGrid)
+    {
+        Vector2Int gridPosition = kvp.Key;
+        GameObject room = kvp.Value;
+        string roomType = room.name.Replace("(Clone)", "").Trim();
+        grid[gridPosition.x, gridPosition.y] = roomType.Substring(0, 1); // Use the first letter to represent the room type
+    }
+
+    // Log the grid in matrix format
+    for (int y = gridHeight - 1; y >= 0; y--)
+    {
+        string row = "";
+        for (int x = 0; x < gridWidth; x++)
+        {
+            row += "[" + grid[x, y] + "]";
+        }
+        Debug.Log(row);
+    }
+}
 }
