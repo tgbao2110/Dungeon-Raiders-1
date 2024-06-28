@@ -11,11 +11,9 @@ public class Health : MonoBehaviour
     {
         playerData.CurrentHealth = playerData.maxHealth;
         healthBar.SetMaxStat(playerData.maxHealth);
-        Debug.Log("HealthBar assigned to: " + healthBar.gameObject.name);
 
         playerData.CurrentEnergy = playerData.maxEnergy;
         energyBar.SetMaxStat(playerData.maxEnergy);
-        Debug.Log("EnergyBar assigned to: " + energyBar.gameObject.name);
     }
 
     private void Update() {

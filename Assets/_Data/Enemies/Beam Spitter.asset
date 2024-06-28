@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f266454e0092dc4eae4795b4a299724, type: 3}
   m_Name: Beam Spitter
   m_EditorClassIdentifier: 
-  enemyName: 
+  enemyName: Beam Spitter
   discription: 
-  prefab: {fileID: 0}
-  maxHealth: 0
-  damage: 0
-  bulletPrefab: {fileID: 0}
-  bulletSpeed: 0
-  fireRate: 0
+  prefab: {fileID: 4837573039238618051, guid: 1220020c6314ff44cb634087c25353b3, type: 3}
+  maxHealth: 10
+  damage: 2
+  bulletPrefab: {fileID: 2565155471826398697, guid: 247224c29fc9d8b4aa8d92d4bc26eb10, type: 3}
+  bulletSpeed: 5
+  fireRate: 0.5

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    public ItemData itemData;
+    public WeaponData weaponData;
     public CollectableType type;
 
-    public void Initialize(ItemData itemData, CollectableType type)
+    public void Initialize(WeaponData itemData, CollectableType type)
     {
         this.gameObject.AddComponent<SpriteRenderer>();
         SpriteRenderer spriteRenderer = this.GetComponent<SpriteRenderer>();
@@ -16,7 +16,7 @@ public class Collectable : MonoBehaviour
         this.GetComponent<BoxCollider2D>().isTrigger = true;
         this.tag = "Collectable";
         this.type = type;
-        this.itemData = itemData;
+        this.weaponData = itemData;
     }
 
     public enum CollectableType

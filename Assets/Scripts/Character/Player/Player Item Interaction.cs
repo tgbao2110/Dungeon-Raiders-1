@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class PlayerItemInteraction : MonoBehaviour
 {
     public Weapon equippedWeapon;
+    [SerializeField] WeaponPanel weaponPanel;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -45,7 +47,7 @@ public class PlayerItemInteraction : MonoBehaviour
     {
         if (item != null)
         {
-            Debug.Log("Switching weapon with collectable: " + item.name);
+            weaponPanel.SetWeapon(item.weaponData);
             PickUpWeapon(item);
             Destroy(item.gameObject);
         }
@@ -75,12 +77,11 @@ public class PlayerItemInteraction : MonoBehaviour
     {
         if (item.type == Collectable.CollectableType.Weapon)
         {
-            Debug.Log("Picked Up " + item.name);
             // Drop the current weapon if one is equipped
             DropWeapon();
 
             // Instantiate the weapon at the player's position
-            var currentObject = Instantiate(item.itemData.prefab, this.transform.position, Quaternion.identity);
+            var currentObject = Instantiate(item.weaponData.prefab, this.transform.position, Quaternion.identity);
             currentObject.transform.SetParent(this.transform);
 
             // Set the weapon's local position relative to the player

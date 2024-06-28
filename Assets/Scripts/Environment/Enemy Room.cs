@@ -23,6 +23,12 @@ public class EnemyRoom : MonoBehaviour
 
     protected void Lock()
     {
-        
+        Debug.Log("Player Entered, room locked");
+        this.GetComponent<BoxCollider2D>().isTrigger = false;
+    }
+
+    public void Unlock()
+    {
+
     }
 }

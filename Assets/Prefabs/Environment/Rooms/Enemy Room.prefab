@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 3642605945536201553}
   - component: {fileID: 7363093463671265080}
   - component: {fileID: 8473388729229429135}
+  - component: {fileID: 8158303073177003204}
   m_Layer: 0
   m_Name: Enemy Room
   m_TagString: Untagged
@@ -1916,7 +1917,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.005124569, y: 0.16685748}
+  m_Offset: {x: 0.005533457, y: 0.2215395}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1927,8 +1928,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.99673, y: 9.647707}
+  m_Size: {x: 10.657543, y: 10.433641}
   m_EdgeRadius: 0
+--- !u!114 &8158303073177003204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7842218640123279631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960179ec0dc3d414bb56f9c14f2dfd6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfEnemies: 0
+  enemiesCount: 0
 --- !u!1 &8461169952423144145
 GameObject:
   m_ObjectHideFlags: 0
