@@ -11,9 +11,10 @@ public class WeaponPanel : MonoBehaviour
     
     public void SetWeapon(WeaponData weaponData)
     {
-        image.sprite = weaponData.sprite;
+        Utility.SetSprite(image, weaponData.sprite);
         image.color = Color.white;
         energy.text = weaponData.energy.ToString();
     }
 
+    
 }

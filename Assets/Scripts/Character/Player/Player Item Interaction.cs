@@ -62,10 +62,10 @@ public class PlayerItemInteraction : MonoBehaviour
         if (equippedWeapon != null)
         {
             // Create a collectable item with the weapon prefab at the player's position
-            GameObject droppedCollectable = new GameObject(equippedWeapon.WeaponData.name + "_clt");
+            GameObject droppedCollectable = new GameObject(equippedWeapon.weaponData.name + "_clt");
             droppedCollectable.transform.position = transform.position+ new Vector3(1,0,0);
             Collectable col = droppedCollectable.AddComponent<Collectable>();
-            col.Initialize(equippedWeapon.WeaponData, Collectable.CollectableType.Weapon);
+            col.Initialize(equippedWeapon.weaponData, Collectable.CollectableType.Weapon);
 
 
             Destroy(equippedWeapon.gameObject); // Remove the equipped weapon from the player
@@ -88,7 +88,7 @@ public class PlayerItemInteraction : MonoBehaviour
             Vector3 localPosition = new Vector3(0.3f, -0.25f, 0);
             currentObject.transform.localPosition = localPosition;
 
-            currentObject.GetComponent<Weapon>().Initialize();
+            currentObject.GetComponent<Weapon>().Initialize(item.weaponData);
             Equip(currentObject.GetComponent<Weapon>());
         }
     }

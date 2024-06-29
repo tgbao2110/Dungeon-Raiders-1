@@ -5,27 +5,24 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    protected WeaponData weaponData;
-    public WeaponData WeaponData => weaponData;
+    public WeaponData weaponData;
     public GameObject player;
     public PlayerController playerController;
     protected Health health;
     protected float lastAtkTime = -9999f;
-    protected abstract float coolDown{ get; }
     virtual public void AttackAction() { }
     protected AttackType attackType;
     bool isAtacking = false;
     protected Vector3 direction;
 
 
-    public void Initialize()
+    public void Initialize(WeaponData data)
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponentInChildren<PlayerController>();
         health = player.GetComponentInChildren<Health>();
+        this.weaponData = data;
         SetAttackType();
-
-        Debug.Log(player.gameObject.name + playerController.name + health.name);
     }
 
     private void Update() 
@@ -33,14 +30,9 @@ public abstract class Weapon : MonoBehaviour
         Rotate();
     }
 
-    protected void InitializeWeaponData(WeaponData data)
-    {
-        weaponData = data;
-    }
-
     public void Attack()
     {
-        if ((Time.time - lastAtkTime > coolDown) && health.GetCurrentEnergy()>=weaponData.energy)
+        if ((Time.time - lastAtkTime > weaponData.coolDown) && health.GetCurrentEnergy()>=weaponData.energy)
         {
             AttackAction();
             health.UseEnergy(weaponData.energy);

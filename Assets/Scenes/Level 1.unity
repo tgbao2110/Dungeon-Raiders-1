@@ -782,7 +782,7 @@ PrefabInstance:
     - target: {fileID: 773133489442296106, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
       propertyPath: weaponData
       value: 
-      objectReference: {fileID: 11400000, guid: 5f7d8b490aeed0441b77bc8e1fa987d4, type: 2}
+      objectReference: {fileID: 11400000, guid: 56132feb626c8014baefc24ec74b642b, type: 2}
     - target: {fileID: 1730444466406790227, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
       propertyPath: m_Name
       value: Revolver_Clt
@@ -3069,6 +3069,7 @@ GameObject:
   - component: {fileID: 1900327263}
   - component: {fileID: 1900327265}
   - component: {fileID: 1900327264}
+  - component: {fileID: 1900327266}
   m_Layer: 5
   m_Name: Sprite
   m_TagString: Untagged
@@ -3085,15 +3086,15 @@ RectTransform:
   m_GameObject: {fileID: 1900327262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 685274033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -50, y: 90}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1900327264
 MonoBehaviour:
@@ -3133,6 +3134,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900327262}
   m_CullTransparentMesh: 1
+--- !u!114 &1900327266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900327262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 1
+  m_AspectRatio: 2
 --- !u!1001 &1926273022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3144,7 +3159,7 @@ PrefabInstance:
     - target: {fileID: 773133489442296106, guid: d444490b84786cb4b830d58a891eff73, type: 3}
       propertyPath: weaponData
       value: 
-      objectReference: {fileID: 11400000, guid: a0657f141c8548a4ab4fd73ca88c42c9, type: 2}
+      objectReference: {fileID: 11400000, guid: c5e06d0c348ebc348be3ffc4049b6139, type: 2}
     - target: {fileID: 1730444466406790227, guid: d444490b84786cb4b830d58a891eff73, type: 3}
       propertyPath: m_Name
       value: Shotgun_Clt

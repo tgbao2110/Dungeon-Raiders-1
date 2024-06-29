@@ -7,12 +7,9 @@ using UnityEngine.UIElements;
 public abstract class Gun : Weapon
 {
     [SerializeField] Transform shootingPoint; // Point from where the bullet is shot
-    [SerializeField] public GunData gunData;
-
-    protected override float coolDown => gunData.coolDown;
 
     private void Start() {
-        InitializeWeaponData(gunData);
+        
     }
 
     public override void AttackAction()
@@ -22,7 +19,7 @@ public abstract class Gun : Weapon
         Vector3 shootDirection = transform.right;
         float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
 
-        attackType.ExecuteAttack(gunData.bulletPrefab, gunData.bulletSpeed, shootingPoint, shootDirection, angle);
+        attackType.ExecuteAttack(weaponData.bulletPrefab, weaponData.bulletSpeed, shootingPoint, shootDirection, angle);
 
     }
     
