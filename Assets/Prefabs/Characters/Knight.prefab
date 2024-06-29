@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 4916281307561849721}
   - component: {fileID: 2617429910557791063}
   - component: {fileID: 6842909268860359461}
+  - component: {fileID: 5305150391834420316}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -163,7 +164,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -185,7 +186,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 229439475, guid: 852a538696d34c84a8c51a74a4861811, type: 3}
-  m_Color: {r: 0.7244215, g: 0.7623947, b: 0.9622642, a: 1}
+  m_Color: {r: 0.91886795, g: 0.9310377, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -216,6 +217,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5305150391834420316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789835541238372328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195e70d5ce154544e862ec0035ccdd18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 6331942b94789374ea6ebc50710558f6, type: 2}
+  duration: 0.1
 --- !u!1 &3727863783401361142
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a22aca9d32c1a048b47a797416e878b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: b10c3bd3c454be04aad0d85e12e2add6, type: 2}
+  playerData: {fileID: 11400000, guid: 1223c7440ad21b34b981e6b9a5da22a8, type: 2}
+  flash: {fileID: 5305150391834420316}
   healthBar: {fileID: 0}
   energyBar: {fileID: 0}

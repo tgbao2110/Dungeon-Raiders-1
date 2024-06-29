@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TripleBulletAttack : AttackType
 {
-    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, float angle)
+    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, float angle, int damage)
     {
         float angleOffset = 15f; // Offset between each bullet's angle
 
@@ -17,12 +17,10 @@ public class TripleBulletAttack : AttackType
 
             // Instantiate the bullet
             GameObject bullet = Object.Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
+            bullet.GetComponent<Bullet>().SetDamage(damage);
+
             Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-
-            // Set velocity based on shoot direction and bullet speed
             bulletRigidbody.velocity = currentShootDirection * bulletSpeed;
-
-            // Set rotation of the bullet
             bullet.transform.rotation = Quaternion.Euler(0f, 0f, currentAngle);
 
             // Destroy the bullet after 2 seconds

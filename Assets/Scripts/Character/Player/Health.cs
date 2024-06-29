@@ -1,9 +1,12 @@
+using BarthaSzabolcs.Tutorial_SpriteFlash;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] PlayerData playerData;
+    [SerializeField] SimpleFlash flash;
 
+    [Header("Health UI")]
     [SerializeField] StatBar healthBar;
     [SerializeField] StatBar energyBar;
 
@@ -20,6 +23,8 @@ public class Health : MonoBehaviour
     {
         playerData.CurrentHealth -= amount;
         ReloadHealth();
+        flash.Flash();
+        
         if (playerData.CurrentHealth <= 0)
         {
             Die();

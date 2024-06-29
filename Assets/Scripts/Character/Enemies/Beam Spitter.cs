@@ -11,9 +11,10 @@ public class BeamSpitter : Enemy
     {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        InitializeHealth();
     }
 
-    protected override void Update()
+    void Update()
     {
         HandleMovement();
         HandleAttack();
@@ -32,27 +33,6 @@ public class BeamSpitter : Enemy
         }
     }
 
-    void HandleMovement()
-    {
-        if (player == null)
-        {
-            Debug.LogError("Player Transform is not assigned in the inspector");
-            return;
-        }
-
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        Debug.Log("Distance to player: " + distanceToPlayer);
-
-        if (distanceToPlayer < detectionRange)
-        {
-            MoveTowardsPlayer(distanceToPlayer);
-        }
-        else
-        {
-            rb.velocity = Vector2.zero; // Stop moving if the player is out of range
-        }
-        
-    }
 
     void Shoot()
     {
@@ -62,7 +42,7 @@ public class BeamSpitter : Enemy
         // Calculate the angle in degrees
         float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint,directionToPlayer, angleToPlayer);
+        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint,directionToPlayer, angleToPlayer, enemyData.damage);
     }
 
     public override void SetAttackType()
@@ -70,4 +50,8 @@ public class BeamSpitter : Enemy
         attackType = new SingleBulletAttack();
     }
 
+    protected override void Die()
+    {
+        Destroy(this.gameObject);
+    }
 }

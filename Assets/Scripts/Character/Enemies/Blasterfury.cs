@@ -11,16 +11,24 @@ public class Blasterfury : Enemy
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        InitializeHealth();
         SetAttackType();
         SetNextAttackCount();
     }
 
-    protected override void Update()
+    void Update()
     {
-        if (interval > 0)
+        HandleMovement();
+        HandleAttack();
+    }
+
+    void HandleAttack()
+    {
+        if(interval>0)
         {
-            interval -= Time.deltaTime;
+            interval-= Time.deltaTime;
         }
         else
         {
@@ -28,6 +36,7 @@ public class Blasterfury : Enemy
             interval = enemyData.fireRate;
         }
     }
+
 
     void Shoot()
     {
@@ -37,7 +46,7 @@ public class Blasterfury : Enemy
         // Calculate the angle in degrees
         float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint, directionToPlayer, angleToPlayer);
+        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint,directionToPlayer, angleToPlayer, enemyData.damage);
 
         // Increment the current attack count and check if it's time to switch attack types
         currentAttackCount++;
@@ -65,5 +74,10 @@ public class Blasterfury : Enemy
     {
         currentAttackCount = 0;
         maxAttackCount = Random.Range(2, 6); // Randomize between 2 to 5 (inclusive)
+    }
+
+    protected override void Die()
+    {
+        Destroy(this.gameObject);
     }
 }

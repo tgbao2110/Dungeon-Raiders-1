@@ -3659,10 +3659,6 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 2012450318}
-    - target: {fileID: 373664664517370263, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-      propertyPath: playerData
-      value: 
-      objectReference: {fileID: 11400000, guid: 1223c7440ad21b34b981e6b9a5da22a8, type: 2}
     - target: {fileID: 1023906843379935920, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: m_Name
       value: Knight
@@ -3715,8 +3711,7 @@ PrefabInstance:
       propertyPath: weaponPanel
       value: 
       objectReference: {fileID: 685274034}
-    m_RemovedComponents:
-    - {fileID: 7697906068272618689, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

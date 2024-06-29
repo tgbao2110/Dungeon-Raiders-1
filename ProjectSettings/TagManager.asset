@@ -8,6 +8,8 @@ TagManager:
   - Door
   - Collider
   - Collectable
+  - Enemy
+  - Wall
   - Bullet
   layers:
   - Default

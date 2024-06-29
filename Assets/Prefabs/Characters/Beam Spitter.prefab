@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 4038402074435408011}
   - component: {fileID: -107415972209668035}
   - component: {fileID: -419486762416080198}
+  - component: {fileID: 5175808082923056778}
   m_Layer: 0
   m_Name: Beam Spitter
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4837573039238618051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.43863022, y: 1.885926, z: -0.000521383}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50,10 +51,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 4088f7c6f2ed5c846974523cd29afb7a, type: 2}
+  animator: {fileID: 5175808082923056778}
   player: {fileID: 0}
-  detectionRange: 10
-  stopDistance: 2
-  moveSpeed: 2
+  detectionRange: 9
+  stopDistance: 3
+  moveSpeed: 1.35
+  flash: {fileID: 379802944294629254}
+  maxHealth: 0
+  currentHealth: 0
   shootingPoint: {fileID: 1934724211970031640}
 --- !u!50 &-107415972209668035
 Rigidbody2D:
@@ -127,6 +132,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5597867, y: 1.2530842}
   m_EdgeRadius: 0
+--- !u!95 &5175808082923056778
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4837573039238618051}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 50a56173984866e47979f19209b69ab8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5517716371760415540
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8364224737367022612}
   - component: {fileID: 3791267849435631742}
+  - component: {fileID: 379802944294629254}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -295,6 +322,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &379802944294629254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5613657910647257232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195e70d5ce154544e862ec0035ccdd18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 6331942b94789374ea6ebc50710558f6, type: 2}
+  duration: 0.1
 --- !u!1 &8536478645105290764
 GameObject:
   m_ObjectHideFlags: 0
