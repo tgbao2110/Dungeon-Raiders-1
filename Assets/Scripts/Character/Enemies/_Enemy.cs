@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected EnemyData enemyData;
     [SerializeField] protected Animator animator;
     public Transform player;
+    protected EnemyRoom room;
     public float detectionRange = 10f;
     public float stopDistance = 0f;
     public float moveSpeed = 2f;

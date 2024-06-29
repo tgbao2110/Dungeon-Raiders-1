@@ -13,6 +13,7 @@ public class Blasterfury : Enemy
     {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        room = this.transform.parent.transform.parent.GetComponent<EnemyRoom>();
         InitializeHealth();
         SetAttackType();
         SetNextAttackCount();
@@ -78,6 +79,7 @@ public class Blasterfury : Enemy
 
     protected override void Die()
     {
+        room.KillEnemy();
         Destroy(this.gameObject);
     }
 }

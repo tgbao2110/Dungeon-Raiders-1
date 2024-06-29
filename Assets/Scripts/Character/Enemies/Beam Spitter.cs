@@ -11,6 +11,8 @@ public class BeamSpitter : Enemy
     {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        room = this.transform.parent.transform.parent.GetComponent<EnemyRoom>();
+        Debug.Log("Room = "+ room.name);
         InitializeHealth();
     }
 
@@ -52,6 +54,7 @@ public class BeamSpitter : Enemy
 
     protected override void Die()
     {
+        room.KillEnemy();
         Destroy(this.gameObject);
     }
 }

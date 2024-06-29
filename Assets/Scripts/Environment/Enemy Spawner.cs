@@ -18,6 +18,7 @@ public class EnemySpawner : MonoBehaviour
         {
             int randomPrefabIndex = Random.Range(0, enemiesPrefabs.Count);
             GameObject instantiatedEnemy = Instantiate(enemiesPrefabs[randomPrefabIndex], spawnPoint.position, Quaternion.identity);
+            instantiatedEnemy.transform.SetParent(this.transform);
         }
     }
 

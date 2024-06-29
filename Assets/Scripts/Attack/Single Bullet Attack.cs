@@ -8,7 +8,6 @@ public class SingleBulletAttack : AttackType
         shootDirection.Normalize();
 
         GameObject bullet = Object.Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
-        Debug.Log("Bullet created");
         bullet.GetComponent<Bullet>().SetDamage(damage);
 
         Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
