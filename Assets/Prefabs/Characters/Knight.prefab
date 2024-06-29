@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6019850467378399921}
-  - component: {fileID: 7697906068272618689}
   - component: {fileID: 8916388403390930759}
   - component: {fileID: 5673437441901581513}
   m_Layer: 0
@@ -39,18 +38,6 @@ Transform:
   - {fileID: 8386746719094915301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7697906068272618689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023906843379935920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 929091c20eb2bda4ba86795959ba6553, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &8916388403390930759
 Rigidbody2D:
   serializedVersion: 4
@@ -275,6 +262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equippedWeapon: {fileID: 0}
+  weaponPanel: {fileID: 0}
 --- !u!61 &5562027027629587983
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -588,3 +576,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: b10c3bd3c454be04aad0d85e12e2add6, type: 2}
+  healthBar: {fileID: 0}
+  energyBar: {fileID: 0}

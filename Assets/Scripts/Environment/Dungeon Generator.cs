@@ -5,7 +5,7 @@ public class DungeonGenerator : MonoBehaviour
 {
     [SerializeField] GameObject baseRoomPrefab;
     [SerializeField] GameObject enemyRoomPrefab;
-    [SerializeField] GameObject rewardRoomPrefab;
+    [SerializeField] GameObject bossRoomPrefab;
     [SerializeField] GameObject hallwayHorizontalPrefab;
     [SerializeField] GameObject hallwayVerticalUpPrefab;
     [SerializeField] GameObject hallwayVerticalDownPrefab;
@@ -46,11 +46,13 @@ public class DungeonGenerator : MonoBehaviour
         currentRoomGridPos = basePosition;
         allRooms.Add(currentRoomGridPos);
 
-        for (int i = 0; i < numOfEnemyRooms + numOfRewardRooms; i++)
+        for (int i = 0; i < numOfEnemyRooms; i++)
         {
-            GameObject roomPrefab = i < numOfEnemyRooms ? enemyRoomPrefab : rewardRoomPrefab;
+            GameObject roomPrefab = i < numOfEnemyRooms ? enemyRoomPrefab: null;
             PlaceNextRoom(roomPrefab);
         }
+
+        PlaceNextRoom(bossRoomPrefab);
     }
 
     void PlaceRoom(GameObject roomPrefab, Vector2Int gridPosition, Vector3 position)
