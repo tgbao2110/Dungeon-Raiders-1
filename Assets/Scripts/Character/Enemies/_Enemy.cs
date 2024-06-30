@@ -19,6 +19,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("Health")]
     [SerializeField] protected int maxHealth;
     [SerializeField] protected int currentHealth;
+    [SerializeField] protected MiniHealthBar healthBar;
 
     public abstract void SetAttackType();
 
@@ -74,11 +75,13 @@ public abstract class Enemy : MonoBehaviour
     {
         maxHealth = enemyData.maxHealth;
         currentHealth = maxHealth;
+        healthBar.SetHealth(enemyData.name,currentHealth,maxHealth);
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        healthBar.SetHealth(enemyData.name,currentHealth,maxHealth);
         flash.Flash();
         if (currentHealth <= 0)
         {
