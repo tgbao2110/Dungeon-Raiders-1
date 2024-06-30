@@ -10,6 +10,7 @@ public class EnemyRoom : Room
     private bool isCleared = false;
     private PlayerController playerController;
     [SerializeField] private EnemySpawner spawner;
+    [SerializeField] Animator clearUI;
 
     private void Start() {
         spawner = GetComponentInChildren<EnemySpawner>();
@@ -56,6 +57,7 @@ public class EnemyRoom : Room
         if (enemiesCount <= 0)
         {
             isCleared=true;
+            clearUI.SetTrigger("isClear");
             Unlock();
         }
     }
