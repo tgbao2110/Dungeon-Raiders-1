@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Room : MonoBehaviour
 {
+    protected DungeonGenerator dungeonGenerator; 
     protected Hallway fromHallway, toHallway;
     public abstract void InitializeRoom();
 

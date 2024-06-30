@@ -322,6 +322,10 @@ MonoBehaviour:
   numOfRewardRooms: 1
   gridWidth: 3
   gridHeight: 3
+  chestPrefab: {fileID: 1049856563560984037, guid: caecc2d416464d04e8a50efeadff79c3, type: 3}
+  itemsToDrop:
+  - {fileID: 1730444466406790227, guid: d444490b84786cb4b830d58a891eff73, type: 3}
+  - {fileID: 1730444466406790227, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
 --- !u!1 &285863777
 GameObject:
   m_ObjectHideFlags: 0

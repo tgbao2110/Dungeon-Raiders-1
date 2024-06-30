@@ -12,7 +12,9 @@ public class EnemyRoom : Room
     [SerializeField] private EnemySpawner spawner;
     [SerializeField] Animator clearUI;
 
-    private void Start() {
+    private void Start()
+    {
+        dungeonGenerator = this.transform.parent.GetComponent<DungeonGenerator>();
         spawner = GetComponentInChildren<EnemySpawner>();
     }
 
@@ -56,9 +58,12 @@ public class EnemyRoom : Room
         enemiesCount--;
         if (enemiesCount <= 0)
         {
-            isCleared=true;
+            isCleared = true;
             clearUI.SetTrigger("isClear");
             Unlock();
+            dungeonGenerator.SpawnChest(this.transform.position);
         }
     }
+
+
 }

@@ -14,6 +14,12 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] int gridWidth = 10;
     [SerializeField] int gridHeight = 10;
 
+    [Header("Rewards")]
+    [SerializeField] protected GameObject chestPrefab;
+    [SerializeField] protected List<GameObject> itemsToDrop;
+    private int currentItemIndex = 0;
+
+
     private Dictionary<Vector2Int, GameObject> roomGrid = new Dictionary<Vector2Int, GameObject>();
     private List<Vector2Int> availablePositions = new List<Vector2Int>();
     private GameObject previousRoom;
@@ -138,6 +144,18 @@ public class DungeonGenerator : MonoBehaviour
         Hallway hallwayComponent = hallway.GetComponent<Hallway>();
         roomGrid[roomA].GetComponent<Room>().SetToHallway(hallwayComponent);
         roomGrid[roomB].GetComponent<Room>().SetFromHallway(hallwayComponent);
+    }
+
+    public void SpawnChest(Vector3 position)
+    {
+        GameObject chest = Instantiate(chestPrefab, position, Quaternion.identity);
+        var chestComponent = chest.GetComponent<RewardChest>();
+        chestComponent.InitializeChest(itemsToDrop[currentItemIndex]);
+        currentItemIndex++;
+        if(currentItemIndex >= itemsToDrop.Count)
+        {
+            currentItemIndex = 0;
+        }
     }
 
     //DEBUG
