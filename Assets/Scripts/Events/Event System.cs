@@ -4,8 +4,10 @@ public class EventSystem : MonoBehaviour
 {
     PlayerController player;
     PlayerItemInteraction interaction;
+    Health health;
     [SerializeField] GameObject attackButton;
     [SerializeField] GameObject switchWeaponButton;
+    [SerializeField] GameObject gameOver;
     Collectable currentCollectable;
     
     private void Start()
@@ -18,6 +20,7 @@ public class EventSystem : MonoBehaviour
         PlayerActions.OnSwitchWeapon += SwitchWeaponPressed;
         PlayerActions.OnEnterCollectable += ShowSwitchWeaponButton;
         PlayerActions.OnExitCollectable += ShowAttackButton;
+        PlayerActions.OnGameOver += ShowGameOverUI;
     }
 
     private void OnDestroy()
@@ -25,6 +28,11 @@ public class EventSystem : MonoBehaviour
         // Unsubscribe to prevent memory leaks
         PlayerActions.OnAttack -= Attack;
         PlayerActions.OnSwitchWeapon -= SwitchWeaponPressed;
+    }
+
+    private void ShowGameOverUI()
+    {
+        gameOver.SetActive(true);
     }
 
     private void ShowSwitchWeaponButton()
@@ -59,6 +67,11 @@ public class EventSystem : MonoBehaviour
     public void TriggerSwitchWeapon()
     {
         PlayerActions.OnSwitchWeapon?.Invoke();
+    }
+
+    public void TriggerGameOver()
+    {
+        PlayerActions.OnGameOver?.Invoke();
     }
 
     public void SetCurrentCollectable(Collectable collectable)

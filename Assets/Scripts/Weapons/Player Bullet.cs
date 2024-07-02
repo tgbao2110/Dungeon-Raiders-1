@@ -8,6 +8,7 @@ public class PlayerBullet : Bullet
     {
         if(other.tag == "Enemy")
         {
+            Debug.Log("Bullet hit "+ other.name);
             other.GetComponentInChildren<Enemy>().TakeDamage(damage);
             Destroy(this.gameObject);
         }

@@ -6,4 +6,5 @@ public static class PlayerActions
     public static Action OnSwitchWeapon;
     public static Action OnEnterCollectable;
     public static Action OnExitCollectable;
+    public static Action OnGameOver;
 }

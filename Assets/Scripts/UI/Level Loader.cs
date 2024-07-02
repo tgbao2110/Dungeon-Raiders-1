@@ -8,6 +8,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] Animator transition;
     public void LoadLevel(int index)
     {
+        Debug.Log("Loading level " + index);
         StartCoroutine(LoadScene(index));
     }
 

@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public GameObject pauseMenu;
 
@@ -21,5 +20,12 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    public void ReturnToMenu()
+    {
+        ResumeGame();
+        var levelLoader = FindObjectOfType<LevelLoader>();
+        levelLoader.LoadLevel(0);
     }
 }

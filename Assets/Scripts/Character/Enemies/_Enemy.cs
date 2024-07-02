@@ -20,6 +20,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int maxHealth;
     [SerializeField] protected int currentHealth;
     [SerializeField] protected MiniHealthBar healthBar;
+    private bool isDead = false;
 
     public abstract void SetAttackType();
 
@@ -83,9 +84,11 @@ public abstract class Enemy : MonoBehaviour
         currentHealth -= damage;
         healthBar.SetHealth(enemyData.name,currentHealth,maxHealth);
         flash.Flash();
-        if (currentHealth <= 0)
+        Debug.Log("Take Damage: " + this.name +" took "+ damage +" dmg. Health left "+ currentHealth);
+        if (currentHealth <= 0 && !isDead)
         {
             Die();
+            isDead = true;
         }
     }
 

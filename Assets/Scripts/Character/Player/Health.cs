@@ -1,3 +1,4 @@
+using System.Collections;
 using BarthaSzabolcs.Tutorial_SpriteFlash;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class Health : MonoBehaviour
 {
     [SerializeField] PlayerData playerData;
     [SerializeField] SimpleFlash flash;
+    [SerializeField] Animator animator;
 
     [Header("Health UI")]
     [SerializeField] StatBar healthBar;
@@ -61,12 +63,6 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Die()
-    {
-        // Handle death logic (destroy object, play animation, etc.)
-        Debug.Log("HEHE YOU DIED MFKER");
-    }
-
     public int GetCurrentHealth()
     {
         return playerData.CurrentHealth;
@@ -87,5 +83,15 @@ public class Health : MonoBehaviour
         energyBar.SetStat(playerData.CurrentEnergy);
     }
 
+    private void Die()
+    {
+        Time.timeScale = 0;
+        //animator.SetTrigger("Die");
+        EventSystem eventSystem = FindObjectOfType<EventSystem>();
+        if (eventSystem != null)
+        {
+            eventSystem.TriggerGameOver();
+        }
+    }
 
 }
