@@ -14,6 +14,7 @@ public abstract class Weapon : MonoBehaviour
     protected AttackType attackType;
     bool isAtacking = false;
     protected Vector3 direction;
+    int detectionRange = 30;
 
 
     public void Initialize(WeaponData data)
@@ -44,7 +45,16 @@ public abstract class Weapon : MonoBehaviour
 
     void Rotate()
     {
-        direction = playerController.joystick.Direction;
+        Transform target = FindClosestEnemy();
+        if (target != null)
+        {
+            direction = (target.position - transform.position).normalized;
+        }
+        else
+        {
+            direction = playerController.joystick.Direction.normalized;
+        }
+
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -58,6 +68,25 @@ public abstract class Weapon : MonoBehaviour
                 transform.localScale = new Vector3(-1f, -1f, 1f); // Flipped along Y-axis
             }
         }
+    }
+
+    Transform FindClosestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Transform closestEnemy = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < detectionRange && distance < minDistance)
+            {
+                closestEnemy = enemy.transform;
+                minDistance = distance;
+            }
+        }
+
+        return closestEnemy;
     }
 }
 

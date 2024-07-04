@@ -62,6 +62,7 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   healthBar: {fileID: 2110926775687543574}
+  separationDistance: 1
   shootingPoint: {fileID: 2798716369103098319}
 --- !u!50 &2534984989538055871
 Rigidbody2D:
@@ -71,7 +72,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360555042516382184}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -89,7 +90,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &1255897271218813530
 Animator:
   serializedVersion: 5
@@ -614,7 +615,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 746506127
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -64508561, guid: 2c843d1472f689647b07364d247c5ae9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -820,7 +821,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 746506127
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -907374757, guid: 2c843d1472f689647b07364d247c5ae9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

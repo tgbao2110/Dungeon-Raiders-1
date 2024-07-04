@@ -22,6 +22,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected MiniHealthBar healthBar;
     private bool isDead = false;
 
+    public float separationDistance = 1f; // Distance to maintain from other enemies
+
     public abstract void SetAttackType();
 
     protected void HandleMovement()
@@ -37,13 +39,13 @@ public abstract class Enemy : MonoBehaviour
         if (distanceToPlayer < detectionRange)
         {
             MoveTowardsPlayer(distanceToPlayer);
+            ApplySeparation();
         }
         else
         {
             animator.SetBool("isWalking", false);
             rb.velocity = Vector2.zero; // Stop moving if the player is out of range
         }
-        
     }
 
     protected void MoveTowardsPlayer(float distanceToPlayer)
@@ -61,6 +63,23 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    protected void ApplySeparation()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, separationDistance);
+        Vector2 separationForce = Vector2.zero;
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Enemy") && collider.gameObject != gameObject)
+            {
+                Vector2 direction = transform.position - collider.transform.position;
+                separationForce += direction.normalized / direction.magnitude;
+            }
+        }
+
+        rb.velocity += separationForce * moveSpeed;
+    }
+
     protected void OnDrawGizmosSelected()
     {
         // Draw detection range
@@ -70,21 +89,25 @@ public abstract class Enemy : MonoBehaviour
         // Draw stop distance
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, stopDistance);
+
+        // Draw separation distance
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, separationDistance);
     }
 
     protected void InitializeHealth()
     {
         maxHealth = enemyData.maxHealth;
         currentHealth = maxHealth;
-        healthBar.SetHealth(enemyData.name,currentHealth,maxHealth);
+        healthBar.SetHealth(enemyData.name, currentHealth, maxHealth);
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        healthBar.SetHealth(enemyData.name,currentHealth,maxHealth);
+        healthBar.SetHealth(enemyData.name, currentHealth, maxHealth);
         flash.Flash();
-        Debug.Log("Take Damage: " + this.name +" took "+ damage +" dmg. Health left "+ currentHealth);
+        Debug.Log("Take Damage: " + this.name + " took " + damage + " dmg. Health left " + currentHealth);
         if (currentHealth <= 0 && !isDead)
         {
             Die();
@@ -93,6 +116,4 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected abstract void Die();
-
-
 }
