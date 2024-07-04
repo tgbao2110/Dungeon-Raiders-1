@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyRoom : Room
 {
     public int numberOfEnemies;
     public int enemiesCount;
-    private bool isCleared = false;
-    private PlayerController playerController;
-    [SerializeField] private EnemySpawner spawner;
-    [SerializeField] Animator clearUI;
+    protected bool isCleared = false;
+    protected PlayerController playerController;
+    [SerializeField] protected EnemySpawner spawner;
+    [SerializeField] protected Animator clearUI;
 
     private void Start()
     {
@@ -55,7 +52,7 @@ public class EnemyRoom : Room
 
     public void KillEnemy()
     {
-        enemiesCount-=1;
+        enemiesCount -= 1;
         Debug.Log("Enemies count: " + enemiesCount);
         if (enemiesCount <= 0)
         {

@@ -13,7 +13,7 @@ public class PlayerItemInteraction : MonoBehaviour
     {
         if (other.CompareTag("Collectable"))
         {
-            PlayerActions.OnEnterCollectable?.Invoke();
+            Actions.OnEnterCollectable?.Invoke();
 
             EventSystem eventSystem = FindObjectOfType<EventSystem>();
             if (eventSystem != null)
@@ -27,7 +27,7 @@ public class PlayerItemInteraction : MonoBehaviour
     {
         if (other.CompareTag("Collectable"))
         {
-            PlayerActions.OnExitCollectable?.Invoke();
+            Actions.OnExitCollectable?.Invoke();
             // Clear the current collectable in EventSystem
             EventSystem eventSystem = FindObjectOfType<EventSystem>();
             if (eventSystem != null)

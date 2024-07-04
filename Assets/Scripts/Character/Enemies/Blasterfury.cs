@@ -8,6 +8,7 @@ public class Blasterfury : Enemy
     private int currentAttackCount = 0;
     private int maxAttackCount = 0;
     private bool usingSingleBullet = true;
+    private bool isEnabled = false;
 
     void Start()
     {
@@ -17,19 +18,25 @@ public class Blasterfury : Enemy
         InitializeHealth();
         SetAttackType();
         SetNextAttackCount();
+
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
     }
 
     void Update()
     {
-        HandleMovement();
-        HandleAttack();
+        if(isEnabled)
+        {
+            HandleMovement();
+            HandleAttack();
+        }
+
     }
 
     void HandleAttack()
     {
-        if(interval>0)
+        if (interval > 0)
         {
-            interval-= Time.deltaTime;
+            interval -= Time.deltaTime;
         }
         else
         {
@@ -47,7 +54,7 @@ public class Blasterfury : Enemy
         // Calculate the angle in degrees
         float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint,directionToPlayer, angleToPlayer, enemyData.damage);
+        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint, directionToPlayer, angleToPlayer, enemyData.damage);
 
         // Increment the current attack count and check if it's time to switch attack types
         currentAttackCount++;
@@ -81,5 +88,19 @@ public class Blasterfury : Enemy
     {
         room.KillEnemy();
         Destroy(this.gameObject);
+    }
+
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        if (newGameState == GameState.Playing)
+        {
+            isEnabled = true;
+        }
+
+        else
+        {
+            isEnabled = false;
+            rb.velocity = Vector2.zero;
+        }
     }
 }

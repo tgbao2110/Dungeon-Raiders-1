@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         rb = player.GetComponent<Rigidbody2D>();
         animator = player.GetComponentInChildren<Animator>();
+
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
     }
 
     // Update is called once per frame
@@ -65,5 +67,12 @@ public class PlayerController : MonoBehaviour
         room = enemyRoom;
     }
 
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        if (newGameState == GameState.Paused)
+        {
+            rb.velocity = UnityEngine.Vector2.zero;
+        }
+    }
     
 }

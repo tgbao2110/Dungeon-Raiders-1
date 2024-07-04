@@ -5,8 +5,9 @@ public class BeamSpitter : Enemy
 {
     public Transform shootingPoint;
     float interval = 0.5f;
-    
 
+    bool isEnabled = true;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -17,15 +18,18 @@ public class BeamSpitter : Enemy
 
     void Update()
     {
-        HandleMovement();
-        HandleAttack();
+        if(isEnabled)
+        {
+            HandleMovement();
+            HandleAttack();
+        }
     }
 
     void HandleAttack()
     {
-        if(interval>0)
+        if (interval > 0)
         {
-            interval-= Time.deltaTime;
+            interval -= Time.deltaTime;
         }
         else
         {
@@ -43,7 +47,7 @@ public class BeamSpitter : Enemy
         // Calculate the angle in degrees
         float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint,directionToPlayer, angleToPlayer, enemyData.damage);
+        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint, directionToPlayer, angleToPlayer, enemyData.damage);
     }
 
     public override void SetAttackType()
@@ -55,7 +59,7 @@ public class BeamSpitter : Enemy
     {
         Debug.Log(this.name + " Died!");
         room.KillEnemy();
-        
+
         Destroy(this.gameObject);
     }
 }

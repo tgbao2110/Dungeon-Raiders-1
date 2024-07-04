@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class PauseMenuManager : MonoBehaviour
 {
     public GameObject pauseMenu;
 
@@ -24,7 +23,6 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        ResumeGame();
         var levelLoader = FindObjectOfType<LevelLoader>();
         levelLoader.LoadLevel(0);
     }

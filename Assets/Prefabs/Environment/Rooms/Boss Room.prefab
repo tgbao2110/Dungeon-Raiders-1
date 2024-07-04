@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 3642605945536201553}
   - component: {fileID: 7363093463671265080}
   - component: {fileID: 8473388729229429135}
-  - component: {fileID: 8158303073177003204}
+  - component: {fileID: 7249069115311878280}
   m_Layer: 0
   m_Name: Boss Room
   m_TagString: Untagged
@@ -2168,7 +2168,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10.082996, y: 9.372208}
   m_EdgeRadius: 0
---- !u!114 &8158303073177003204
+--- !u!114 &7249069115311878280
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2177,13 +2177,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7842218640123279631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 960179ec0dc3d414bb56f9c14f2dfd6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7533dcb5373e2944a82fc7bfdba42794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfEnemies: 0
   enemiesCount: 0
-  spawner: {fileID: 0}
+  spawner: {fileID: 4512241014327541300}
   clearUI: {fileID: 4070583222926753040}
+  bossIntro: {fileID: 0}
 --- !u!1 &8265748196556108685
 GameObject:
   m_ObjectHideFlags: 0
