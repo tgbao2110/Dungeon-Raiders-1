@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class MultipleBulletAttack : AttackType
 {
-    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, float angle,  int damage)
+    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, int damage)
     {
+        shootDirection.Normalize();
+        float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
         int numberOfBullets = 12; // Number of bullets to instantiate
         float angleStep = 360f / numberOfBullets; // Angle step between each bullet
 

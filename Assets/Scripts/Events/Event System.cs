@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EventSystem : MonoBehaviour
 {
-    PlayerController player;
+    PlayerController controller;
     PlayerItemInteraction interaction;
     Health health;
     [SerializeField] GameObject attackButton;
@@ -10,11 +10,15 @@ public class EventSystem : MonoBehaviour
     [SerializeField] GameObject gameOver;
     [SerializeField] GameObject bossIntro;
     Collectable currentCollectable;
+    MeleeAttack meleeAttack;
+
     
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
-        interaction = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerItemInteraction>();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        controller = player.GetComponentInChildren<PlayerController>();
+        interaction = player.GetComponentInChildren<PlayerItemInteraction>();
+        meleeAttack = player.GetComponentInChildren<MeleeAttack>();
 
         // Example of how to subscribe methods to events
         Actions.OnAttack += Attack;
@@ -52,7 +56,14 @@ public class EventSystem : MonoBehaviour
     private void Attack()
     {
         Weapon equippedWeapon = interaction.equippedWeapon;
-        equippedWeapon?.Attack();
+        if (equippedWeapon != null)
+        {
+            equippedWeapon.Attack();
+        }
+        else
+        {
+            meleeAttack.PerformAttack();
+        }
     }
 
     private void SwitchWeaponPressed()

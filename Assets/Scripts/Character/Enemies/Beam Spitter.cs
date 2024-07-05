@@ -43,11 +43,7 @@ public class BeamSpitter : Enemy
     {
         // Get the direction vector from the enemy to the player
         Vector3 directionToPlayer = (player.position - shootingPoint.position).normalized;
-
-        // Calculate the angle in degrees
-        float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-
-        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint, directionToPlayer, angleToPlayer, enemyData.damage);
+        attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint, directionToPlayer, enemyData.damage);
     }
 
     public override void SetAttackType()

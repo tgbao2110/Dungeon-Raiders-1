@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class SingleBulletAttack : AttackType
 {
-    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, float angle, int damage)
+    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, int damage)
     {
         // Ensure shootDirection is normalized
         shootDirection.Normalize();
+        float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
 
         GameObject bullet = Object.Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
         bullet.GetComponent<Bullet>().SetDamage(damage);

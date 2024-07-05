@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class TripleBulletAttack : AttackType
 {
-    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, float angle, int damage)
+    public override void ExecuteAttack(GameObject bulletPrefab, float bulletSpeed, Transform shootingPoint, Vector3 shootDirection, int damage)
     {
+        shootDirection.Normalize();
+        float angle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
         float angleOffset = 15f; // Offset between each bullet's angle
 
         // Shoot three bullets with different angles
