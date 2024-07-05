@@ -9,6 +9,8 @@ public class PlayerItemInteraction : MonoBehaviour
     public Weapon equippedWeapon;
     [SerializeField] WeaponPanel weaponPanel;
 
+    private Potion currentPotion;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Collectable"))
@@ -21,6 +23,11 @@ public class PlayerItemInteraction : MonoBehaviour
                 eventSystem.SetCurrentCollectable(other.GetComponent<Collectable>());
             }
         }
+        else if (other.CompareTag("Potion"))
+        {
+            Actions.OnEnterPotion?.Invoke();
+            currentPotion = other.GetComponent<Potion>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -28,12 +35,16 @@ public class PlayerItemInteraction : MonoBehaviour
         if (other.CompareTag("Collectable"))
         {
             Actions.OnExitCollectable?.Invoke();
-            // Clear the current collectable in EventSystem
             EventSystem eventSystem = FindObjectOfType<EventSystem>();
             if (eventSystem != null)
             {
                 eventSystem.SetCurrentCollectable(null);
             }
+        }
+        else if (other.CompareTag("Potion"))
+        {
+            Actions.OnExitPotion?.Invoke();
+            currentPotion = null;
         }
     }
 
@@ -57,39 +68,45 @@ public class PlayerItemInteraction : MonoBehaviour
         }
     }
 
+    public void Consume()
+    {
+        if (currentPotion != null)
+        {
+            currentPotion.Restore(this.transform.parent.gameObject);
+            Destroy(currentPotion.gameObject);
+            currentPotion = null;
+        }
+        else
+        {
+            Debug.Log("No potion found");
+        }
+    }
+
     void DropWeapon()
     {
         if (equippedWeapon != null)
         {
-            // Create a collectable item with the weapon prefab at the player's position
             GameObject droppedCollectable = new GameObject(equippedWeapon.weaponData.name + "_clt");
-            droppedCollectable.transform.position = transform.position+ new Vector3(1,0,0);
+            droppedCollectable.transform.position = transform.position + new Vector3(1, 0, 0);
             Collectable col = droppedCollectable.AddComponent<Collectable>();
-            col.Initialize(equippedWeapon.weaponData, Collectable.CollectableType.Weapon);
+            col.Initialize(equippedWeapon.weaponData);
 
-
-            Destroy(equippedWeapon.gameObject); // Remove the equipped weapon from the player
+            Destroy(equippedWeapon.gameObject);
             equippedWeapon = null;
         }
     }
 
     void PickUpWeapon(Collectable item)
     {
-        if (item.type == Collectable.CollectableType.Weapon)
-        {
-            // Drop the current weapon if one is equipped
-            DropWeapon();
+        DropWeapon();
 
-            // Instantiate the weapon at the player's position
-            var currentObject = Instantiate(item.weaponData.prefab, this.transform.position, Quaternion.identity);
-            currentObject.transform.SetParent(this.transform);
+        var currentObject = Instantiate(item.weaponData.prefab, this.transform.position, Quaternion.identity);
+        currentObject.transform.SetParent(this.transform);
 
-            // Set the weapon's local position relative to the player
-            Vector3 localPosition = new Vector3(0.3f, -0.25f, 0);
-            currentObject.transform.localPosition = localPosition;
+        Vector3 localPosition = new Vector3(0.3f, -0.25f, 0);
+        currentObject.transform.localPosition = localPosition;
 
-            currentObject.GetComponent<Weapon>().Initialize(item.weaponData);
-            Equip(currentObject.GetComponent<Weapon>());
-        }
+        currentObject.GetComponent<Weapon>().Initialize(item.weaponData);
+        Equip(currentObject.GetComponent<Weapon>());
     }
 }

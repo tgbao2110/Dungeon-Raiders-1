@@ -26,7 +26,7 @@ public class RewardChest : MonoBehaviour
     private void DropItem()
     {
         animator.SetTrigger("open");
-        Instantiate(itemToDrop, transform.position, Quaternion.identity);
+        Instantiate(itemToDrop, transform.position + new Vector3(0,-1,0), Quaternion.identity);
         isEmpty = true;
         itemToDrop = null;
     }

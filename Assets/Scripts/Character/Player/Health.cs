@@ -36,21 +36,21 @@ public class Health : MonoBehaviour
     public void UseEnergy(int amount)
     {
         playerData.CurrentEnergy -= amount;
-        ReloadEnergy();
         if (playerData.CurrentEnergy < 0)
         {
             playerData.CurrentEnergy = 0;
         }
+        ReloadEnergy();
     }
 
     public void RestoreHealth(int amount)
     {
         playerData.CurrentHealth += amount;
-        ReloadHealth();
         if (playerData.CurrentHealth > playerData.maxHealth)
         {
             playerData.CurrentHealth = playerData.maxHealth;
         }
+        ReloadHealth();
     }
 
     public void RestoreEnergy(int amount)

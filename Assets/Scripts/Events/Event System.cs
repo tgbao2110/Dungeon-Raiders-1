@@ -7,12 +7,12 @@ public class EventSystem : MonoBehaviour
     Health health;
     [SerializeField] GameObject attackButton;
     [SerializeField] GameObject switchWeaponButton;
+    [SerializeField] GameObject consumeButton;   
     [SerializeField] GameObject gameOver;
-    [SerializeField] GameObject bossIntro;
+    [SerializeField] GameObject bossIntro; 
     Collectable currentCollectable;
     MeleeAttack meleeAttack;
 
-    
     private void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -20,18 +20,18 @@ public class EventSystem : MonoBehaviour
         interaction = player.GetComponentInChildren<PlayerItemInteraction>();
         meleeAttack = player.GetComponentInChildren<MeleeAttack>();
 
-        // Example of how to subscribe methods to events
         Actions.OnAttack += Attack;
         Actions.OnSwitchWeapon += SwitchWeaponPressed;
         Actions.OnEnterCollectable += ShowSwitchWeaponButton;
         Actions.OnExitCollectable += ShowAttackButton;
+        Actions.OnEnterPotion += ShowConsumeButton;
+        Actions.OnExitPotion += ShowAttackButton;
         Actions.OnGameOver += ShowGameOverUI;
         Actions.OnEnterBossRoom += ShowBossRoomIntro;
     }
 
     private void OnDestroy()
     {
-        // Unsubscribe to prevent memory leaks
         Actions.OnAttack -= Attack;
         Actions.OnSwitchWeapon -= SwitchWeaponPressed;
     }
@@ -45,12 +45,21 @@ public class EventSystem : MonoBehaviour
     {
         attackButton.SetActive(false);
         switchWeaponButton.SetActive(true);
+        consumeButton.SetActive(false);
+    }
+
+    private void ShowConsumeButton()
+    {
+        attackButton.SetActive(false);
+        switchWeaponButton.SetActive(false);
+        consumeButton.SetActive(true);
     }
 
     private void ShowAttackButton()
     {
         switchWeaponButton.SetActive(false);
         attackButton.SetActive(true);
+        consumeButton.SetActive(false);
     }
 
     private void Attack()
@@ -71,7 +80,6 @@ public class EventSystem : MonoBehaviour
         interaction.SwitchWeaponPressed(currentCollectable);
     }
 
-    // Methods to be called by UI buttons
     public void TriggerAttack()
     {
         Actions.OnAttack?.Invoke();
@@ -85,6 +93,11 @@ public class EventSystem : MonoBehaviour
     public void TriggerGameOver()
     {
         Actions.OnGameOver?.Invoke();
+    }
+
+    public void TriggerConsume()
+    {
+        interaction.Consume();
     }
 
     public void SetCurrentCollectable(Collectable collectable)
