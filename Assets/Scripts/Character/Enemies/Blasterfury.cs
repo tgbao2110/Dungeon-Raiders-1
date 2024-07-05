@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Blasterfury : Enemy
@@ -9,6 +12,9 @@ public class Blasterfury : Enemy
     private int maxAttackCount = 0;
     private bool usingSingleBullet = true;
     private bool isEnabled = false;
+
+    private int multiCount = 0;
+
 
     void Start()
     {
@@ -40,13 +46,29 @@ public class Blasterfury : Enemy
         }
         else
         {
-            Shoot();
+            //If first multiple-bullet attack, Start couroutine.
+            if(!usingSingleBullet)
+            {
+                if(currentAttackCount==0) StartCoroutine(ShootMultiple());
+                else Shoot();
+            }
+            else
+            {
+                animator.SetBool("isAttacking", false);
+                Shoot();
+            }
             interval = enemyData.fireRate;
         }
     }
 
+    private IEnumerator ShootMultiple()
+    {
+        animator.SetBool("isAttacking", true);
+        yield return new WaitForSeconds(0.25f);
+        Shoot();
+    }
 
-    void Shoot()
+    private void Shoot()
     {
         // Get the direction vector from the enemy to the player
         Vector3 directionToPlayer = (player.position - shootingPoint.position).normalized;
@@ -59,9 +81,11 @@ public class Blasterfury : Enemy
             usingSingleBullet = !usingSingleBullet;
             SetAttackType();
             SetNextAttackCount();
+            
         }
     }
 
+    
     public override void SetAttackType()
     {
         if (usingSingleBullet)
