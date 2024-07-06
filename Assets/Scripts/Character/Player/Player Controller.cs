@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float movementSpeed;
     float vInput, hInput;
     public Vector3 lastFacingDirection { get; private set; }
-    private Vector3 lastNonZeroDirection = Vector3.right; // Default facing direction (right)
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Animator animator;
     [SerializeField] GameObject playerSprite;
@@ -16,7 +15,16 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Initialize(playerSprite);
-        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnEnable()
+    {
+        GameStateManager.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameStateManager.OnGameStateChanged -= OnGameStateChanged;
     }
 
     public void Initialize(GameObject playerSprite)
@@ -48,16 +56,18 @@ public class PlayerController : MonoBehaviour
         hInput = joystick.Horizontal * movementSpeed;
 
         Vector3 currentDirection = new Vector3(hInput, vInput, 0).normalized;
+        lastFacingDirection = currentDirection;
 
         if (joystick.Vertical != 0 || joystick.Horizontal != 0)
         {
             animator.SetBool("isWalking", true);
-            lastFacingDirection = currentDirection;
-
-            if (joystick.Horizontal != 0)
+            if (joystick.Horizontal < 0)
             {
-                lastNonZeroDirection = new Vector3(Mathf.Sign(joystick.Horizontal), 0, 0);
-                player.transform.localScale = new Vector3(Mathf.Sign(joystick.Horizontal), 1, 1);
+                player.transform.localScale = new Vector3(-1, 1, 0);
+            }
+            if (joystick.Horizontal > 0)
+            {
+                player.transform.localScale = new Vector3(1, 1, 0);
             }
         }
         else
@@ -70,10 +80,6 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 GetFacingDirection()
     {
-        if (lastFacingDirection == Vector3.zero)
-        {
-            return lastNonZeroDirection;
-        }
         return lastFacingDirection;
     }
 

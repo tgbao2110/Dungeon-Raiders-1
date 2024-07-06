@@ -25,7 +25,7 @@ public class Blasterfury : Enemy
         SetAttackType();
         SetNextAttackCount();
 
-        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        GameStateManager.OnGameStateChanged += OnGameStateChanged;
     }
 
     void Update()
