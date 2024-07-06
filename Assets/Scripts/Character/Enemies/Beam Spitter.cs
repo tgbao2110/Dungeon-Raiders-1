@@ -53,7 +53,6 @@ public class BeamSpitter : Enemy
 
     protected override void Die()
     {
-        Debug.Log(this.name + " Died!");
         room.KillEnemy();
 
         Destroy(this.gameObject);
