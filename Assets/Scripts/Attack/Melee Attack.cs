@@ -23,7 +23,6 @@ public class MeleeAttack : MonoBehaviour
             return;
         }
 
-        Debug.Log("PerformAttack");
         Vector2 attackOrigin = player.transform.position;
         animator.SetTrigger("attack");
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackOrigin, attackRange);
@@ -32,7 +31,6 @@ public class MeleeAttack : MonoBehaviour
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                Debug.Log("Melee Hit " + enemy.gameObject.name);
                 enemy.TakeDamage(damage);
             }
         }

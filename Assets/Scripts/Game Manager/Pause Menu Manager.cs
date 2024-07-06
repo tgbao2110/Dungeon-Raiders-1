@@ -25,5 +25,6 @@ public class PauseMenuManager : MonoBehaviour
     {
         var levelLoader = FindObjectOfType<LevelLoader>();
         levelLoader.LoadLevel(0);
+        ResumeGame();
     }
 }

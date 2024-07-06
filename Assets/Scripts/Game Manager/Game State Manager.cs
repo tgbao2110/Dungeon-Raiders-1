@@ -17,11 +17,6 @@ public class GameStateManager
     public delegate void GameStateChangeHandler(GameState newGameState);
     public event GameStateChangeHandler OnGameStateChanged;
 
-    private GameStateManager()
-    {
-
-    }
-
     public void SetState(GameState newGameState)
     {
         if (newGameState == CurrentGameState)

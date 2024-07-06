@@ -107,7 +107,6 @@ public abstract class Enemy : MonoBehaviour
         currentHealth -= damage;
         healthBar.SetHealth(enemyData.name, currentHealth, maxHealth);
         flash.Flash();
-        Debug.Log("Take Damage: " + this.name + " took " + damage + " dmg. Health left " + currentHealth);
         if (currentHealth <= 0 && !isDead)
         {
             Die();

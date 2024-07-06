@@ -1841,6 +1841,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 667195343}
   m_CullTransparentMesh: 1
+--- !u!50 &669342036 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 8916388403390930759, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+  m_PrefabInstance: {fileID: 3846236122832780630}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &685274032
 GameObject:
   m_ObjectHideFlags: 0
@@ -3941,6 +3946,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1633366537 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6842909268860359461, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+  m_PrefabInstance: {fileID: 3846236122832780630}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1712152233
 GameObject:
   m_ObjectHideFlags: 0
@@ -5169,8 +5179,16 @@ PrefabInstance:
       objectReference: {fileID: 2012450318}
     - target: {fileID: 1023906843379935920, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: m_Name
-      value: Knight
+      value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 669342036}
+    - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1633366537}
     - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: joystick
       value: 

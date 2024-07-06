@@ -53,7 +53,6 @@ public class EnemyRoom : Room
     public void KillEnemy()
     {
         enemiesCount -= 1;
-        Debug.Log("Enemies count: " + enemiesCount);
         if (enemiesCount <= 0)
         {
             isCleared = true;
