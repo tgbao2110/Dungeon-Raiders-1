@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private int selectedCharacterIndex;
     private DungeonGenerator dungeonGenerator;
 
+    public WeaponData savedWeaponData;
+
     private void Awake()
     {
         if (Instance == null)
@@ -55,6 +57,12 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextRound()
     {
+        PlayerItemInteraction playerItemInteraction = FindObjectOfType<PlayerItemInteraction>();
+        if (playerItemInteraction != null)
+        {
+            playerItemInteraction.SaveWeaponState();
+        }
+
         currentRoundIndex++;
         if (currentRoundIndex < levels[currentLevelIndex].rounds.Count)
         {
@@ -108,6 +116,12 @@ public class GameManager : MonoBehaviour
             RoundData roundData = levels[currentLevelIndex].rounds[roundIndex];
             dungeonGenerator.StartGame(roundData);
             Actions.OnStartNewRound.Invoke();
+        }
+
+        PlayerItemInteraction playerItemInteraction = FindObjectOfType<PlayerItemInteraction>();
+        if (playerItemInteraction != null)
+        {
+            playerItemInteraction.LoadWeaponState();
         }
     }
 }

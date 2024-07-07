@@ -187,8 +187,8 @@ MonoBehaviour:
   hallwayHorizontalPrefab: {fileID: 7826908231147078232, guid: 0bd365077f698aa43a80189911d8aea3, type: 3}
   hallwayVerticalUpPrefab: {fileID: 947239365013482934, guid: ddf351c382f15bd45b76d290f1f86119, type: 3}
   hallwayVerticalDownPrefab: {fileID: 947239365013482934, guid: d49ed8c58aa9c3343a11407e292ce5d3, type: 3}
-  gridWidth: 3
-  gridHeight: 3
+  gridWidth: 4
+  gridHeight: 4
   chestPrefab: {fileID: 1049856563560984037, guid: caecc2d416464d04e8a50efeadff79c3, type: 3}
 --- !u!1 &187514200
 GameObject:

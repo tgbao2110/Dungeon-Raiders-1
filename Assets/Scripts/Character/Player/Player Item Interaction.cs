@@ -105,4 +105,25 @@ public class PlayerItemInteraction : MonoBehaviour
         currentObject.GetComponent<Weapon>().Initialize(item.weaponData);
         Equip(currentObject.GetComponent<Weapon>());
     }
+
+    public void SaveWeaponState()
+    {
+        if (equippedWeapon != null)
+        {
+            GameManager.Instance.savedWeaponData = equippedWeapon.weaponData;
+        }
+    }
+
+    public void LoadWeaponState()
+    {
+        if (GameManager.Instance.savedWeaponData != null)
+        {
+            var weaponPrefab = GameManager.Instance.savedWeaponData.prefab;
+            var weaponObject = Instantiate(weaponPrefab, transform.position, Quaternion.identity, transform);
+            weaponObject.transform.localPosition = new Vector3(0.3f, -0.25f, 0);
+            Weapon weaponComponent = weaponObject.GetComponent<Weapon>();
+            weaponComponent.Initialize(GameManager.Instance.savedWeaponData);
+            Equip(weaponComponent);
+        }
+    }
 }
