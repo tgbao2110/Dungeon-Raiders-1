@@ -14,20 +14,21 @@ public class Health : MonoBehaviour
 
     void Awake()
     {
-        playerData.CurrentHealth = playerData.maxHealth;
         healthBar.SetMaxStat(playerData.maxHealth);
-
-        playerData.CurrentEnergy = playerData.maxEnergy;
         energyBar.SetMaxStat(playerData.maxEnergy);
+        PlayerStats.Instance.Health = playerData.maxHealth;
+        PlayerStats.Instance.Energy = playerData.maxEnergy;
+        ReloadHealth();
+        ReloadEnergy();
     }
 
     public void TakeDamage(int amount)
     {
-        playerData.CurrentHealth -= amount;
+        PlayerStats.Instance.Health -= amount;
         ReloadHealth();
         flash.Flash();
-        
-        if (playerData.CurrentHealth <= 0)
+
+        if (PlayerStats.Instance.Health <= 0)
         {
             Die();
         }
@@ -35,63 +36,52 @@ public class Health : MonoBehaviour
 
     public void UseEnergy(int amount)
     {
-        playerData.CurrentEnergy -= amount;
-        if (playerData.CurrentEnergy < 0)
+        PlayerStats.Instance.Energy -= amount;
+        if (PlayerStats.Instance.Energy < 0)
         {
-            playerData.CurrentEnergy = 0;
+            PlayerStats.Instance.Energy = 0;
         }
         ReloadEnergy();
     }
 
     public void RestoreHealth(int amount)
     {
-        playerData.CurrentHealth += amount;
-        if (playerData.CurrentHealth > playerData.maxHealth)
+        PlayerStats.Instance.Health += amount;
+        if (PlayerStats.Instance.Health > playerData.maxHealth)
         {
-            playerData.CurrentHealth = playerData.maxHealth;
+            PlayerStats.Instance.Health = playerData.maxHealth;
         }
         ReloadHealth();
     }
 
     public void RestoreEnergy(int amount)
     {
-        playerData.CurrentEnergy += amount;
-        ReloadEnergy();
-        if (playerData.CurrentEnergy > playerData.maxEnergy)
+        PlayerStats.Instance.Energy += amount;
+        if (PlayerStats.Instance.Energy > playerData.maxEnergy)
         {
-            playerData.CurrentEnergy = playerData.maxEnergy;
+            PlayerStats.Instance.Energy = playerData.maxEnergy;
         }
-    }
-
-    public int GetCurrentHealth()
-    {
-        return playerData.CurrentHealth;
-    }
-
-    public int GetCurrentEnergy()
-    {
-        return playerData.CurrentEnergy;
+        ReloadEnergy();
     }
 
     public void ReloadHealth()
     {
-        healthBar.SetStat(playerData.CurrentHealth);
+        healthBar.SetStat(PlayerStats.Instance.Health);
     }
 
     public void ReloadEnergy()
     {
-        energyBar.SetStat(playerData.CurrentEnergy);
+        energyBar.SetStat(PlayerStats.Instance.Energy);
     }
 
     private void Die()
     {
         Time.timeScale = 0;
-        //animator.SetTrigger("Die");
+        // animator.SetTrigger("Die");
         EventSystem eventSystem = FindObjectOfType<EventSystem>();
         if (eventSystem != null)
         {
             eventSystem.TriggerGameOver();
         }
     }
-
 }

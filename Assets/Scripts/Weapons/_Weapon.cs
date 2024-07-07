@@ -33,7 +33,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void Attack()
     {
-        if ((Time.time - lastAtkTime > weaponData.coolDown) && health.GetCurrentEnergy()>=weaponData.energy)
+        if ((Time.time - lastAtkTime > weaponData.coolDown) && PlayerStats.Instance.Energy>=weaponData.energy)
         {
             AttackAction();
             health.UseEnergy(weaponData.energy);

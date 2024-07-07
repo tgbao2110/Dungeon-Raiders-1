@@ -4503,6 +4503,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866548952}
   m_CullTransparentMesh: 1
+--- !u!1 &1868652979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1868652981}
+  - component: {fileID: 1868652980}
+  m_Layer: 0
+  m_Name: Player Stats Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1868652980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868652979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f517555891346bd46bbd58d4f54fe031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1868652981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868652979}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2628816, y: 1.1216376, z: 0.14176106}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1900327262
 GameObject:
   m_ObjectHideFlags: 0
@@ -5193,6 +5237,10 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1557754553}
+    - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
+      propertyPath: movementSpeed
+      value: 4.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6019850467378399921, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5522,3 +5570,4 @@ SceneRoots:
   - {fileID: 498753400}
   - {fileID: 1381556025}
   - {fileID: 1390473046}
+  - {fileID: 1868652981}
