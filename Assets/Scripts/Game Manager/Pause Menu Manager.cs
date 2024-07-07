@@ -4,9 +4,9 @@ public class PauseMenuManager : MonoBehaviour
 {
     public GameObject pauseMenu;
 
-    private void Start()
+    private void Awake()
     {
-        pauseMenu.SetActive(false);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void PauseGame()

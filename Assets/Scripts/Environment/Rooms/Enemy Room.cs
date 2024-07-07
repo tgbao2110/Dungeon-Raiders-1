@@ -58,7 +58,7 @@ public class EnemyRoom : Room
             isCleared = true;
             clearUI.SetTrigger("isClear");
             Unlock();
-            dungeonGenerator.SpawnChest(this.transform.position);
+            //dungeonGenerator.SpawnChest(this.transform.position);
         }
     }
 

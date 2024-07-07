@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -9,14 +10,11 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] GameObject hallwayHorizontalPrefab;
     [SerializeField] GameObject hallwayVerticalUpPrefab;
     [SerializeField] GameObject hallwayVerticalDownPrefab;
-    [SerializeField] int numOfEnemyRooms = 3;
-    [SerializeField] int numOfRewardRooms = 0;
     [SerializeField] int gridWidth = 10;
     [SerializeField] int gridHeight = 10;
 
     [Header("Rewards")]
     [SerializeField] protected GameObject chestPrefab;
-    [SerializeField] protected List<GameObject> itemsToDrop;
     private int currentItemIndex = 0;
 
 
@@ -27,10 +25,11 @@ public class DungeonGenerator : MonoBehaviour
     private Vector2Int previousRoomGridPos;
     private List<Vector2Int> allRooms = new List<Vector2Int>();
 
-    void Start()
+
+    public void StartGame(RoundData roundData)
     {
         InitializeGridPositions();
-        GenerateRooms();
+        GenerateRooms(roundData);
         MiniMap();
     }
 
@@ -45,20 +44,24 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    void GenerateRooms()
+    void GenerateRooms(RoundData roundData)
     {
+        //Create Base Room
         Vector2Int basePosition = new Vector2Int(0, gridHeight / 2);
-        PlaceRoom(baseRoomPrefab, basePosition, new (0,0,0));
+        PlaceRoom(baseRoomPrefab, basePosition, new(0, 0, 0));
         currentRoomGridPos = basePosition;
         allRooms.Add(currentRoomGridPos);
 
-        for (int i = 0; i < numOfEnemyRooms; i++)
+        //Create Enemy Rooms
+        for (int i = 0; i < roundData.numOfEnemyRooms; i++)
         {
-            GameObject roomPrefab = i < numOfEnemyRooms ? enemyRoomPrefab: null;
+            GameObject roomPrefab = i < roundData.numOfEnemyRooms ? enemyRoomPrefab : null;
             PlaceNextRoom(roomPrefab);
         }
 
-        PlaceNextRoom(bossRoomPrefab);
+        //Create Boss Room if allowed
+        if (roundData.hasBossRoom)
+        { PlaceNextRoom(bossRoomPrefab); }
     }
 
     void PlaceRoom(GameObject roomPrefab, Vector2Int gridPosition, Vector3 position)
@@ -89,23 +92,23 @@ public class DungeonGenerator : MonoBehaviour
         previousRoomGridPos = currentRoomGridPos;
         currentRoomGridPos = possiblePositions[Random.Range(0, possiblePositions.Count)];
 
-        
+
         Vector3 previousRoomPosition = previousRoom.transform.localPosition;
         Vector3 newRoomPosition = Vector3.zero;
 
         switch (currentRoomGridPos)
         {
             case var pos when pos == new Vector2Int(previousRoomGridPos.x + 1, previousRoomGridPos.y):
-                newRoomPosition = previousRoomPosition + new Vector3(20,0,0);
+                newRoomPosition = previousRoomPosition + new Vector3(20, 0, 0);
                 break;
             case var pos when pos == new Vector2Int(previousRoomGridPos.x - 1, previousRoomGridPos.y):
-                newRoomPosition = previousRoomPosition + new Vector3(-20,0,0);
+                newRoomPosition = previousRoomPosition + new Vector3(-20, 0, 0);
                 break;
             case var pos when pos == new Vector2Int(previousRoomGridPos.x, previousRoomGridPos.y + 1):
-                newRoomPosition = previousRoomPosition + new Vector3(0,20,0);
+                newRoomPosition = previousRoomPosition + new Vector3(0, 20, 0);
                 break;
             case var pos when pos == new Vector2Int(previousRoomGridPos.x, previousRoomGridPos.y - 1):
-                newRoomPosition = previousRoomPosition + new Vector3(0,-20,0);
+                newRoomPosition = previousRoomPosition + new Vector3(0, -20, 0);
                 break;
         }
 
@@ -117,19 +120,17 @@ public class DungeonGenerator : MonoBehaviour
     void ConnectRooms(Vector2Int roomA, Vector2Int roomB)
     {
         Vector3 hallwayPosition = (roomGrid[roomA].transform.position + roomGrid[roomB].transform.position) / 2;
-
-        // Determine hallway orientation
         Vector3 hallwayRotation = Vector3.zero;
         GameObject hallway;
         if (roomA.x != roomB.x)
         {
             hallway = Instantiate(hallwayHorizontalPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
             hallway.transform.parent = this.transform;
-            if(roomA.x > roomB.x) hallway.transform.localScale = new Vector3(-1,1,1);
+            if (roomA.x > roomB.x) hallway.transform.localScale = new Vector3(-1, 1, 1);
         }
         else
         {
-            if(roomA.y < roomB.y)
+            if (roomA.y < roomB.y)
             {
                 hallway = Instantiate(hallwayVerticalUpPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
             }
@@ -138,7 +139,7 @@ public class DungeonGenerator : MonoBehaviour
                 hallway = Instantiate(hallwayVerticalDownPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
             }
             hallway.transform.parent = this.transform;
-            
+
         }
 
         Hallway hallwayComponent = hallway.GetComponent<Hallway>();
@@ -146,51 +147,51 @@ public class DungeonGenerator : MonoBehaviour
         roomGrid[roomB].GetComponent<Room>().SetFromHallway(hallwayComponent);
     }
 
-    public void SpawnChest(Vector3 position)
-    {
-        GameObject chest = Instantiate(chestPrefab, position, Quaternion.identity);
-        var chestComponent = chest.GetComponent<RewardChest>();
-        chestComponent.InitializeChest(itemsToDrop[currentItemIndex]);
-        currentItemIndex++;
-        if(currentItemIndex >= itemsToDrop.Count)
-        {
-            currentItemIndex = 0;
-        }
-    }
+    // public void SpawnChest(Vector3 position)
+    // {
+    //     GameObject chest = Instantiate(chestPrefab, position, Quaternion.identity);
+    //     var chestComponent = chest.GetComponent<RewardChest>();
+    //     chestComponent.InitializeChest(roundData.itemsToDrop[currentItemIndex]);
+    //     currentItemIndex++;
+    //     if(currentItemIndex >= roundData.itemsToDrop.Count)
+    //     {
+    //         currentItemIndex = 0;
+    //     }
+    // }
 
     //DEBUG
     void MiniMap()
-{
-    // Create a 2D array to represent the grid
-    string[,] grid = new string[gridWidth, gridHeight];
-
-    // Initialize the grid with empty spaces
-    for (int x = 0; x < gridWidth; x++)
     {
-        for (int y = 0; y < gridHeight; y++)
-        {
-            grid[x, y] = " ";
-        }
-    }
+        // Create a 2D array to represent the grid
+        string[,] grid = new string[gridWidth, gridHeight];
 
-    // Fill the grid with room types
-    foreach (var kvp in roomGrid)
-    {
-        Vector2Int gridPosition = kvp.Key;
-        GameObject room = kvp.Value;
-        string roomType = room.name.Replace("(Clone)", "").Trim();
-        grid[gridPosition.x, gridPosition.y] = roomType.Substring(0, 1); // Use the first letter to represent the room type
-    }
-
-    // Log the grid in matrix format
-    for (int y = gridHeight - 1; y >= 0; y--)
-    {
-        string row = "";
+        // Initialize the grid with empty spaces
         for (int x = 0; x < gridWidth; x++)
         {
-            row += "[" + grid[x, y] + "]";
+            for (int y = 0; y < gridHeight; y++)
+            {
+                grid[x, y] = " ";
+            }
         }
-        Debug.Log(row);
+
+        // Fill the grid with room types
+        foreach (var kvp in roomGrid)
+        {
+            Vector2Int gridPosition = kvp.Key;
+            GameObject room = kvp.Value;
+            string roomType = room.name.Replace("(Clone)", "").Trim();
+            grid[gridPosition.x, gridPosition.y] = roomType.Substring(0, 1); // Use the first letter to represent the room type
+        }
+
+        // Log the grid in matrix format
+        for (int y = gridHeight - 1; y >= 0; y--)
+        {
+            string row = "";
+            for (int x = 0; x < gridWidth; x++)
+            {
+                row += "[" + grid[x, y] + "]";
+            }
+            Debug.Log(row);
+        }
     }
-}
 }

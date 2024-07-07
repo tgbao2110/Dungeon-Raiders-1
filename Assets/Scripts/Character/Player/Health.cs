@@ -6,7 +6,6 @@ public class Health : MonoBehaviour
 {
     [SerializeField] PlayerData playerData;
     [SerializeField] SimpleFlash flash;
-    [SerializeField] Animator animator;
 
     [Header("Health UI")]
     [SerializeField] StatBar healthBar;
