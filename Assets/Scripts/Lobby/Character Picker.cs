@@ -21,6 +21,7 @@ public class CharacterPicker : MonoBehaviour
         }
 
         var facingDirection = player.GetComponentInChildren<PlayerController>().GetFacingDirection();
+        Debug.Log("facing "+facingDirection);
         if (facingDirection.x<0)
         {
             newSprite.transform.localScale = new Vector3(-1, 1, 1);

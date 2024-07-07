@@ -55,19 +55,19 @@ public class PlayerController : MonoBehaviour
         vInput = joystick.Vertical * movementSpeed;
         hInput = joystick.Horizontal * movementSpeed;
 
-        Vector3 currentDirection = new Vector3(hInput, vInput, 0).normalized;
-        lastFacingDirection = currentDirection;
-
         if (joystick.Vertical != 0 || joystick.Horizontal != 0)
         {
+            Vector3 currentDirection = new Vector3(hInput, vInput, 0).normalized;
+            lastFacingDirection = currentDirection;
+
             animator.SetBool("isWalking", true);
             if (joystick.Horizontal < 0)
             {
-                player.transform.localScale = new Vector3(-1, 1, 0);
+                player.transform.localScale = new Vector3(-1, 1, 1); // Corrected from (0)
             }
-            if (joystick.Horizontal > 0)
+            else if (joystick.Horizontal > 0)
             {
-                player.transform.localScale = new Vector3(1, 1, 0);
+                player.transform.localScale = new Vector3(1, 1, 1); // Corrected from (0)
             }
         }
         else
@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 GetFacingDirection()
     {
+        // Return the last known facing direction
         return lastFacingDirection;
     }
 

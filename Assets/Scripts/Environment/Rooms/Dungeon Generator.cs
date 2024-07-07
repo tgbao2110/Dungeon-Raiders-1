@@ -7,6 +7,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] GameObject baseRoomPrefab;
     [SerializeField] GameObject enemyRoomPrefab;
     [SerializeField] GameObject bossRoomPrefab;
+    [SerializeField] GameObject portalRoomPrefab;
     [SerializeField] GameObject hallwayHorizontalPrefab;
     [SerializeField] GameObject hallwayVerticalUpPrefab;
     [SerializeField] GameObject hallwayVerticalDownPrefab;
@@ -17,7 +18,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] protected GameObject chestPrefab;
     private int currentItemIndex = 0;
 
-
+    private RoundData roundData;
     private Dictionary<Vector2Int, GameObject> roomGrid = new Dictionary<Vector2Int, GameObject>();
     private List<Vector2Int> availablePositions = new List<Vector2Int>();
     private GameObject previousRoom;
@@ -46,6 +47,7 @@ public class DungeonGenerator : MonoBehaviour
 
     void GenerateRooms(RoundData roundData)
     {
+        this.roundData = roundData;
         //Create Base Room
         Vector2Int basePosition = new Vector2Int(0, gridHeight / 2);
         PlaceRoom(baseRoomPrefab, basePosition, new(0, 0, 0));
@@ -61,7 +63,11 @@ public class DungeonGenerator : MonoBehaviour
 
         //Create Boss Room if allowed
         if (roundData.hasBossRoom)
-        { PlaceNextRoom(bossRoomPrefab); }
+        {
+            PlaceNextRoom(bossRoomPrefab);
+        }
+
+        PlaceNextRoom(portalRoomPrefab);
     }
 
     void PlaceRoom(GameObject roomPrefab, Vector2Int gridPosition, Vector3 position)
@@ -147,17 +153,17 @@ public class DungeonGenerator : MonoBehaviour
         roomGrid[roomB].GetComponent<Room>().SetFromHallway(hallwayComponent);
     }
 
-    // public void SpawnChest(Vector3 position)
-    // {
-    //     GameObject chest = Instantiate(chestPrefab, position, Quaternion.identity);
-    //     var chestComponent = chest.GetComponent<RewardChest>();
-    //     chestComponent.InitializeChest(roundData.itemsToDrop[currentItemIndex]);
-    //     currentItemIndex++;
-    //     if(currentItemIndex >= roundData.itemsToDrop.Count)
-    //     {
-    //         currentItemIndex = 0;
-    //     }
-    // }
+    public void SpawnChest(Vector3 position)
+    {
+        GameObject chest = Instantiate(chestPrefab, position, Quaternion.identity);
+        var chestComponent = chest.GetComponent<RewardChest>();
+        chestComponent.InitializeChest(roundData.itemsToDrop[currentItemIndex]);
+        currentItemIndex++;
+        if (currentItemIndex >= roundData.itemsToDrop.Count)
+        {
+            currentItemIndex = 0;
+        }
+    }
 
     //DEBUG
     void MiniMap()

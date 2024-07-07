@@ -58,7 +58,7 @@ public class EnemyRoom : Room
         {
             Actions.OnEnemyRoomCleared.Invoke();
             Unlock();
-            //dungeonGenerator.SpawnChest(this.transform.position);
+            dungeonGenerator.SpawnChest(this.transform.position);
         }
     }
 
