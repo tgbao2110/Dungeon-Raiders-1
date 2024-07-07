@@ -7,11 +7,11 @@ public class CharacterPicker : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject currentSprite;
     GameObject newSprite;
-    FixedJoystick fixedJoystick;
+
+    public bool hasPickedCharacter { get; private set; } = false; // Add this flag
 
     public void Equip(Armor armor)
     {
-        fixedJoystick = FindAnyObjectByType<FixedJoystick>();
         switch (armor)
         {
             case Armor.Knight:
@@ -34,8 +34,11 @@ public class CharacterPicker : MonoBehaviour
         Destroy(currentSprite);
         currentSprite = newSprite;
         newSprite = null;
+
+        hasPickedCharacter = true; // Set the flag to true when a character is picked
     }
 }
+
 
 public enum Armor
 {
