@@ -10,4 +10,6 @@ public static class Actions
     public static Action OnExitPotion;
     public static Action OnGameOver;
     public static Action OnEnterBossRoom;
+    public static Action OnEnemyRoomCleared;
+    public static Action OnStartNewRound;
 }

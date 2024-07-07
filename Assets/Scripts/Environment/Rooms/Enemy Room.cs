@@ -1,3 +1,5 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 public class EnemyRoom : Room
@@ -7,7 +9,6 @@ public class EnemyRoom : Room
     protected bool isCleared = false;
     protected PlayerController playerController;
     [SerializeField] protected EnemySpawner spawner;
-    [SerializeField] protected Animator clearUI;
 
     private void Start()
     {
@@ -55,8 +56,7 @@ public class EnemyRoom : Room
         enemiesCount -= 1;
         if (enemiesCount <= 0)
         {
-            isCleared = true;
-            clearUI.SetTrigger("isClear");
+            Actions.OnEnemyRoomCleared.Invoke();
             Unlock();
             //dungeonGenerator.SpawnChest(this.transform.position);
         }

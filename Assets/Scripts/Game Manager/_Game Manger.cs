@@ -26,6 +26,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int GetLevel()
+    {
+        return currentLevelIndex+1;
+    }
+
+    public int GetRound()
+    {
+        return currentRoundIndex+1;
+    }
+
     public void SetSelectedCharacter(int characterIndex)
     {
         //selectedCharacterIndex = characterIndex;
@@ -97,6 +107,7 @@ public class GameManager : MonoBehaviour
         {
             RoundData roundData = levels[currentLevelIndex].rounds[roundIndex];
             dungeonGenerator.StartGame(roundData);
+            Actions.OnStartNewRound.Invoke();
         }
     }
 }

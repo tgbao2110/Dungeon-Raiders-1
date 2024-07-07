@@ -1,15 +1,17 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 public class EventSystem : MonoBehaviour
 {
     PlayerController controller;
     PlayerItemInteraction interaction;
-    Health health;
     [SerializeField] GameObject attackButton;
     [SerializeField] GameObject switchWeaponButton;
     [SerializeField] GameObject consumeButton;   
     [SerializeField] GameObject gameOver;
     [SerializeField] GameObject bossIntro; 
+    [SerializeField] GameObject textInfo;
     Collectable currentCollectable;
     MeleeAttack meleeAttack;
 
@@ -28,12 +30,22 @@ public class EventSystem : MonoBehaviour
         Actions.OnExitPotion += ShowAttackButton;
         Actions.OnGameOver += ShowGameOverUI;
         Actions.OnEnterBossRoom += ShowBossRoomIntro;
+        Actions.OnEnemyRoomCleared += ShowClearUI;
+        Actions.OnStartNewRound += ShowLevel;
     }
 
     private void OnDestroy()
     {
         Actions.OnAttack -= Attack;
         Actions.OnSwitchWeapon -= SwitchWeaponPressed;
+        Actions.OnEnterCollectable -= ShowSwitchWeaponButton;
+        Actions.OnExitCollectable -= ShowAttackButton;
+        Actions.OnEnterPotion -= ShowConsumeButton;
+        Actions.OnExitPotion -= ShowAttackButton;
+        Actions.OnGameOver -= ShowGameOverUI;
+        Actions.OnEnterBossRoom -= ShowBossRoomIntro;
+        Actions.OnEnemyRoomCleared -= ShowClearUI;
+        Actions.OnStartNewRound -= ShowLevel;
     }
 
     private void ShowGameOverUI()
@@ -108,5 +120,17 @@ public class EventSystem : MonoBehaviour
     public void ShowBossRoomIntro()
     {
         bossIntro.GetComponent<BossIntroManager>().StartIntro();
+    }
+
+    public void ShowClearUI()
+    {
+        textInfo.GetComponent<TextMeshProUGUI>().text = "Clear!";
+        textInfo.GetComponent<Animator>().SetTrigger("showText");
+    }
+
+    public void ShowLevel()
+    {
+        textInfo.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.GetLevel().ToString() + "-" + GameManager.Instance.GetRound().ToString();
+        textInfo.GetComponent<Animator>().SetTrigger("showText");
     }
 }
