@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
 
     void LoadRound(int roundIndex)
     {
+        Debug.Log("-----------------------------------------");
         StartCoroutine(LoadDungeonSceneCoroutine(roundIndex));
     }
 

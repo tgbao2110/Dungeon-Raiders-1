@@ -5,14 +5,14 @@ using UnityEngine;
 public class LobbyPortal : MonoBehaviour
 {
     private CharacterPicker characterPicker;
-    [SerializeField] private TextMeshProUGUI messageText; // Reference to your UI Text element
+    [SerializeField] private TextMeshProUGUI messageText;
 
     private void Start()
     {
         characterPicker = FindObjectOfType<CharacterPicker>();
         if (messageText != null)
         {
-            messageText.gameObject.SetActive(false); // Ensure the message is initially hidden
+            messageText.gameObject.SetActive(false);
         }
     }
 
@@ -26,7 +26,6 @@ public class LobbyPortal : MonoBehaviour
             }
             else
             {
-                Debug.Log("Player has not picked a character yet.");
                 if (messageText != null)
                 {
                     messageText.gameObject.SetActive(true);

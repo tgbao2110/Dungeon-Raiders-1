@@ -8,7 +8,7 @@ public class CharacterPicker : MonoBehaviour
     [SerializeField] GameObject currentSprite;
     GameObject newSprite;
 
-    public bool hasPickedCharacter { get; private set; } = false; // Add this flag
+    public bool hasPickedCharacter { get; private set; } = false;
 
     public void Equip(Armor armor)
     {
@@ -21,7 +21,6 @@ public class CharacterPicker : MonoBehaviour
         }
 
         var facingDirection = player.GetComponentInChildren<PlayerController>().GetFacingDirection();
-        Debug.Log("facing "+facingDirection);
         if (facingDirection.x<0)
         {
             newSprite.transform.localScale = new Vector3(-1, 1, 1);
@@ -34,8 +33,7 @@ public class CharacterPicker : MonoBehaviour
         Destroy(currentSprite);
         currentSprite = newSprite;
         newSprite = null;
-
-        hasPickedCharacter = true; // Set the flag to true when a character is picked
+        hasPickedCharacter = true;
     }
 }
 

@@ -26,14 +26,14 @@ public abstract class Weapon : MonoBehaviour
         SetAttackType();
     }
 
-    private void Update() 
+    private void Update()
     {
         Rotate();
     }
 
     public void Attack()
     {
-        if ((Time.time - lastAtkTime > weaponData.coolDown) && PlayerStats.Instance.Energy>=weaponData.energy)
+        if ((Time.time - lastAtkTime > weaponData.coolDown) && PlayerStats.Instance.Energy >= weaponData.energy)
         {
             AttackAction();
             health.UseEnergy(weaponData.energy);
@@ -45,28 +45,40 @@ public abstract class Weapon : MonoBehaviour
 
     void Rotate()
     {
+        bool isFacingTarget = false;
         Transform target = FindClosestEnemy();
         if (target != null)
         {
             direction = (target.position - transform.position).normalized;
+            isFacingTarget = true;
         }
         else
         {
             direction = playerController.joystick.Direction.normalized;
+            isFacingTarget = false;
         }
 
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
-            if(direction.x >0)
+            Vector2 facingDirection = playerController.GetFacingDirection();
+            if (!isFacingTarget)
             {
-                transform.localScale = new Vector3(1f, 1f, 1f); // Flipped along Y-axis
+                transform.localScale = (direction.x >= 0) ? new Vector3(1f, 1f, 1f) : new Vector3(-1f, -1f, 1f);
             }
-            if (direction.x < 0)
+            else
             {
-                transform.localScale = new Vector3(-1f, -1f, 1f); // Flipped along Y-axis
+                if (direction.x >= 0)
+                {
+                    transform.localScale = (facingDirection.x >= 0) ? new Vector3(1f, 1f, 1f) : new Vector3(-1f, 1f, 1f);
+                }
+                else
+                {
+                    transform.localScale = (facingDirection.x >= 0) ? new Vector3(1f, -1f, 1f) : new Vector3(-1f, -1f, 1f);
+                }
             }
+
         }
     }
 
