@@ -15,3 +15,10 @@ MonoBehaviour:
   levelName: 
   rounds:
   - {fileID: 11400000, guid: 5c5a0dd664066d04c9a5c7e80ba70c08, type: 2}
+  baseRoomPrefab: {fileID: 7842218640123279631, guid: e370f67e6af03b74680ec8f366c93e8a, type: 3}
+  enemyRoomPrefab: {fileID: 7842218640123279631, guid: 1d4e115f3d194134bbbd7cd515c9bede, type: 3}
+  bossRoomPrefab: {fileID: 7842218640123279631, guid: 6a37e519a023b124a9a53d2280f53866, type: 3}
+  portalRoomPrefab: {fileID: 7842218640123279631, guid: 866379017f722d14982b4b4aa81bef98, type: 3}
+  hallwayHorizontalPrefab: {fileID: 7826908231147078232, guid: aa63a8674a1cf7f4182ea1d0058ba0e7, type: 3}
+  hallwayVerticalUpPrefab: {fileID: 947239365013482934, guid: c3648a43c275efa4b8b5766e11ec57b1, type: 3}
+  hallwayVerticalDownPrefab: {fileID: 947239365013482934, guid: 284385c7e9d4cc04cac0ca6385ab73c8, type: 3}

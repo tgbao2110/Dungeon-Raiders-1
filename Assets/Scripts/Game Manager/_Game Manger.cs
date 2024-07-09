@@ -113,7 +113,8 @@ public class GameManager : MonoBehaviour
         if (dungeonGenerator != null)
         {
             RoundData roundData = levels[currentLevelIndex].rounds[roundIndex];
-            dungeonGenerator.StartGame(roundData);
+            LevelData levelData = levels[currentLevelIndex];
+            dungeonGenerator.StartGame(levelData, roundData);
             Actions.OnStartNewRound.Invoke();
         }
 

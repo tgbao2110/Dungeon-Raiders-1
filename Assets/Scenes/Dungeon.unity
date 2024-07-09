@@ -180,13 +180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb4b96ecfdc81746a2c20369e27326e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRoomPrefab: {fileID: 7842218640123279631, guid: 6d0930e1b0c8fa045b2ddb68d33b5767, type: 3}
-  enemyRoomPrefab: {fileID: 7842218640123279631, guid: 9483929fb44d2264798d336e5bfb9075, type: 3}
-  bossRoomPrefab: {fileID: 7842218640123279631, guid: 358393d0be657254bb40aa9efb5a8ca8, type: 3}
-  portalRoomPrefab: {fileID: 7842218640123279631, guid: f013d4a44d4d80d47a9f10bd08a4fce8, type: 3}
-  hallwayHorizontalPrefab: {fileID: 7826908231147078232, guid: 0bd365077f698aa43a80189911d8aea3, type: 3}
-  hallwayVerticalUpPrefab: {fileID: 947239365013482934, guid: ddf351c382f15bd45b76d290f1f86119, type: 3}
-  hallwayVerticalDownPrefab: {fileID: 947239365013482934, guid: d49ed8c58aa9c3343a11407e292ce5d3, type: 3}
   gridWidth: 4
   gridHeight: 4
   chestPrefab: {fileID: 1049856563560984037, guid: caecc2d416464d04e8a50efeadff79c3, type: 3}
@@ -3057,11 +3050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1633366537 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6842909268860359461, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
-  m_PrefabInstance: {fileID: 3846236122832780630}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1712152233
 GameObject:
   m_ObjectHideFlags: 0
@@ -4136,7 +4124,7 @@ PrefabInstance:
     - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: animator
       value: 
-      objectReference: {fileID: 1633366537}
+      objectReference: {fileID: 0}
     - target: {fileID: 3345919561808571494, guid: 4b001efb1594d3444a3568ed525a249c, type: 3}
       propertyPath: joystick
       value: 

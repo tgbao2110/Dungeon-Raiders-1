@@ -4,21 +4,15 @@ using Unity.VisualScripting;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject baseRoomPrefab;
-    [SerializeField] GameObject enemyRoomPrefab;
-    [SerializeField] GameObject bossRoomPrefab;
-    [SerializeField] GameObject portalRoomPrefab;
-    [SerializeField] GameObject hallwayHorizontalPrefab;
-    [SerializeField] GameObject hallwayVerticalUpPrefab;
-    [SerializeField] GameObject hallwayVerticalDownPrefab;
+
+    private LevelData levelData;
+    private RoundData roundData;
     [SerializeField] int gridWidth = 10;
     [SerializeField] int gridHeight = 10;
 
     [Header("Rewards")]
     [SerializeField] protected GameObject chestPrefab;
     private int currentItemIndex = 0;
-
-    private RoundData roundData;
     private Dictionary<Vector2Int, GameObject> roomGrid = new Dictionary<Vector2Int, GameObject>();
     private List<Vector2Int> availablePositions = new List<Vector2Int>();
     private GameObject previousRoom;
@@ -27,10 +21,12 @@ public class DungeonGenerator : MonoBehaviour
     private List<Vector2Int> allRooms = new List<Vector2Int>();
 
 
-    public void StartGame(RoundData roundData)
+    public void StartGame(LevelData levelData, RoundData roundData)
     {
+        this.levelData = levelData;
+        this.roundData = roundData;
         InitializeGridPositions();
-        GenerateRooms(roundData);
+        GenerateRooms();
         MiniMap();
     }
 
@@ -45,29 +41,28 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    void GenerateRooms(RoundData roundData)
+    void GenerateRooms()
     {
-        this.roundData = roundData;
         // Create Base Room
         Vector2Int basePosition = new Vector2Int(0, gridHeight / 2);
-        PlaceRoom(baseRoomPrefab, basePosition, new Vector3(0, 0, 0), 0);
+        PlaceRoom(levelData.baseRoomPrefab, basePosition, new Vector3(0, 0, 0), 0);
         currentRoomGridPos = basePosition;
         allRooms.Add(currentRoomGridPos);
 
         // Create Enemy Rooms
         for (int i = 0; i < roundData.numOfEnemyRooms; i++)
         {
-            GameObject roomPrefab = enemyRoomPrefab;
+            GameObject roomPrefab = levelData.enemyRoomPrefab;
             PlaceNextRoom(roomPrefab, roundData.numberOfEnemies[i]);
         }
 
         // Create Boss Room if allowed
         if (roundData.hasBossRoom)
         {
-            PlaceNextRoom(bossRoomPrefab, 0);
+            PlaceNextRoom(levelData.bossRoomPrefab, 0);
         }
 
-        PlaceNextRoom(portalRoomPrefab, 0);
+        PlaceNextRoom(levelData.portalRoomPrefab, 0);
     }
 
     void PlaceNextRoom(GameObject roomPrefab, int numberOfEnemies)
@@ -137,7 +132,7 @@ public class DungeonGenerator : MonoBehaviour
         GameObject hallway;
         if (roomA.x != roomB.x)
         {
-            hallway = Instantiate(hallwayHorizontalPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+            hallway = Instantiate(levelData.hallwayHorizontalPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
             hallway.transform.parent = this.transform;
             if (roomA.x > roomB.x) hallway.transform.localScale = new Vector3(-1, 1, 1);
         }
@@ -145,11 +140,11 @@ public class DungeonGenerator : MonoBehaviour
         {
             if (roomA.y < roomB.y)
             {
-                hallway = Instantiate(hallwayVerticalUpPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+                hallway = Instantiate(levelData.hallwayVerticalUpPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
             }
             else
             {
-                hallway = Instantiate(hallwayVerticalDownPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
+                hallway = Instantiate(levelData.hallwayVerticalDownPrefab, hallwayPosition, Quaternion.Euler(hallwayRotation));
             }
             hallway.transform.parent = this.transform;
 
