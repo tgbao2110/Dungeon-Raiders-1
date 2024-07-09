@@ -1,10 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public Joystick joystick;
-    public GameObject player;
+    public Player player;
     [SerializeField] float movementSpeed;
+    private float originalMovementSpeed;
+    private float currentMovementSpeed;
+    private bool isSlowed = false;
     float vInput, hInput;
     public Vector3 lastFacingDirection { get; private set; }
     [SerializeField] Rigidbody2D rb;
@@ -23,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public void Initialize()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         rb = player.GetComponent<Rigidbody2D>();
         animator = player.GetComponentInChildren<Animator>();
 
@@ -36,6 +40,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("Animator not found on Player or child objects!");
         }
+
+        originalMovementSpeed = movementSpeed;
+        currentMovementSpeed = movementSpeed;
     }
 
     private void Awake()
@@ -56,8 +63,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        vInput = joystick.Vertical * movementSpeed;
-        hInput = joystick.Horizontal * movementSpeed;
+        vInput = joystick.Vertical * currentMovementSpeed;
+        hInput = joystick.Horizontal * currentMovementSpeed;
 
         if (joystick.Vertical != 0 || joystick.Horizontal != 0)
         {
@@ -90,6 +97,28 @@ public class PlayerController : MonoBehaviour
     public void SetRoom(EnemyRoom enemyRoom)
     {
         room = enemyRoom;
+    }
+
+    public void ApplySlow(float slowAmount, float duration)
+    {
+        if (!isSlowed)
+        {
+            StartCoroutine(SlowEffect(slowAmount, duration));
+        }
+    }
+
+    private IEnumerator SlowEffect(float slowAmount, float duration)
+    {
+        isSlowed = true;
+        currentMovementSpeed = originalMovementSpeed * slowAmount;
+        if (player == null) Debug.Log("Player not found");
+        FindObjectOfType<Info>().Enable();
+
+        yield return new WaitForSeconds(duration);
+
+        FindObjectOfType<Info>().Disable();
+        currentMovementSpeed = originalMovementSpeed;
+        isSlowed = false;
     }
 
     private void OnGameStateChanged(GameState newGameState)

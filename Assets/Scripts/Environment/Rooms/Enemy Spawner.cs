@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    int currentLevel;
     [SerializeField] List<Transform> spawnPoints;
     [SerializeField] List<GameObject> enemiesPrefabs;
     int index = 1;
@@ -15,25 +16,44 @@ public class EnemySpawner : MonoBehaviour
 
     public void Spawn(int numberOfEnemies)
     {
-        // Create a copy of spawn points to ensure we can modify it safely
+        currentLevel = GameManager.Instance.GetLevel();
         List<Transform> availableSpawnPoints = new List<Transform>(spawnPoints);
 
         for (int i = 0; i < numberOfEnemies; i++)
         {
-            if (availableSpawnPoints.Count == 0) 
+            if (availableSpawnPoints.Count == 0)
                 return; // No more spawn points available
-            
-            int randomPrefabIndex = Random.Range(0, enemiesPrefabs.Count);
-            int randomSpawnPointIndex = Random.Range(0, availableSpawnPoints.Count);
 
+            int randomSpawnPointIndex = Random.Range(0, availableSpawnPoints.Count);
             Transform spawnPoint = availableSpawnPoints[randomSpawnPointIndex];
-            GameObject instantiatedEnemy = Instantiate(enemiesPrefabs[randomPrefabIndex], spawnPoint.position, Quaternion.identity);
+            GameObject enemyPrefab;
+
+            switch (currentLevel)
+            {
+                case 2:
+                    enemyPrefab = enemiesPrefabs[0];
+                    break;
+                case 1:
+                    if (i < numberOfEnemies - 1)
+                    {
+                        enemyPrefab = enemiesPrefabs[0];
+                    }
+                    else
+                    {
+                        enemyPrefab = enemiesPrefabs[1];
+                    }
+                    break;
+                default:
+                    int randomPrefabIndex = Random.Range(0, enemiesPrefabs.Count);
+                    enemyPrefab = enemiesPrefabs[randomPrefabIndex];
+                    break;
+            }
+
+            GameObject instantiatedEnemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
             instantiatedEnemy.transform.SetParent(this.transform);
             instantiatedEnemy.name = "Enemy " + (i + 1);
 
-            // Remove the used spawn point from the available list
             availableSpawnPoints.RemoveAt(randomSpawnPointIndex);
         }
     }
-
 }

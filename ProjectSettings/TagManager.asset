@@ -12,6 +12,7 @@ TagManager:
   - Wall
   - Bullet
   - Potion
+  - Effect
   layers:
   - Default
   - TransparentFX

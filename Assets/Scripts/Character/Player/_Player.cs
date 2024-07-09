@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
         var playerController = GetComponentInChildren<PlayerController>();
         if (playerController != null)
         {
-            playerController.player = this.gameObject;
+            playerController.player = this;
             playerController.Initialize();
         }
     }
