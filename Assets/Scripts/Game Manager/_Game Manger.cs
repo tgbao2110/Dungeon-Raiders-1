@@ -6,13 +6,11 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
+    private CharacterData selectedCharacterData;
     public List<LevelData> levels;
     private int currentLevelIndex = 0;
     private int currentRoundIndex = 0;
-    private int selectedCharacterIndex;
     private DungeonGenerator dungeonGenerator;
-
     public WeaponData savedWeaponData;
 
     private void Awake()
@@ -38,9 +36,9 @@ public class GameManager : MonoBehaviour
         return currentRoundIndex+1;
     }
 
-    public void SetSelectedCharacter(int characterIndex)
+    public void SetSelectedCharacter(CharacterData data)
     {
-        //selectedCharacterIndex = characterIndex;
+        selectedCharacterData = data;
     }
 
     public void StartGame()
@@ -119,10 +117,22 @@ public class GameManager : MonoBehaviour
             Actions.OnStartNewRound.Invoke();
         }
 
+        Player player = FindObjectOfType<Player>();
+        if (player != null && selectedCharacterData != null)
+        {
+            player.AddCharacter(selectedCharacterData); // Ensure AddCharacter updates or replaces existing character data
+        }
+
         PlayerItemInteraction playerItemInteraction = FindObjectOfType<PlayerItemInteraction>();
         if (playerItemInteraction != null)
         {
             playerItemInteraction.LoadWeaponState();
+        }
+
+        Health health = FindObjectOfType<Health>();
+        if(currentLevelIndex == 0 && currentRoundIndex ==0)
+        {
+            health.StartGame();
         }
     }
 }

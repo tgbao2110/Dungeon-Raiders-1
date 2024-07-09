@@ -1,22 +1,38 @@
-using System.Collections;
 using BarthaSzabolcs.Tutorial_SpriteFlash;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] PlayerData playerData;
     [SerializeField] SimpleFlash flash;
-
     [Header("Health UI")]
     [SerializeField] StatBar healthBar;
     [SerializeField] StatBar energyBar;
 
-    void Awake()
+    private CharacterData data;
+
+    private void Start() {
+        ReloadHealth();
+        ReloadEnergy();
+    }
+    public void Initialize(CharacterData pData, SimpleFlash pFlash)
     {
-        healthBar.SetMaxStat(playerData.maxHealth);
-        energyBar.SetMaxStat(playerData.maxEnergy);
-        PlayerStats.Instance.Health = playerData.maxHealth;
-        PlayerStats.Instance.Energy = playerData.maxEnergy;
+        data = pData;
+        flash = pFlash; 
+
+        if (healthBar != null)
+        {
+            healthBar.SetMaxStat(data.maxHealth);
+            energyBar.SetMaxStat(data.maxEnergy);
+        }
+        
+        ReloadHealth();
+        ReloadEnergy();
+    }
+
+    public void StartGame()
+    {
+        PlayerStats.Instance.Health = data.maxHealth;
+        PlayerStats.Instance.Energy = data.maxEnergy;
         ReloadHealth();
         ReloadEnergy();
     }
@@ -46,9 +62,9 @@ public class Health : MonoBehaviour
     public void RestoreHealth(int amount)
     {
         PlayerStats.Instance.Health += amount;
-        if (PlayerStats.Instance.Health > playerData.maxHealth)
+        if (PlayerStats.Instance.Health > data.maxHealth)
         {
-            PlayerStats.Instance.Health = playerData.maxHealth;
+            PlayerStats.Instance.Health = data.maxHealth;
         }
         ReloadHealth();
     }
@@ -56,27 +72,28 @@ public class Health : MonoBehaviour
     public void RestoreEnergy(int amount)
     {
         PlayerStats.Instance.Energy += amount;
-        if (PlayerStats.Instance.Energy > playerData.maxEnergy)
+        if (PlayerStats.Instance.Energy > data.maxEnergy)
         {
-            PlayerStats.Instance.Energy = playerData.maxEnergy;
+            PlayerStats.Instance.Energy = data.maxEnergy;
         }
         ReloadEnergy();
     }
 
-    public void ReloadHealth()
+    private void ReloadHealth()
     {
-        healthBar.SetStat(PlayerStats.Instance.Health);
+        if (healthBar != null)
+            healthBar.SetStat(PlayerStats.Instance.Health);
     }
 
-    public void ReloadEnergy()
+    private void ReloadEnergy()
     {
-        energyBar.SetStat(PlayerStats.Instance.Energy);
+        if (energyBar != null)
+            energyBar.SetStat(PlayerStats.Instance.Energy);
     }
 
     private void Die()
     {
         Time.timeScale = 0;
-        // animator.SetTrigger("Die");
         EventSystem eventSystem = FindObjectOfType<EventSystem>();
         if (eventSystem != null)
         {

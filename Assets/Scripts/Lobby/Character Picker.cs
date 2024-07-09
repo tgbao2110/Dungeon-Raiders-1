@@ -3,36 +3,42 @@ using UnityEngine;
 
 public class CharacterPicker : MonoBehaviour
 {
-    [SerializeField] List<GameObject> characters;
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject currentSprite;
-    GameObject newSprite;
+    [SerializeField] private List<CharacterData> datasets;
+    [SerializeField] private Player player;
+    private GameObject currentSprite;
+
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();;
+        currentSprite = player.GetComponentInChildren<Animator>().gameObject;
+    }
 
     public bool hasPickedCharacter { get; private set; } = false;
 
     public void Equip(Armor armor)
     {
+        GameObject newSprite = null;
+        CharacterData characterData = null;
+
         switch (armor)
         {
             case Armor.Knight:
-                newSprite = Instantiate(characters[0], player.transform.position, Quaternion.identity);
-                newSprite.name = "Knight";
+                characterData = datasets[0];
                 break;
+            case Armor.FrostKnight:
+                characterData = datasets[1];
+                break;
+                // Add cases for other armor types here
         }
 
-        var facingDirection = player.GetComponentInChildren<PlayerController>().GetFacingDirection();
-        if (facingDirection.x<0)
+        newSprite = player.AddCharacter(characterData);
+        GameManager.Instance.SetSelectedCharacter(characterData);
+
+        if (currentSprite != null)
         {
-            newSprite.transform.localScale = new Vector3(-1, 1, 1);
+            Destroy(currentSprite);
         }
-
-        newSprite.transform.SetParent(player.transform);
-        var controller = player.GetComponentInChildren<PlayerController>();
-        controller.SetSprite(newSprite);
-        controller.Initialize(newSprite);
-        Destroy(currentSprite);
         currentSprite = newSprite;
-        newSprite = null;
         hasPickedCharacter = true;
     }
 }
@@ -41,5 +47,7 @@ public class CharacterPicker : MonoBehaviour
 public enum Armor
 {
     Knight,
+    FrostKnight,
     Hidden
+    // Add other armor types here
 }

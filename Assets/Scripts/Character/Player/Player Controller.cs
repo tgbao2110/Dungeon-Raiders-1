@@ -2,20 +2,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] public Joystick joystick;
-    GameObject player;
+    public Joystick joystick;
+    public GameObject player;
     [SerializeField] float movementSpeed;
     float vInput, hInput;
     public Vector3 lastFacingDirection { get; private set; }
     [SerializeField] Rigidbody2D rb;
-    [SerializeField] Animator animator;
-    [SerializeField] GameObject playerSprite;
+    public Animator animator;
     EnemyRoom room;
-
-    private void Awake()
-    {
-        Initialize(playerSprite);
-    }
 
     private void OnEnable()
     {
@@ -27,17 +21,26 @@ public class PlayerController : MonoBehaviour
         GameStateManager.OnGameStateChanged -= OnGameStateChanged;
     }
 
-    public void Initialize(GameObject playerSprite)
+    public void Initialize()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = player.GetComponent<Rigidbody2D>();
-        animator = playerSprite.GetComponentInChildren<Animator>();
+        animator = player.GetComponentInChildren<Animator>();
+
+        // Ensure everything is initialized properly
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D not found on Player or child objects!");
+        }
+        if (animator == null)
+        {
+            Debug.LogError("Animator not found on Player or child objects!");
+        }
     }
 
-    private void Initialize()
+    private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        rb = player.GetComponent<Rigidbody2D>();
+        Initialize();
     }
 
     private void Update()
@@ -45,13 +48,14 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
     }
 
-    public void SetSprite(GameObject sprite)
-    {
-        playerSprite = sprite;
-    }
-
     void HandleMovement()
     {
+        // Ensure rb and animator are not null before using them
+        if (rb == null || animator == null)
+        {
+            return;
+        }
+
         vInput = joystick.Vertical * movementSpeed;
         hInput = joystick.Horizontal * movementSpeed;
 
@@ -63,11 +67,11 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isWalking", true);
             if (joystick.Horizontal < 0)
             {
-                player.transform.localScale = new Vector3(-1, 1, 1); // Corrected from (0)
+                player.transform.localScale = new Vector3(-1, 1, 1);
             }
             else if (joystick.Horizontal > 0)
             {
-                player.transform.localScale = new Vector3(1, 1, 1); // Corrected from (0)
+                player.transform.localScale = new Vector3(1, 1, 1);
             }
         }
         else
@@ -80,7 +84,6 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 GetFacingDirection()
     {
-        // Return the last known facing direction
         return lastFacingDirection;
     }
 
@@ -91,7 +94,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnGameStateChanged(GameState newGameState)
     {
-        Initialize();
         if (newGameState == GameState.Paused)
         {
             rb.velocity = Vector2.zero;

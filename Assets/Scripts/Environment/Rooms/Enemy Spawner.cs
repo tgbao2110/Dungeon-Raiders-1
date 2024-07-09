@@ -15,17 +15,24 @@ public class EnemySpawner : MonoBehaviour
 
     public void Spawn(int numberOfEnemies)
     {
+        // Create a copy of spawn points to ensure we can modify it safely
+        List<Transform> availableSpawnPoints = new List<Transform>(spawnPoints);
+
         for (int i = 0; i < numberOfEnemies; i++)
         {
-            if (spawnPoints.Count == 0) return;
-
+            if (availableSpawnPoints.Count == 0) 
+                return; // No more spawn points available
+            
             int randomPrefabIndex = Random.Range(0, enemiesPrefabs.Count);
-            int randomSpawnPointIndex = Random.Range(0, spawnPoints.Count);
+            int randomSpawnPointIndex = Random.Range(0, availableSpawnPoints.Count);
 
-            Transform spawnPoint = spawnPoints[randomSpawnPointIndex];
+            Transform spawnPoint = availableSpawnPoints[randomSpawnPointIndex];
             GameObject instantiatedEnemy = Instantiate(enemiesPrefabs[randomPrefabIndex], spawnPoint.position, Quaternion.identity);
             instantiatedEnemy.transform.SetParent(this.transform);
             instantiatedEnemy.name = "Enemy " + (i + 1);
+
+            // Remove the used spawn point from the available list
+            availableSpawnPoints.RemoveAt(randomSpawnPointIndex);
         }
     }
 

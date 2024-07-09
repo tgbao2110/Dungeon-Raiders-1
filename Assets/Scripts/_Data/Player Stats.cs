@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
-
     private int currentHealth;
     private int currentEnergy;
     private string currentWeapon;
