@@ -166,6 +166,9 @@ public class GameManager : MonoBehaviour
     {
         currentLevelIndex = 0;
         currentRoundIndex = 0;
+        lastLevelIndex = -1;
+        lastRoundIndex = -1;
+        savedWeaponData = null;
         LoadMenu();
     }
 
@@ -173,7 +176,11 @@ public class GameManager : MonoBehaviour
     {
         currentLevelIndex = 0;
         currentRoundIndex = 0;
-        SceneManager.LoadScene(1, LoadSceneMode.Single);
+        lastLevelIndex = -1;
+        lastRoundIndex = -1;
+        savedWeaponData = null;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
     }
 
     private void SaveCurrentRound()

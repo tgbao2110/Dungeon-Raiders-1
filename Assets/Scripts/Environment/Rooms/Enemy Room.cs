@@ -61,6 +61,7 @@ public class EnemyRoom : Room
         enemiesCount -= 1;
         if (enemiesCount <= 0)
         {
+            isCleared = true;
             Actions.OnEnemyRoomCleared.Invoke();
             Unlock();
             dungeonGenerator.SpawnChest(this.transform.position);
