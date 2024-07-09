@@ -10,7 +10,7 @@ public class CharacterPicker : MonoBehaviour
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();;
-        currentSprite = player.GetComponentInChildren<Animator>().gameObject;
+        currentSprite = player.transform.GetChild(0).gameObject;
     }
 
     public bool hasPickedCharacter { get; private set; } = false;

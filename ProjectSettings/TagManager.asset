@@ -13,6 +13,7 @@ TagManager:
   - Bullet
   - Potion
   - Effect
+  - Shield
   layers:
   - Default
   - TransparentFX

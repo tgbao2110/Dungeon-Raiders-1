@@ -8,12 +8,15 @@ public class EventSystem : MonoBehaviour
     PlayerItemInteraction interaction;
     [SerializeField] GameObject attackButton;
     [SerializeField] GameObject switchWeaponButton;
-    [SerializeField] GameObject consumeButton;   
+    [SerializeField] GameObject consumeButton;
+    [SerializeField] GameObject ultButton;
+    [SerializeField] TextMeshProUGUI ultCountDownText; // Reference to the countdown text
     [SerializeField] GameObject gameOver;
     [SerializeField] GameObject bossIntro; 
     [SerializeField] GameObject textInfo;
     Collectable currentCollectable;
     MeleeAttack meleeAttack;
+    Ultimate ultimate;
 
     private void Start()
     {
@@ -24,6 +27,7 @@ public class EventSystem : MonoBehaviour
 
         Actions.OnAttack += Attack;
         Actions.OnSwitchWeapon += SwitchWeaponPressed;
+        Actions.OnUltimate += TriggerUltimate;
         Actions.OnEnterCollectable += ShowSwitchWeaponButton;
         Actions.OnExitCollectable += ShowAttackButton;
         Actions.OnEnterPotion += ShowConsumeButton;
@@ -38,6 +42,7 @@ public class EventSystem : MonoBehaviour
     {
         Actions.OnAttack -= Attack;
         Actions.OnSwitchWeapon -= SwitchWeaponPressed;
+        Actions.OnUltimate -= TriggerUltimate;
         Actions.OnEnterCollectable -= ShowSwitchWeaponButton;
         Actions.OnExitCollectable -= ShowAttackButton;
         Actions.OnEnterPotion -= ShowConsumeButton;
@@ -74,6 +79,18 @@ public class EventSystem : MonoBehaviour
         consumeButton.SetActive(false);
     }
 
+    public void ShowUltButton()
+    {
+        ultCountDownText.transform.parent.gameObject.SetActive(false);
+        ultButton.SetActive(true);
+    }
+
+    public void ShowUltCountDown()
+    {
+        ultButton.SetActive(false);
+        ultCountDownText.transform.parent.gameObject.SetActive(true);
+    }
+
     private void Attack()
     {
         Weapon equippedWeapon = interaction.equippedWeapon;
@@ -92,6 +109,11 @@ public class EventSystem : MonoBehaviour
         interaction.SwitchWeaponPressed(currentCollectable);
     }
 
+    public void DropWeaponPressed()
+    {
+        interaction.DropWeapon();
+    }
+
     public void TriggerAttack()
     {
         Actions.OnAttack?.Invoke();
@@ -100,6 +122,18 @@ public class EventSystem : MonoBehaviour
     public void TriggerSwitchWeapon()
     {
         Actions.OnSwitchWeapon?.Invoke();
+    }
+
+    public void TriggerUltimate()
+    {
+        ultimate = FindObjectOfType<Ultimate>();
+        ultimate.TriggerUltimate();
+        ShowUltCountDown();
+    }
+
+    public void UpdateUltCooldownText(int remainingTime)
+    {
+        ultCountDownText.text = remainingTime.ToString();
     }
 
     public void TriggerGameOver()
@@ -133,4 +167,5 @@ public class EventSystem : MonoBehaviour
         textInfo.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.GetLevel().ToString() + "-" + GameManager.Instance.GetRound().ToString();
         textInfo.GetComponent<Animator>().SetTrigger("showText");
     }
+
 }

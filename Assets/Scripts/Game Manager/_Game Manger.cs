@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class GameManager : MonoBehaviour
     public List<LevelData> levels;
     private int currentLevelIndex = 0;
     private int currentRoundIndex = 0;
+    private int lastRoundIndex = -1;
+    private int lastLevelIndex = -1;
     private DungeonGenerator dungeonGenerator;
     public WeaponData savedWeaponData;
+    [SerializeField] ContinueButton continueButton;
 
     private void Awake()
     {
@@ -28,12 +32,17 @@ public class GameManager : MonoBehaviour
 
     public int GetLevel()
     {
-        return currentLevelIndex+1;
+        return currentLevelIndex + 1;
     }
 
     public int GetRound()
     {
-        return currentRoundIndex+1;
+        return currentRoundIndex + 1;
+    }
+
+    public int GetLastLevel()
+    {
+        return lastLevelIndex + 1;
     }
 
     public void SetSelectedCharacter(CharacterData data)
@@ -121,7 +130,7 @@ public class GameManager : MonoBehaviour
         Player player = FindObjectOfType<Player>();
         if (player != null && selectedCharacterData != null)
         {
-            player.AddCharacter(selectedCharacterData); // Ensure AddCharacter updates or replaces existing character data
+            player.AddCharacter(selectedCharacterData);
         }
 
         PlayerItemInteraction playerItemInteraction = FindObjectOfType<PlayerItemInteraction>();
@@ -131,9 +140,52 @@ public class GameManager : MonoBehaviour
         }
 
         Health health = FindObjectOfType<Health>();
-        if(currentLevelIndex == 0 && currentRoundIndex ==0)
+        if (currentLevelIndex == 0 && currentRoundIndex == 0)
         {
             health.StartGame();
         }
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+    }
+
+    public void Restart()
+    {
+        LoadRound(currentRoundIndex);
+    }
+
+    public void BackToMenu()
+    {
+        SaveCurrentRound();
+        LoadMenu();
+    }
+
+    public void GameOver()
+    {
+        currentLevelIndex = 0;
+        currentRoundIndex = 0;
+        LoadMenu();
+    }
+
+    public void Replay()
+    {
+        currentLevelIndex = 0;
+        currentRoundIndex = 0;
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
+    }
+
+    private void SaveCurrentRound()
+    {
+        lastLevelIndex = currentLevelIndex;
+        lastRoundIndex = currentRoundIndex;
+    }
+
+    public void ContinueGame()
+    {
+        LoadLevel(lastLevelIndex);
+        currentRoundIndex = lastRoundIndex;
+        LoadRound(currentRoundIndex);
     }
 }

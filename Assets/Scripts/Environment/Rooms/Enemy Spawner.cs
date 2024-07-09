@@ -30,10 +30,10 @@ public class EnemySpawner : MonoBehaviour
 
             switch (currentLevel)
             {
-                case 2:
+                case 1:
                     enemyPrefab = enemiesPrefabs[0];
                     break;
-                case 1:
+                case 2:
                     if (i < numberOfEnemies - 1)
                     {
                         enemyPrefab = enemiesPrefabs[0];

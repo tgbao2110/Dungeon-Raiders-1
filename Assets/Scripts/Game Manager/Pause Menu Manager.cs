@@ -23,8 +23,14 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        var levelLoader = FindObjectOfType<LevelLoader>();
-        levelLoader.LoadLevel(0);
+        if(GameManager.Instance.GetLevel()!=0) 
+        {
+            GameManager.Instance.BackToMenu();
+        }
+        else
+        {
+            GameManager.Instance.GameOver();
+        }
         ResumeGame();
     }
 }

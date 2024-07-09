@@ -8,6 +8,10 @@ public class EnemyFrostyBullet : Bullet
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.CompareTag("Shield"))
+        {
+            Destroy(this.gameObject);
+        }
         if (other.tag == "Player")
         {
             Health playerHealth = other.GetComponentInChildren<Health>();

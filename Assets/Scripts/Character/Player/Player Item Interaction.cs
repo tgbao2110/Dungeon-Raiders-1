@@ -77,7 +77,7 @@ public class PlayerItemInteraction : MonoBehaviour
         }
     }
 
-    void DropWeapon()
+    public void DropWeapon()
     {
         if (equippedWeapon != null)
         {

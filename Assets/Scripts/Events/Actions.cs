@@ -12,4 +12,5 @@ public static class Actions
     public static Action OnEnterBossRoom;
     public static Action OnEnemyRoomCleared;
     public static Action OnStartNewRound;
+    public static Action OnUltimate;
 }

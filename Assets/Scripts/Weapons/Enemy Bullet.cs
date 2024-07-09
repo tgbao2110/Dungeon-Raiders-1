@@ -4,13 +4,17 @@ public class EnemyBullet : Bullet
 {
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if(other.tag == "Player")
+        if(other.CompareTag("Shield"))
+        {
+            Destroy(this.gameObject);
+        }
+        if(other.CompareTag("Player"))
         {
             other.GetComponentInChildren<Health>().TakeDamage(damage);
             Destroy(this.gameObject);
         }
 
-        if(other.tag == "Collider")
+        if(other.CompareTag("Collider"))
         {
             Destroy(this.gameObject);
         }
