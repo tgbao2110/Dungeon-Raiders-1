@@ -29,11 +29,16 @@ public class EnemyRoom : Room
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
         playerController.SetRoom(this);
 
-        numberOfEnemies = spawner.GetLength();
         enemiesCount = numberOfEnemies;
         Lock();
-        spawner.Spawn();
+        spawner.Spawn(numberOfEnemies);
     }
+
+    public void SetNumberOfEnemies(int numEnemies)
+    {
+        numberOfEnemies = numEnemies;
+    }
+
 
     protected void Lock()
     {

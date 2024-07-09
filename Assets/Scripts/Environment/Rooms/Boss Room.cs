@@ -8,6 +8,7 @@ public class BossRoom : EnemyRoom
         dungeonGenerator = this.transform.parent.GetComponent<DungeonGenerator>();
         spawner = GetComponentInChildren<EnemySpawner>();
         eventSystem = FindObjectOfType<EventSystem>();
+        this.SetNumberOfEnemies(1);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

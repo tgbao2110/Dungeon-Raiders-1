@@ -48,48 +48,37 @@ public class DungeonGenerator : MonoBehaviour
     void GenerateRooms(RoundData roundData)
     {
         this.roundData = roundData;
-        //Create Base Room
+        // Create Base Room
         Vector2Int basePosition = new Vector2Int(0, gridHeight / 2);
-        PlaceRoom(baseRoomPrefab, basePosition, new(0, 0, 0));
+        PlaceRoom(baseRoomPrefab, basePosition, new Vector3(0, 0, 0), 0);
         currentRoomGridPos = basePosition;
         allRooms.Add(currentRoomGridPos);
 
-        //Create Enemy Rooms
+        // Create Enemy Rooms
         for (int i = 0; i < roundData.numOfEnemyRooms; i++)
         {
-            GameObject roomPrefab = i < roundData.numOfEnemyRooms ? enemyRoomPrefab : null;
-            PlaceNextRoom(roomPrefab);
+            GameObject roomPrefab = enemyRoomPrefab;
+            PlaceNextRoom(roomPrefab, roundData.numberOfEnemies[i]);
         }
 
-        //Create Boss Room if allowed
+        // Create Boss Room if allowed
         if (roundData.hasBossRoom)
         {
-            PlaceNextRoom(bossRoomPrefab);
+            PlaceNextRoom(bossRoomPrefab, 0);
         }
 
-        PlaceNextRoom(portalRoomPrefab);
+        PlaceNextRoom(portalRoomPrefab, 0);
     }
 
-    void PlaceRoom(GameObject roomPrefab, Vector2Int gridPosition, Vector3 position)
-    {
-        if (!roomGrid.ContainsKey(gridPosition))
-        {
-            previousRoom = Instantiate(roomPrefab, position, Quaternion.identity);
-            previousRoom.transform.parent = this.transform;
-            roomGrid[gridPosition] = previousRoom;
-            availablePositions.Remove(gridPosition);
-        }
-    }
-
-    void PlaceNextRoom(GameObject roomPrefab)
+    void PlaceNextRoom(GameObject roomPrefab, int numberOfEnemies)
     {
         List<Vector2Int> possiblePositions = new List<Vector2Int>
-        {
-            new Vector2Int(currentRoomGridPos.x + 1, currentRoomGridPos.y),
-            new Vector2Int(currentRoomGridPos.x - 1, currentRoomGridPos.y),
-            new Vector2Int(currentRoomGridPos.x, currentRoomGridPos.y + 1),
-            new Vector2Int(currentRoomGridPos.x, currentRoomGridPos.y - 1)
-        };
+    {
+        new Vector2Int(currentRoomGridPos.x + 1, currentRoomGridPos.y),
+        new Vector2Int(currentRoomGridPos.x - 1, currentRoomGridPos.y),
+        new Vector2Int(currentRoomGridPos.x, currentRoomGridPos.y + 1),
+        new Vector2Int(currentRoomGridPos.x, currentRoomGridPos.y - 1)
+    };
 
         possiblePositions.RemoveAll(pos => !availablePositions.Contains(pos) || allRooms.Contains(pos));
 
@@ -97,7 +86,6 @@ public class DungeonGenerator : MonoBehaviour
 
         previousRoomGridPos = currentRoomGridPos;
         currentRoomGridPos = possiblePositions[Random.Range(0, possiblePositions.Count)];
-
 
         Vector3 previousRoomPosition = previousRoom.transform.localPosition;
         Vector3 newRoomPosition = Vector3.zero;
@@ -118,10 +106,29 @@ public class DungeonGenerator : MonoBehaviour
                 break;
         }
 
-        PlaceRoom(roomPrefab, currentRoomGridPos, newRoomPosition);
+        PlaceRoom(roomPrefab, currentRoomGridPos, newRoomPosition, numberOfEnemies);
         ConnectRooms(previousRoomGridPos, currentRoomGridPos);
         allRooms.Add(currentRoomGridPos);
     }
+
+    void PlaceRoom(GameObject roomPrefab, Vector2Int gridPosition, Vector3 position, int numberOfEnemies)
+    {
+        if (!roomGrid.ContainsKey(gridPosition))
+        {
+            previousRoom = Instantiate(roomPrefab, position, Quaternion.identity);
+            previousRoom.transform.parent = this.transform;
+            roomGrid[gridPosition] = previousRoom;
+            availablePositions.Remove(gridPosition);
+
+            EnemyRoom enemyRoom = previousRoom.GetComponent<EnemyRoom>();
+            if (enemyRoom != null)
+            {
+                enemyRoom.SetNumberOfEnemies(numberOfEnemies);
+            }
+        }
+    }
+
+
 
     void ConnectRooms(Vector2Int roomA, Vector2Int roomB)
     {

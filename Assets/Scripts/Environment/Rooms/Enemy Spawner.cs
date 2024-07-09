@@ -13,15 +13,19 @@ public class EnemySpawner : MonoBehaviour
         return spawnPoints.Count;
     }
 
-    public void Spawn()
+    public void Spawn(int numberOfEnemies)
     {
-        foreach (var spawnPoint in spawnPoints)
+        for (int i = 0; i < numberOfEnemies; i++)
         {
+            if (spawnPoints.Count == 0) return;
+
             int randomPrefabIndex = Random.Range(0, enemiesPrefabs.Count);
+            int randomSpawnPointIndex = Random.Range(0, spawnPoints.Count);
+
+            Transform spawnPoint = spawnPoints[randomSpawnPointIndex];
             GameObject instantiatedEnemy = Instantiate(enemiesPrefabs[randomPrefabIndex], spawnPoint.position, Quaternion.identity);
             instantiatedEnemy.transform.SetParent(this.transform);
-            instantiatedEnemy.name = "Beam Spitter "+ index;
-            index++;
+            instantiatedEnemy.name = "Enemy " + (i + 1);
         }
     }
 

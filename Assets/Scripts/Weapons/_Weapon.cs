@@ -6,10 +6,10 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     public WeaponData weaponData;
-    public GameObject player;
+    protected GameObject player;
     public PlayerController playerController;
     protected Health health;
-    protected float lastAtkTime = -9999f;
+    protected float lastAtkTime = -99f;
     virtual public void AttackAction() { }
     protected AttackType attackType;
     bool isAtacking = false;
@@ -22,8 +22,9 @@ public abstract class Weapon : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponentInChildren<PlayerController>();
         health = player.GetComponentInChildren<Health>();
-        this.weaponData = data;
+        this.weaponData = data;        
         SetAttackType();
+        FindObjectOfType<WeaponPanel>().SetWeapon(weaponData);
     }
 
     private void Update()

@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerItemInteraction : MonoBehaviour
 {
     public Weapon equippedWeapon;
-    [SerializeField] WeaponPanel weaponPanel;
 
     private Potion currentPotion;
 
@@ -48,13 +47,13 @@ public class PlayerItemInteraction : MonoBehaviour
     {
         weapon.playerController = transform.parent.GetComponentInChildren<PlayerController>();
         equippedWeapon = weapon;
+        FindObjectOfType<WeaponPanel>().SetWeapon(weapon.weaponData);
     }
 
     public void SwitchWeaponPressed(Collectable item)
     {
         if (item != null)
         {
-            weaponPanel.SetWeapon(item.weaponData);
             PickUpWeapon(item);
             Destroy(item.gameObject);
         }

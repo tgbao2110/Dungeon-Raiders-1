@@ -6,7 +6,6 @@ public class RoundData : ScriptableObject
 {
     public int numOfEnemyRooms;
     public List<GameObject> itemsToDrop;
-    //public List<int> numberOfEnemies;
-    //public List<GameObject> enemiesToGenerate;
+    public List<int> numberOfEnemies;
     public bool hasBossRoom;
 }
