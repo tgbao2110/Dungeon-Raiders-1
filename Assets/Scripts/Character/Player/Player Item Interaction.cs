@@ -23,6 +23,12 @@ public class PlayerItemInteraction : MonoBehaviour
             Actions.OnEnterPotion?.Invoke();
             currentPotion = other.GetComponent<Potion>();
         }
+
+        else if (other.CompareTag("Coin"))
+        {
+            GameManager.Instance.AddCoins(1);
+            Destroy(other.gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

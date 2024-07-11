@@ -5,8 +5,8 @@ public class BeamSpitter : Enemy
 {
     public Transform shootingPoint;
     float interval = 0.5f;
-
     bool isEnabled = true;
+    [SerializeField] GameObject coinPrefab;
     
     void Start()
     {
@@ -54,7 +54,7 @@ public class BeamSpitter : Enemy
     protected override void Die()
     {
         room.KillEnemy();
-
+        Instantiate(coinPrefab, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 }

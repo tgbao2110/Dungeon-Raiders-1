@@ -13,4 +13,5 @@ public static class Actions
     public static Action OnEnemyRoomCleared;
     public static Action OnStartNewRound;
     public static Action OnUltimate;
+    public static Action OnCoinCollected;
 }

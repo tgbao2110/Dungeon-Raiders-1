@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     private DungeonGenerator dungeonGenerator;
     public WeaponData savedWeaponData;
     [SerializeField] ContinueButton continueButton;
+
+    private int coinCount = 0; // Field to store the coin count
 
     private void Awake()
     {
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartGame()
-    {
+    {// Reset coin count when starting a new game
         LoadLevel(0);
     }
 
@@ -169,6 +171,7 @@ public class GameManager : MonoBehaviour
         lastLevelIndex = -1;
         lastRoundIndex = -1;
         savedWeaponData = null;
+        coinCount = 0; // Reset coin count on game over
         LoadMenu();
     }
 
@@ -179,6 +182,7 @@ public class GameManager : MonoBehaviour
         lastLevelIndex = -1;
         lastRoundIndex = -1;
         savedWeaponData = null;
+        coinCount = 0; // Reset coin count on replay
         Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
@@ -194,5 +198,20 @@ public class GameManager : MonoBehaviour
         LoadLevel(lastLevelIndex);
         currentRoundIndex = lastRoundIndex;
         LoadRound(currentRoundIndex);
+    }
+
+    public void AddCoins(int amount)
+    {
+        coinCount += amount;
+    }
+
+    public int GetCoinCount()
+    {
+        return coinCount;
+    }
+
+    public void ResetCoins()
+    {
+        coinCount = 0;
     }
 }
