@@ -269,6 +269,7 @@ MonoBehaviour:
   healthBar: {fileID: 1146624687447602458}
   separationDistance: 1
   shootingPoint: {fileID: 1934724211970031640}
+  coinPrefab: {fileID: 5663481070311280789, guid: ec8928f2feee5fe4c84858c5949914bb, type: 3}
 --- !u!50 &-107415972209668035
 Rigidbody2D:
   serializedVersion: 4

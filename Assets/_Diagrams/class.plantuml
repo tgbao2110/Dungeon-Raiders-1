@@ -1,0 +1,550 @@
+class GameManager {
+    - static GameManager Instance
+    - CharacterData selectedCharacterData
+    - List<LevelData> levels
+    - int currentLevelIndex
+    - int currentRoundIndex
+    - int lastRoundIndex
+    - int lastLevelIndex
+    - DungeonGenerator dungeonGenerator
+    - WeaponData savedWeaponData
+    - ContinueButton continueButton
+    - int coinCount
+    + int GetLevel()
+    + int GetRound()
+    + int GetLastLevel()
+    + void SetSelectedCharacter(CharacterData data)
+    + void StartGame()
+    + void LoadLevel(int levelIndex)
+    + void LoadNextRound()
+    + void LoadNextLevel()
+    + IEnumerator LoadDungeonSceneCoroutine(int roundIndex)
+    + void LoadMenu()
+    + void Restart()
+    + void BackToMenu()
+    + void GameOver()
+    + void Replay()
+    + void SaveCurrentRound()
+    + void ContinueGame()
+    + void AddCoins(int amount)
+    + int GetCoinCount()
+    + void ResetCoins()
+}
+
+class AudioManager {
+    + void Awake()
+}
+
+class BossIntroManager {
+    - GameObject panel
+    - Animator bossIntroAnimator
+    + void StartIntro()
+    + IEnumerator PlayingIntro()
+    + void EndIntro()
+}
+
+class GameOver {
+    + void ReturnToMenu()
+    + void Replay()
+}
+
+class GameStateManager {
+    - static GameStateManager _instance
+    - GameState CurrentGameState
+    + static GameStateManager Instance
+    + void SetState(GameState newGameState)
+}
+
+enum GameState {
+    Playing,
+    Paused
+}
+
+class MainMenu {
+    - LevelLoader levelLoader
+    + void NewGame()
+    + void Continue()
+    + void Quit()
+}
+
+class PauseMenuManager {
+    - GameObject pauseMenu
+    + void PauseGame()
+    + void ResumeGame()
+    + void ReturnToMenu()
+}
+
+class Player {
+  - PlayerData data
+  + Initialize(sprite: GameObject)
+  + AddCharacter(pData: PlayerData)
+}
+
+class Health {
+  - StatBar healthBar
+  - StatBar energyBar
+  - PlayerData data
+  + Initialize()
+  + StartGame()
+  + TakeDamage(amount: int)
+  + UseEnergy(amount: int)
+  + RestoreHealth(amount: int)
+  + RestoreEnergy(amount: int)
+  - ReloadHealth()
+  - ReloadEnergy()
+  - Die()
+}
+
+class PlayerController {
+  + Joystick joystick
+  + Player player
+  - float movementSpeed
+  - float originalMovementSpeed
+  - float currentMovementSpeed
+  - bool isSlowed
+  - Rigidbody2D rb
+  - Animator animator
+  - EnemyRoom room
+  + HandleMovement()
+  + GetFacingDirection() : Vector3
+  + SetRoom(enemyRoom: EnemyRoom)
+}
+
+class PlayerItemInteraction {
+  + Weapon equippedWeapon
+  - Potion currentPotion
+  + Equip(weapon: Weapon)
+  + SwitchWeaponPressed(item: Collectable)
+  + Consume()
+  + DropWeapon()
+  - PickUpWeapon(item: Collectable)
+  + SaveWeaponState()
+  + LoadWeaponState()
+}
+
+class StatBar {
+  - Slider slider
+  - TextMeshProUGUI number
+}
+
+class PlayerStats {
+  + static PlayerStats Instance
+  - int currentHealth
+  - int currentEnergy
+  - string currentWeapon
+  + int Health {get, set}
+  + int Energy {get, set}
+  + string Weapon {get, set}
+}
+
+class PlayerData {
+  + int maxHealth
+  + int maxEnergy
+}
+
+class CharacterData {
+  + string characterName
+  + GameObject characterPrefab
+  + int maxHealth
+  + int maxEnergy
+  + int meleeDamage
+  + UltimateData ultimateAbility
+}
+
+class UltimateData {
+  + string ultimateName
+  + int cooldown
+  + void ActivateUltimate()
+}
+
+class WeaponData {
+    - string itemName
+    - Sprite sprite
+    - GameObject prefab
+    - int damage
+    - int energy
+    - float coolDown
+    - float bulletSpeed
+    - GameObject bulletPrefab
+}
+
+class EnemyData {
+    + string enemyName
+    + string description
+    + GameObject prefab
+    + int maxHealth
+    + int damage
+    + GameObject bulletPrefab
+    + float bulletSpeed
+    + float fireRate
+}
+
+abstract class Enemy {
+    - EnemyData enemyData
+    - Animator animator
+    - Transform player
+    - EnemyRoom room
+    - float detectionRange
+    - float stopDistance
+    - float moveSpeed
+    - AttackType attackType
+    - Rigidbody2D rb
+    - SimpleFlash flash
+    - int maxHealth
+    - int currentHealth
+    - MiniHealthBar healthBar
+    - bool isDead
+    - float separationDistance
+    + void SetAttackType()
+    + void TakeDamage(int damage)
+    + abstract void Die()
+    + void HandleMovement()
+    + void MoveTowardsPlayer(distanceToPlayer: float)
+    + void ApplySeparation()
+    + void OnDrawGizmosSelected()
+    + void InitializeHealth()
+}
+
+class BeamSpitter {
+    + Transform shootingPoint
+    - float interval
+    - bool isEnabled
+    - GameObject coinPrefab
+    + void HandleAttack()
+    + void Shoot()
+    + override void SetAttackType()
+    + override void Die()
+}
+
+class Blasterfury {
+    + Transform shootingPoint
+    - float interval
+    - int currentAttackCount
+    - int maxAttackCount
+    - bool usingSingleBullet
+    - bool isEnabled
+    - int multiCount
+    + void HandleAttack()
+    + IEnumerator ShootMultiple()
+    + void Shoot()
+    + override void SetAttackType()
+    + override void Die()
+    + void SetNextAttackCount()
+    + void OnGameStateChanged(newGameState: GameState)
+}
+
+class Weapon {
+}
+
+class Potion {
+}
+class Bullet {
+    - int damage
+    + SetDamage(damage: int)
+}
+
+class Weapon {
+    - WeaponData weaponData
+    - GameObject player
+    - PlayerController playerController
+    - Health health
+    - float lastAtkTime
+    - Vector3 direction
+    - int detectionRange
+    + Initialize(data: WeaponData)
+    + Attack()
+    + AttackAction()
+    + SetAttackType()
+}
+
+class EnemyBullet {
+    + OnTriggerEnter2D(other: Collider2D)
+}
+
+class EnemyFrostyBullet {
+    - float slowDuration
+    - float slowAmount
+    - Color slowColor
+    + OnTriggerEnter2D(other: Collider2D)
+}
+
+class Gun {
+    - Transform shootingPoint
+    + AttackAction()
+}
+
+class Melee {
+    + SetAttackType()
+}
+
+class MultipleBulletGun {
+    + SetAttackType()
+}
+
+class PlayerBullet {
+    + OnTriggerEnter2D(other: Collider2D)
+}
+
+class SingleBulletGun {
+    + SetAttackType()
+}
+
+class Room {
+    - DungeonGenerator dungeonGenerator
+    - Hallway fromHallway
+    - Hallway toHallway
+    + InitializeRoom()
+    + SetFromHallway(hallway: Hallway)
+    + SetToHallway(hallway: Hallway)
+}
+
+class Hallway {
+    - List<Door> doors
+    - TilemapRenderer Background
+    - TilemapRenderer Top
+    + SetDoorsLocked(isLocked: bool)
+}
+
+class PortalRoom extends Room {
+    + InitializeRoom()
+}
+
+class Portal {
+    + OnTriggerEnter2D(other: Collider2D)
+}
+
+class Door {
+    - GameObject[] colliders
+    - bool isLocked
+    + SetDoorLocked(locked: bool)
+    + OnTriggerEnter2D(other: Collider2D)
+    + OnTriggerExit2D(other: Collider2D)
+    - OpenDoor()
+    - CloseDoor()
+}
+
+class DungeonGenerator {
+    - LevelData levelData
+    - RoundData roundData
+    - int gridWidth
+    - int gridHeight
+    - GameObject chestPrefab
+    - int currentItemIndex
+    - Dictionary<Vector2Int, GameObject> roomGrid
+    - List<Vector2Int> availablePositions
+    - GameObject previousRoom
+    - Vector2Int currentRoomGridPos
+    - Vector2Int previousRoomGridPos
+    - List<Vector2Int> allRooms
+    + StartGame(levelData: LevelData, roundData: RoundData)
+    - InitializeGridPositions()
+    - GenerateRooms()
+    - PlaceNextRoom(roomPrefab: GameObject, numberOfEnemies: int)
+    - PlaceRoom(roomPrefab: GameObject, gridPosition: Vector2Int, position: Vector3, numberOfEnemies: int)
+    - ConnectRooms(roomA: Vector2Int, roomB: Vector2Int)
+    + SpawnChest(position: Vector3)
+    - MiniMap()
+}
+
+class EnemySpawner {
+    - int currentLevel
+    - List<Transform> spawnPoints
+    - List<GameObject> enemiesPrefabs
+    - int index
+    + GetLength(): int
+    + Spawn(numberOfEnemies: int)
+}
+
+class Collectable {
+    - WeaponData weaponData
+    + Initialize(itemData: WeaponData)
+}
+
+class EnergyPotion {
+    + Restore(player: GameObject)
+}
+
+class HealthPotion {
+    + Restore(player: GameObject)
+}
+
+class Potion {
+    - int amount
+    + Restore(player: GameObject)
+}
+
+class RewardChest {
+    - GameObject itemToDrop
+    - bool isEmpty
+    - Animator animator
+    + InitializeChest(itemToDrop: GameObject)
+   
+class Ultimate {
+    - int duration
+    - int coolDownDuration
+    - bool isOnCooldown
+    + TriggerUltimate()
+    + StartCooldown()
+}
+
+class ShieldUltimate {
+    - Animator animator
+    - CircleCollider2D shieldCollider
+    + ExecuteUlt()
+}
+
+class LevelData {
+    - string levelName
+    - List<RoundData> rounds
+    - GameObject baseRoomPrefab
+    - GameObject enemyRoomPrefab
+    - GameObject bossRoomPrefab
+    - GameObject portalRoomPrefab
+    - GameObject hallwayHorizontalPrefab
+    - GameObject hallwayVerticalUpPrefab
+    - GameObject hallwayVerticalDownPrefab
+}
+
+class RoundData {
+    - int numOfEnemyRooms
+    - List<GameObject> itemsToDrop
+    - List<int> numberOfEnemies
+    - bool hasBossRoom
+}
+
+class UltimateData {
+    - string abilityName
+    - Sprite abilityIcon
+    - float cooldownTime
+    - GameObject abilityEffectPrefab
+    + ActivateAbility(position: Vector3, parent: Transform)
+}
+
+class BossHealthBar {
+    - TextMeshProUGUI enemyName
+    + SetHealth(name: string, health: int, maxHealth: int)
+}
+class MiniHealthBar {
+    - Slider slider
+    + SetHealth(name: string, health: int, maxHealth: int)
+}
+
+class CoinUI {
+    - TextMeshProUGUI coinText
+    - int coinCount
+    + UpdateCoinUI()
+}
+
+class ContinueButton {
+    - Button button
+    + Enable()
+    + Disable()
+}
+
+class EnemyHealthBar {
+    - Vector3 offset
+}
+
+class FollowingCamera {
+    + Transform player
+    + Vector3 offset
+}
+
+class LevelLoader {
+    - Animator transition
+    + LoadLevel(index: int)
+    + LoadScene(index: int)
+}
+
+class StatBar {
+    - Slider slider
+    - TextMeshProUGUI number
+    + SetMaxStat(stat: int)
+    + SetStat(stat: int)
+}
+
+class WeaponPanel {
+    - Image image
+    - TextMeshProUGUI energy
+    + SetWeapon(weaponData: WeaponData)
+}
+
+
+
+
+
+Hallway "1" o-- "0..*" Door
+Room <|-- PortalRoom
+PortalRoom "1" o-- "1" Portal
+DungeonGenerator "1" o-- "0..*" Room
+DungeonGenerator "1" o-- "1..*" EnemySpawner
+Room "1" o-- "1" Hallway : fromHallway
+Room "1" o-- "1" Hallway : toHallway
+
+Player "1" *-- "1" Health
+Player --> PlayerData
+Health --> PlayerData
+
+Player "1" *-- "1" PlayerController
+Player "1" *-- "1" PlayerItemInteraction
+
+PlayerItemInteraction --> Weapon
+PlayerItemInteraction --> Potion
+
+PlayerController --> Player
+CharacterData --> UltimateData
+
+Enemy --> EnemyData
+Enemy "1" *-- "1" MiniHealthBar
+Enemy "1" *-- "1" AttackType
+BeamSpitter --> Enemy
+Blasterfury --> Enemy
+UltimateData --> GameObject
+
+Collectable o-- WeaponData
+Potion <|-- EnergyPotion
+Potion <|-- HealthPotion
+RewardChest o-- GameObject : itemToDrop
+
+Weapon <|-- Gun
+Gun <|-- SingleBulletGun
+Gun <|-- MultipleBulletGun
+Weapon <|-- Melee
+Bullet <|-- EnemyBullet
+Bullet <|-- EnemyFrostyBullet
+Bullet <|-- PlayerBullet
+Ultimate <|-- ShieldUltimate
+
+LevelData <|-- RoundData
+
+MiniHealthBar <|-- BossHealthBar
+MiniHealthBar <|-- EnemyHealthBar
+
+PlayerData "1" *-- "1" CharacterData
+PlayerStats --> PlayerData
+PlayerStats "1" *-- "1" Health
+
+GameOver "1" *-- "1" GameManager
+StatBar "1" *-- "1" Health
+StatBar "1" *-- "1" PlayerStats
+WeaponPanel "1" *-- "1" PlayerItemInteraction
+WeaponPanel "1" *-- "1" Player
+
+
+GameManager "1" *-- "1" DungeonGenerator
+GameManager "1" *-- "1" AudioManager
+GameManager "1" *-- "1" BossIntroManager
+GameManager "1" *-- "1" GameStateManager
+GameManager "1" *-- "1" MainMenu
+GameManager "1" *-- "1" PauseMenuManager
+GameManager "1" *-- "1" CoinUI
+GameManager "1" *-- "1" ContinueButton
+GameManager "1" *-- "1" PlayerStats
+BossIntroManager --> GameManager
+GameStateManager "1" *-- "1" GameState
+EnemySpawner "1" *-- "1" EnemyData
+Enemy "1" *-- "1" EnemyData
+Weapon "1" *-- "1" WeaponData
+RewardChest "1" *-- "1" GameObject
+
+@enduml
