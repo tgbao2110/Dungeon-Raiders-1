@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8903de4cba60aa64588b43b6f510a9b3, type: 3}
   m_Name: 1-1
   m_EditorClassIdentifier: 
-  numOfEnemyRooms: 1
+  numOfEnemyRooms: 2
   itemsToDrop:
   - {fileID: 1730444466406790227, guid: 01b8ecada10b9d144925b78bfba8fbd6, type: 3}
-  numberOfEnemies: 01000000
-  hasBossRoom: 0
+  numberOfEnemies: 0400000005000000
+  hasBossRoom: 1
