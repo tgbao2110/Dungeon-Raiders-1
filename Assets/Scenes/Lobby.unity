@@ -3628,7 +3628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca25a55a5225bc54eb469a1022968f9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  armor: 2
+  armor: 1
   characterPicker: {fileID: 1633229301}
   text: {fileID: 1724745083}
   offset: {x: 0, y: 0, z: 0}
@@ -5392,7 +5392,7 @@ SpriteRenderer:
   m_SortingLayerID: -1433048717
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 7a5edcb213f471d48b6fef0cfb8f15b0, type: 3}
+  m_Sprite: {fileID: 176987750, guid: 53f3431c91d6bb44299aa66043c64d8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6778,6 +6778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   datasets:
   - {fileID: 11400000, guid: 704b942b659775d408578d3f083ef230, type: 2}
+  - {fileID: 11400000, guid: 7ceb69e518c7d2c47b9823730a94c75c, type: 2}
   player: {fileID: 231732044}
 --- !u!1 &1675309788
 GameObject:
@@ -7072,7 +7073,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ???
+  m_text: Ninja
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f6e0853c31066b849917f7cdb7142844, type: 2}
   m_sharedMaterial: {fileID: -145954563498174151, guid: f6e0853c31066b849917f7cdb7142844, type: 2}

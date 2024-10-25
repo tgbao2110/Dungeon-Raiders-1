@@ -25,7 +25,7 @@ public class CharacterPicker : MonoBehaviour
             case Armor.Knight:
                 characterData = datasets[0];
                 break;
-            case Armor.FrostKnight:
+            case Armor.Ninja:
                 characterData = datasets[1];
                 break;
                 // Add cases for other armor types here
@@ -47,7 +47,7 @@ public class CharacterPicker : MonoBehaviour
 public enum Armor
 {
     Knight,
-    FrostKnight,
+    Ninja,
     Hidden
     // Add other armor types here
 }
