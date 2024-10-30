@@ -392,6 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 11400000, guid: 6077f597725056f46941213911c53445, type: 2}
+  - {fileID: 11400000, guid: c5f3022a31ffc824a8581e8da68ca8f7, type: 2}
   savedWeaponData: {fileID: 0}
   continueButton: {fileID: 0}
 --- !u!4 &178441288
