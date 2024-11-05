@@ -15,6 +15,7 @@ public class Blasterfury : Enemy
 
     private int multiCount = 0;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,28 +25,31 @@ public class Blasterfury : Enemy
         SetAttackType();
         SetNextAttackCount();
 
+        GameStateManager.OnGameStateChanged += OnGameStateChanged;
     }
+
     void Update()
     {
-        if (isEnabled)
+        if(isEnabled)
         {
             HandleMovement();
             HandleAttack();
         }
+
     }
 
     void HandleAttack()
     {
         if (interval > 0)
-
         {
             interval -= Time.deltaTime;
         }
         else
         {
-            if (!usingSingleBullet)
+            //If first multiple-bullet attack, Start couroutine.
+            if(!usingSingleBullet)
             {
-                if (currentAttackCount == 0) StartCoroutine(ShootMultiple());
+                if(currentAttackCount==0) StartCoroutine(ShootMultiple());
                 else Shoot();
             }
             else
@@ -56,6 +60,7 @@ public class Blasterfury : Enemy
             interval = enemyData.fireRate;
         }
     }
+
     private IEnumerator ShootMultiple()
     {
         animator.SetBool("isAttacking", true);
@@ -65,21 +70,22 @@ public class Blasterfury : Enemy
 
     private void Shoot()
     {
-        if (this == null)
-            return;
-        
+        // Get the direction vector from the enemy to the player
         Vector3 directionToPlayer = (player.position - shootingPoint.position).normalized;
         attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint, directionToPlayer, enemyData.damage);
 
+        // Increment the current attack count and check if it's time to switch attack types
         currentAttackCount++;
         if (currentAttackCount >= maxAttackCount)
-
         {
             usingSingleBullet = !usingSingleBullet;
             SetAttackType();
             SetNextAttackCount();
+            
         }
     }
+
+    
     public override void SetAttackType()
     {
         if (usingSingleBullet)
@@ -95,7 +101,7 @@ public class Blasterfury : Enemy
     private void SetNextAttackCount()
     {
         currentAttackCount = 0;
-        maxAttackCount = Random.Range(2, 6);
+        maxAttackCount = Random.Range(2, 6); // Randomize between 2 to 5 (inclusive)
     }
 
     protected override void Die()
@@ -104,30 +110,17 @@ public class Blasterfury : Enemy
         Destroy(this.gameObject);
     }
 
-    private void OnEnable()
-    {
-        GameStateManager.OnGameStateChanged += OnGameStateChanged;
-    }
-
-    private void OnDisable()
-    {
-        GameStateManager.OnGameStateChanged -= OnGameStateChanged;
-    }
-
     private void OnGameStateChanged(GameState newGameState)
     {
         if (newGameState == GameState.Playing)
         {
             isEnabled = true;
         }
+
         else
         {
             isEnabled = false;
-            if (rb != null)
-            {
-                rb.velocity = Vector2.zero;
-            }
+            rb.velocity = Vector2.zero;
         }
     }
 }
-

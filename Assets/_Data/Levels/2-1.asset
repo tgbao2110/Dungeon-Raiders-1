@@ -16,5 +16,5 @@ MonoBehaviour:
   itemsToDrop:
   - {fileID: 3646198928688069371, guid: 17fc3d4facfdb444f89ada5ac108a924, type: 3}
   - {fileID: 2783408602314060421, guid: 3ca31a9a577d81f4b9300cb51e07edcc, type: 3}
-  numberOfEnemies: 0500000005000000
+  numberOfEnemies: 0300000005000000
   hasBossRoom: 0
