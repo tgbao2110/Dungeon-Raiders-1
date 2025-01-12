@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPausable
 {
     public Joystick joystick;
     public Player player;
@@ -9,29 +9,52 @@ public class PlayerController : MonoBehaviour
     private float originalMovementSpeed;
     private float currentMovementSpeed;
     private bool isSlowed = false;
+    public bool isMovementEnabled = true;
     float vInput, hInput;
     public Vector3 lastFacingDirection { get; private set; }
     [SerializeField] Rigidbody2D rb;
     public Animator animator;
     EnemyRoom room;
 
-    private void OnEnable()
+    private void Start()
     {
-        GameStateManager.OnGameStateChanged += OnGameStateChanged;
+        RegisterWithPauseManager();
     }
 
-    private void OnDisable()
+    private void RegisterWithPauseManager()
     {
-        GameStateManager.OnGameStateChanged -= OnGameStateChanged;
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.RegisterPausable(this);
+        }
+        else
+        {
+            StartCoroutine(RetryRegisterWithPauseManager());
+        }
     }
 
-    public void Initialize()
+    private IEnumerator RetryRegisterWithPauseManager()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        rb = player.GetComponent<Rigidbody2D>();
-        animator = player.GetComponentInChildren<Animator>();
+        while (PauseManager.Instance == null)
+        {
+            yield return null; // Wait until the next frame
+        }
+        PauseManager.Instance.RegisterPausable(this);
+    }
 
-        // Ensure everything is initialized properly
+    private void OnDestroy()
+    {
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.UnregisterPausable(this);
+        }
+    }
+
+    public void Initialize(Rigidbody2D rb, Animator animator)
+    {
+        this.rb = rb;
+        this.animator = animator;
+
         if (rb == null)
         {
             Debug.LogError("Rigidbody2D not found on Player or child objects!");
@@ -45,19 +68,16 @@ public class PlayerController : MonoBehaviour
         currentMovementSpeed = movementSpeed;
     }
 
-    private void Awake()
-    {
-        Initialize();
-    }
-
     private void Update()
     {
-        HandleMovement();
+        if (isMovementEnabled)
+        {
+            HandleMovement();
+        }
     }
 
     void HandleMovement()
     {
-        // Ensure rb and animator are not null before using them
         if (rb == null || animator == null)
         {
             return;
@@ -94,11 +114,6 @@ public class PlayerController : MonoBehaviour
         return lastFacingDirection;
     }
 
-    public void SetRoom(EnemyRoom enemyRoom)
-    {
-        room = enemyRoom;
-    }
-
     public void ApplySlow(float slowAmount, float duration)
     {
         if (!isSlowed)
@@ -111,21 +126,37 @@ public class PlayerController : MonoBehaviour
     {
         isSlowed = true;
         currentMovementSpeed = originalMovementSpeed * slowAmount;
-        if (player == null) Debug.Log("Player not found");
-        FindObjectOfType<Info>().Enable();
 
         yield return new WaitForSeconds(duration);
 
-        FindObjectOfType<Info>().Disable();
         currentMovementSpeed = originalMovementSpeed;
         isSlowed = false;
     }
 
-    private void OnGameStateChanged(GameState newGameState)
+    public void EnableMovement()
     {
-        if (newGameState == GameState.Paused)
+        isMovementEnabled = true;
+        Debug.Log("Movement enabled");
+    }
+
+    public void DisableMovement()
+    {
+        isMovementEnabled = false;
+        rb.velocity = Vector2.zero;
+        Debug.Log("Movement disabled");
+    }
+
+    public void SetPaused(bool isPaused)
+    {
+        if (isPaused)
         {
-            rb.velocity = Vector2.zero;
+            DisableMovement();
+        }
+        else
+        {
+            EnableMovement();
         }
     }
+
+    public void SetRoom(EnemyRoom enemyRoom) { room = enemyRoom; }
 }

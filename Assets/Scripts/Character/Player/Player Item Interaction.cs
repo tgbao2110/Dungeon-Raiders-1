@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerItemInteraction : MonoBehaviour
 {
     public Weapon equippedWeapon;
-
     private Potion currentPotion;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -11,7 +10,6 @@ public class PlayerItemInteraction : MonoBehaviour
         if (other.CompareTag("Collectable"))
         {
             Actions.OnEnterCollectable?.Invoke();
-
             EventSystem eventSystem = FindObjectOfType<EventSystem>();
             if (eventSystem != null)
             {
@@ -23,7 +21,6 @@ public class PlayerItemInteraction : MonoBehaviour
             Actions.OnEnterPotion?.Invoke();
             currentPotion = other.GetComponent<Potion>();
         }
-
         else if (other.CompareTag("Coin"))
         {
             GameManager.Instance.AddCoins(1);
@@ -97,7 +94,7 @@ public class PlayerItemInteraction : MonoBehaviour
         }
     }
 
-    void PickUpWeapon(Collectable item)
+    private void PickUpWeapon(Collectable item)
     {
         DropWeapon();
 
@@ -111,7 +108,7 @@ public class PlayerItemInteraction : MonoBehaviour
         Equip(currentObject.GetComponent<Weapon>());
     }
 
-    public void SaveWeaponState()
+        public void SaveWeaponState()
     {
         if (equippedWeapon != null)
         {

@@ -12,24 +12,28 @@ public class PauseMenuManager : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
-        Time.timeScale = 0;
+        GameStateManager.Instance.SetState(GameState.Paused);
     }
 
     public void ResumeGame()
     {
+        Debug.Log("Resuming game");
         pauseMenu.SetActive(false);
-        Time.timeScale = 1;
+        GameStateManager.Instance.SetState(GameState.Playing);
     }
 
     public void ReturnToMenu()
     {
-        if(GameManager.Instance.GetLevel()!=0) 
+        if (GameManager.Instance != null)
         {
-            GameManager.Instance.BackToMenu();
-        }
-        else
-        {
-            GameManager.Instance.GameOver();
+            if (GameManager.Instance.GetLevel() != 0)
+            {
+                GameManager.Instance.BackToMenu();
+            }
+            else
+            {
+                GameManager.Instance.GameOver();
+            }
         }
         ResumeGame();
     }

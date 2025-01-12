@@ -53,8 +53,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartGame()
-    {// Reset coin count when starting a new game
+    {
         LoadLevel(0);
+        savedWeaponData = null;
     }
 
     public void LoadLevel(int levelIndex)

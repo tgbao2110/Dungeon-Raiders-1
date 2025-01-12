@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldUltimate : Ultimate
+public class KnightUltimate : Ultimate
 {
     [SerializeField] Animator animator;
     [SerializeField] CircleCollider2D shieldCollider;

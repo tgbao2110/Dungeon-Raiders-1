@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class BeamSpitter : Enemy
 {
+    //private float maxHealth;
     public Transform shootingPoint;
     float interval = 0.5f;
     bool isEnabled = true;
-    [SerializeField] GameObject coinPrefab;
     
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        room = this.transform.parent.transform.parent.GetComponent<EnemyRoom>();
+        Initialize();
         InitializeHealth();
     }
 
@@ -23,6 +21,13 @@ public class BeamSpitter : Enemy
             HandleMovement();
             HandleAttack();
         }
+    }
+
+    void Initialize()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        room = this.transform.parent.transform.parent.GetComponent<EnemyRoom>();
     }
 
     void HandleAttack()
@@ -38,6 +43,8 @@ public class BeamSpitter : Enemy
         }
     }
 
+    
+    [SerializeField] GameObject coinPrefab;
 
     void Shoot()
     {

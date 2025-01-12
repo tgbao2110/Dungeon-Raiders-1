@@ -19,7 +19,10 @@ public class MultipleBulletAttack : AttackType
 
             // Instantiate the bullet
             GameObject bullet = Object.Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().SetDamage(damage);
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+            bulletScript.SetDamage(damage);
+            PauseManager.Instance.RegisterPausable(bulletScript); // Register bullet with PauseManager
+
             Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
 
             // Set velocity based on shoot direction and bullet speed

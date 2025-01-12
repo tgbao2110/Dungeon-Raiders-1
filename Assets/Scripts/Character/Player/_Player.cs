@@ -1,9 +1,13 @@
-using BarthaSzabolcs.Tutorial_SpriteFlash;
 using UnityEngine;
+using BarthaSzabolcs.Tutorial_SpriteFlash;
 
 public class Player : MonoBehaviour
 {
     private CharacterData data;
+
+    private void Start() {
+        Initialize();
+    }
 
     public GameObject AddCharacter(CharacterData pData)
     {
@@ -17,7 +21,7 @@ public class Player : MonoBehaviour
             if (sprite != null)
             {
                 Initialize(sprite);
-                var playerController = this.GetComponentInChildren<PlayerController>();
+                var playerController = GetComponentInChildren<PlayerController>();
                 playerController.animator = sprite.GetComponentInChildren<Animator>();
 
                 var facingDirection = playerController.GetFacingDirection();
@@ -33,6 +37,19 @@ public class Player : MonoBehaviour
 
         return sprite;
     }
+
+    public void Initialize()
+    {
+        var playerController = GetComponentInChildren<PlayerController>();
+        if (playerController != null)
+        {
+            var rb = GetComponentInChildren<Rigidbody2D>();
+            var animator = GetComponentInChildren<Animator>();
+            playerController.player = this;
+            playerController.Initialize(rb, animator);
+        }
+    }
+
     public void Initialize(GameObject sprite)
     {
         var health = GetComponentInChildren<Health>();
@@ -40,12 +57,8 @@ public class Player : MonoBehaviour
         {
             health.Initialize(data, sprite.GetComponent<SimpleFlash>());
         }
-
-        var playerController = GetComponentInChildren<PlayerController>();
-        if (playerController != null)
-        {
-            playerController.player = this;
-            playerController.Initialize();
-        }
+        
+        Initialize();
+        
     }
 }

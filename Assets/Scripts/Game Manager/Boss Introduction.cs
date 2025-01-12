@@ -12,7 +12,6 @@ public class BossIntroManager : MonoBehaviour
     }
     public void StartIntro()
     {
-        GameStateManager.Instance.SetState(GameState.Paused);
         panel.SetActive(true);
         StartCoroutine(PlayingIntro());
     }
@@ -28,6 +27,5 @@ public class BossIntroManager : MonoBehaviour
     void EndIntro()
     {
         panel.SetActive(false);
-        GameStateManager.Instance.SetState(GameState.Playing);
     }
 }

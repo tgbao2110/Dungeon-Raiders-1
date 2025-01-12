@@ -14,6 +14,4 @@ public class EnemyData : ScriptableObject
     public GameObject bulletPrefab;
     public float bulletSpeed;
     public float fireRate;
-
-
 }
