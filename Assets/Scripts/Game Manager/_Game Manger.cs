@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public WeaponData savedWeaponData;
     [SerializeField] ContinueButton continueButton;
 
-    private int coinCount = 0; // Field to store the coin count
+    private int coinCount = 10; // Field to store the coin count
 
     private void Awake()
     {
@@ -204,6 +204,17 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coinCount += amount;
+    }
+
+    public bool RemoveCoins(int amount)
+    {
+        if (coinCount < amount)
+        {
+            return false;
+        }
+
+        coinCount -= amount;
+        return true;
     }
 
     public int GetCoinCount()

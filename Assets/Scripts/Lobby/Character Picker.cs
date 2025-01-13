@@ -41,6 +41,24 @@ public class CharacterPicker : MonoBehaviour
         currentSprite = newSprite;
         hasPickedCharacter = true;
     }
+
+    public CharacterData getData(Armor armor)
+    {
+        CharacterData characterData = null;
+
+        switch (armor)
+        {
+            case Armor.Knight:
+                characterData = datasets[0];
+                break;
+            case Armor.Ninja:
+                characterData = datasets[1];
+                break;
+                // Add cases for other armor types here
+        }
+        
+        return characterData;
+    }
 }
 
 
@@ -49,5 +67,4 @@ public enum Armor
     Knight,
     Ninja,
     Hidden
-    // Add other armor types here
 }

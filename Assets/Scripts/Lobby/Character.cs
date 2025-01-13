@@ -3,37 +3,35 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] Armor armor;
-    [SerializeField] CharacterPicker characterPicker;
-    [SerializeField] TextMeshProUGUI text;
-    [SerializeField] Vector3 offset;
-    private SwitchButtonHandler switchButtonHandler;
+    [SerializeField] bool isLocked = true;
+    public CharacterSprite sprite;
+    public Armor armor;
+    public CharacterPicker characterPicker;
+    public TextMeshProUGUI text;
+    public UnlockText unlockText;
+    public Vector3 offset;
+    public LobbyButton lobbyButton;
+    private CharacterState currentState;
 
-    private void Awake()
+    private void Start()
     {
         characterPicker = GetComponentInParent<CharacterPicker>();
-        switchButtonHandler = FindObjectOfType<SwitchButtonHandler>();
+        lobbyButton = FindObjectOfType<LobbyButton>();
+        sprite = GetComponentInChildren<CharacterSprite>();
+        SetState(isLocked ? new LockedState() : new UnlockedState());
+        currentState.StateEnter(this);
     }
 
     private void Update()
     {
-        text.transform.position = Camera.main.WorldToScreenPoint(transform.position + offset);
+        currentState.StateUpdate(this);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (armor == Armor.Hidden)
-            {
-                text.text = "???";
-            }
-            else
-            {
-                text.text = armor.ToString();
-                switchButtonHandler.ShowButton(characterPicker, armor);
-            }
-            text.gameObject.SetActive(true);
+            currentState.CollisionEnter(this);
         }
     }
 
@@ -41,8 +39,18 @@ public class Character : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            text.gameObject.SetActive(false);
-            switchButtonHandler.HideButton();
+            currentState.CollisionExit(this);
         }
+    }
+
+    public void SetState(CharacterState newState)
+    {
+        currentState = newState;
+        currentState.StateEnter(this);
+    }
+
+    public void ConfirmPurchase()
+    {
+        unlockText.OnPurchaseClicked(this);
     }
 }

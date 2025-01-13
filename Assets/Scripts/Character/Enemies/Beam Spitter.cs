@@ -1,22 +1,24 @@
-using System.Data.Common;
+using System.Collections;
+using System.Collections.Generic;
+using BarthaSzabolcs.Tutorial_SpriteFlash;
 using UnityEngine;
 
-public class BeamSpitter : Enemy
+public class BeamSpitter : Enemy, IPausable
 {
-    //private float maxHealth;
     public Transform shootingPoint;
     float interval = 0.5f;
     bool isEnabled = true;
-    
+
     void Start()
     {
         Initialize();
         InitializeHealth();
+        RegisterWithPauseManager();
     }
 
     void Update()
     {
-        if(isEnabled)
+        if (isEnabled)
         {
             HandleMovement();
             HandleAttack();
@@ -43,12 +45,10 @@ public class BeamSpitter : Enemy
         }
     }
 
-    
     [SerializeField] GameObject coinPrefab;
 
     void Shoot()
     {
-        // Get the direction vector from the enemy to the player
         Vector3 directionToPlayer = (player.position - shootingPoint.position).normalized;
         attackType.ExecuteAttack(enemyData.bulletPrefab, enemyData.bulletSpeed, shootingPoint, directionToPlayer, enemyData.damage);
     }
@@ -63,5 +63,40 @@ public class BeamSpitter : Enemy
         room.KillEnemy();
         Instantiate(coinPrefab, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
+    }
+
+    private void RegisterWithPauseManager()
+    {
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.RegisterPausable(this);
+        }
+        else
+        {
+            StartCoroutine(RetryRegisterWithPauseManager());
+        }
+    }
+
+    private IEnumerator RetryRegisterWithPauseManager()
+    {
+        while (PauseManager.Instance == null)
+        {
+            yield return null; // Wait until the next frame
+        }
+        PauseManager.Instance.RegisterPausable(this);
+    }
+
+    private void OnDestroy()
+    {
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.UnregisterPausable(this);
+        }
+    }
+
+    public void SetPaused(bool isPaused)
+    {
+        isEnabled = !isPaused;
+        rb.velocity = Vector2.zero; // Stop the enemy's movement while paused
     }
 }

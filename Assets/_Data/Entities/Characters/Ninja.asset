@@ -18,3 +18,5 @@ MonoBehaviour:
   maxEnergy: 40
   meleeDamage: 1
   ultimateAbility: {fileID: 0}
+  price: 10
+  isLocked: 1

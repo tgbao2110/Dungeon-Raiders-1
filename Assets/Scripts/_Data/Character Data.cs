@@ -9,4 +9,6 @@ public class CharacterData : ScriptableObject
     public int maxEnergy;
     public int meleeDamage;
     public UltimateData ultimateAbility;
+    public int price;
+    public bool isLocked = true;
 }

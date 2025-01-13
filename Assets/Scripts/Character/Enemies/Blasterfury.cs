@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using BarthaSzabolcs.Tutorial_SpriteFlash;
 using UnityEngine;
 
-public class Blasterfury : Enemy
+public class Blasterfury : Enemy, IPausable
 {
     public Transform shootingPoint;
     float interval = 0.5f;
@@ -11,10 +11,9 @@ public class Blasterfury : Enemy
     private int currentAttackCount = 0;
     private int maxAttackCount = 0;
     private bool usingSingleBullet = true;
-    private bool isEnabled = false;
+    private bool isEnabled = true; // Initially true to allow movement and attacks
 
     private int multiCount = 0;
-
 
     void Start()
     {
@@ -25,17 +24,18 @@ public class Blasterfury : Enemy
         SetAttackType();
         SetNextAttackCount();
 
+        RegisterWithPauseManager(); // Register with the PauseManager
+
         GameStateManager.OnGameStateChanged += OnGameStateChanged;
     }
 
     void Update()
     {
-        if(isEnabled)
+        if (isEnabled)
         {
             HandleMovement();
             HandleAttack();
         }
-
     }
 
     void HandleAttack()
@@ -46,10 +46,10 @@ public class Blasterfury : Enemy
         }
         else
         {
-            //If first multiple-bullet attack, Start couroutine.
-            if(!usingSingleBullet)
+            // If first multiple-bullet attack, start coroutine
+            if (!usingSingleBullet)
             {
-                if(currentAttackCount==0) StartCoroutine(ShootMultiple());
+                if (currentAttackCount == 0) StartCoroutine(ShootMultiple());
                 else Shoot();
             }
             else
@@ -81,11 +81,9 @@ public class Blasterfury : Enemy
             usingSingleBullet = !usingSingleBullet;
             SetAttackType();
             SetNextAttackCount();
-            
         }
     }
 
-    
     public override void SetAttackType()
     {
         if (usingSingleBullet)
@@ -107,7 +105,42 @@ public class Blasterfury : Enemy
     protected override void Die()
     {
         room.KillEnemy();
-        Destroy(this.gameObject);
+        Destroy(gameObject);
+    }
+
+    private void RegisterWithPauseManager()
+    {
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.RegisterPausable(this);
+        }
+        else
+        {
+            StartCoroutine(RetryRegisterWithPauseManager());
+        }
+    }
+
+    private IEnumerator RetryRegisterWithPauseManager()
+    {
+        while (PauseManager.Instance == null)
+        {
+            yield return null; // Wait until the next frame
+        }
+        PauseManager.Instance.RegisterPausable(this);
+    }
+
+    private void OnDestroy()
+    {
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.UnregisterPausable(this);
+        }
+    }
+
+    public void SetPaused(bool isPaused)
+    {
+        isEnabled = !isPaused;
+        rb.velocity = Vector2.zero; // Stop the enemy's movement while paused
     }
 
     private void OnGameStateChanged(GameState newGameState)
@@ -116,7 +149,6 @@ public class Blasterfury : Enemy
         {
             isEnabled = true;
         }
-
         else
         {
             isEnabled = false;

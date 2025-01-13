@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using BarthaSzabolcs.Tutorial_SpriteFlash;
 using UnityEngine;
@@ -82,15 +81,12 @@ public abstract class Enemy : MonoBehaviour
 
     protected void OnDrawGizmosSelected()
     {
-        // Draw detection range
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
 
-        // Draw stop distance
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, stopDistance);
 
-        // Draw separation distance
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, separationDistance);
     }
