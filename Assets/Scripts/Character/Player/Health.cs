@@ -31,6 +31,8 @@ public class Health : MonoBehaviour
 
     public void StartGame()
     {
+        healthBar = GameObject.Find("Health").GetComponent<StatBar>();
+        energyBar = GameObject.Find("Energy").GetComponent<StatBar>();
         PlayerStats.Instance.Health = data.maxHealth;
         PlayerStats.Instance.Energy = data.maxEnergy;
         ReloadHealth();

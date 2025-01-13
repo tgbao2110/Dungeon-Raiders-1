@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using Mirror;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,16 +19,72 @@ public class GameManager : MonoBehaviour
 
     private int coinCount = 10; // Field to store the coin count
 
+    private bool isSceneChanging = false;
     private void Awake()
+{
+    if (Instance == null)
     {
-        if (Instance == null)
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        coinCount = PlayerPrefs.GetInt("CoinCount", 10); // Default to 10 if no value exists
+    }
+    else
+    {
+        Destroy(gameObject);
+    }
+}
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-        else
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Scene loaded: " + scene.name);
+        if (scene.name == "Dungeon")
         {
-            Destroy(gameObject);
+            SetupDungeonScene();
+            Debug.Log("----Getting player----");
+            var player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            player.StartGame();
+        }
+    }
+
+    private void SetupDungeonScene()
+    {
+        Debug.Log("--Setting dungeonGenerator--");
+
+        dungeonGenerator = GameObject.FindGameObjectWithTag("MapGenerator")?.GetComponent<DungeonGenerator>();
+        if (dungeonGenerator == null)
+        {
+            Debug.LogError("DungeonGenerator not found!");
+            return;
+        }
+
+        RoundData roundData = levels[currentLevelIndex].rounds[currentRoundIndex];
+        LevelData levelData = levels[currentLevelIndex];
+        dungeonGenerator.StartGame(levelData, roundData);
+        Debug.Log("Dungeon Generator started: " + levelData.levelName + " " + roundData.name);
+        EventSystem eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.ShowLevel();
+
+        Debug.Log("--Setting player--");
+
+        PlayerItemInteraction playerItemInteraction = FindObjectOfType<PlayerItemInteraction>();
+        if (playerItemInteraction != null)
+        {
+            playerItemInteraction.LoadWeaponState();
+        }
+
+        Health health = FindObjectOfType<Health>();
+        if (currentLevelIndex == 0 && currentRoundIndex == 0)
+        {
+            health.StartGame();
         }
     }
 
@@ -67,6 +123,13 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextRound()
     {
+        if (isSceneChanging)
+        {
+            Debug.LogWarning("Cannot load next round while a scene change is in progress.");
+            return; // Prevent starting a new round load if a scene change is already happening
+        }
+
+        Debug.Log("LOADING NEXT ROUND...");
         PlayerItemInteraction playerItemInteraction = FindObjectOfType<PlayerItemInteraction>();
         if (playerItemInteraction != null)
         {
@@ -103,50 +166,22 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadDungeonSceneCoroutine(roundIndex));
     }
 
-    private IEnumerator LoadDungeonSceneCoroutine(int roundIndex)
+     private IEnumerator LoadDungeonSceneCoroutine(int roundIndex)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Dungeon", LoadSceneMode.Single);
-        while (!asyncLoad.isDone)
+        if (isSceneChanging)
         {
-            yield return null;
+            Debug.LogWarning("Scene change already in progress. Skipping additional request.");
+            yield break; // Prevent duplicate scene changes
         }
 
-        Scene dungeonScene = SceneManager.GetSceneByName("Dungeon");
-        GameObject[] rootObjects = dungeonScene.GetRootGameObjects();
-        foreach (GameObject obj in rootObjects)
-        {
-            dungeonGenerator = obj.GetComponent<DungeonGenerator>();
-            if (dungeonGenerator != null)
-            {
-                break;
-            }
-        }
+        isSceneChanging = true;
+        NetworkManager.singleton.ServerChangeScene("Dungeon");
+        Debug.Log("--Loading Dungeon Scene--");
 
-        if (dungeonGenerator != null)
-        {
-            RoundData roundData = levels[currentLevelIndex].rounds[roundIndex];
-            LevelData levelData = levels[currentLevelIndex];
-            dungeonGenerator.StartGame(levelData, roundData);
-            Actions.OnStartNewRound.Invoke();
-        }
+        // Wait for the scene to load
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Dungeon");
 
-        Player player = FindObjectOfType<Player>();
-        if (player != null && selectedCharacterData != null)
-        {
-            player.AddCharacter(selectedCharacterData);
-        }
-
-        PlayerItemInteraction playerItemInteraction = FindObjectOfType<PlayerItemInteraction>();
-        if (playerItemInteraction != null)
-        {
-            playerItemInteraction.LoadWeaponState();
-        }
-
-        Health health = FindObjectOfType<Health>();
-        if (currentLevelIndex == 0 && currentRoundIndex == 0)
-        {
-            health.StartGame();
-        }
+        isSceneChanging = false; // Reset flag when scene change is complete
     }
 
     public void LoadMenu()
@@ -160,10 +195,26 @@ public class GameManager : MonoBehaviour
     }
 
     public void BackToMenu()
+{
+    // Save the current round data
+    SaveCurrentRound();
+
+    // Check if the server or client is active and stop them
+    if (NetworkServer.active) // Check if the current instance is hosting as a server
     {
-        SaveCurrentRound();
-        LoadMenu();
+        NetworkManager.singleton.StopHost(); // Stops both server and client on the host
+        Debug.Log("Server stopped.");
     }
+    else if (NetworkClient.isConnected) // Check if the current instance is a client
+    {
+        NetworkManager.singleton.StopClient(); // Disconnects the client from the server
+        Debug.Log("Client disconnected.");
+    }
+
+    // Load the main menu scene
+    LoadMenu();
+}
+
 
     public void GameOver()
     {
@@ -172,7 +223,6 @@ public class GameManager : MonoBehaviour
         lastLevelIndex = -1;
         lastRoundIndex = -1;
         savedWeaponData = null;
-        coinCount = 0; // Reset coin count on game over
         LoadMenu();
     }
 
@@ -183,7 +233,6 @@ public class GameManager : MonoBehaviour
         lastLevelIndex = -1;
         lastRoundIndex = -1;
         savedWeaponData = null;
-        coinCount = 0; // Reset coin count on replay
         Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }

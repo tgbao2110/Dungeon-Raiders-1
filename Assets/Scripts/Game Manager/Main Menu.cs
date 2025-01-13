@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        levelLoader.LoadLevel(1);
+        levelLoader.LoadLevel("Lobby");
     }
 
     public void Continue()

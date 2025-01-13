@@ -1,21 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
 
 public class LevelLoader : MonoBehaviour
 {
     [SerializeField] Animator transition;
-    public void LoadLevel(int index)
+    public void LoadLevel(string name)
     {
-        Debug.Log("Loading scene " + index);
-        StartCoroutine(LoadScene(index));
+        Debug.Log("Loading scene " + name);
+        StartCoroutine(LoadScene(name));
     }
 
-    IEnumerator LoadScene(int index)
+    IEnumerator LoadScene(string name)
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(0.5f);
-        SceneManager.LoadScene(index, LoadSceneMode.Single);
+        // SceneManager.LoadScene(index, LoadSceneMode.Single);
+        NetworkManager.singleton.ServerChangeScene(name);
     }
 }

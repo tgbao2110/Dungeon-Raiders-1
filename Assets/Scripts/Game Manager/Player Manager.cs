@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager Instance;
+    private static PlayerManager _instance;
+    public static PlayerManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                GameObject obj = new GameObject("PlayerManager");
+                _instance = obj.AddComponent<PlayerManager>();
+                DontDestroyOnLoad(obj);
+            }
+            return _instance;
+        }
+    }
 
     public string PlayerName { get; private set; }
     public bool IsHost { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void SetPlayerData(string playerName, bool isHost)
     {
@@ -28,3 +28,4 @@ public class PlayerManager : MonoBehaviour
         IsHost = isHost;
     }
 }
+

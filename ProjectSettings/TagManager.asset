@@ -16,6 +16,7 @@ TagManager:
   - Shield
   - Coin
   - FixedJoystick
+  - MapGenerator
   layers:
   - Default
   - TransparentFX

@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Net;
+using System.Net.Sockets;
 
 static class Utility
 {
@@ -73,4 +75,26 @@ static class Utility
         }
     }
 
+    public static string GetLocalIPAddress()
+    {
+        try
+        {
+            // Get a list of all network interfaces
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                // Check for IPv4 addresses only
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new System.Exception("No network adapters with an IPv4 address in the system!");
+        }
+        catch (System.Exception ex)
+        {
+            UnityEngine.Debug.LogError("Error retrieving IP address: " + ex.Message);
+            return "Unable to retrieve IP";
+        }
+    }
 }

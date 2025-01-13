@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Mirror;
+using Mirror.Discovery;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,15 +14,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_InputField playerNameInput;
 
     private NetworkManager networkManager;
+    private NetworkDiscovery networkDiscovery;
 
     private void Start()
     {
         networkManager = FindObjectOfType<NetworkManager>();
+        networkDiscovery = FindObjectOfType<NetworkDiscovery>();
 
-        // Đảm bảo đã có NetworkManager
+        // Ensure the NetworkManager and NetworkDiscovery are present in the scene
         if (networkManager == null)
         {
             Debug.LogError("No NetworkManager found in the scene!");
+        }
+        if (networkDiscovery == null)
+        {
+            Debug.LogError("No NetworkDiscovery found in the scene!");
         }
     }
 
@@ -47,12 +54,12 @@ public class UIManager : MonoBehaviour
 
         PlayerManager.Instance.SetPlayerData(playerNameInput.text, true);
 
-        // Host server
+        // Start hosting and advertising the server
         networkManager.StartHost();
+        networkDiscovery.AdvertiseServer();
 
         Debug.Log("Hosting server...");
     }
-
 
     public void JoinGame()
     {
@@ -64,9 +71,9 @@ public class UIManager : MonoBehaviour
 
         PlayerManager.Instance.SetPlayerData(playerNameInput.text, false);
 
-        // Connect as client
-        networkManager.StartClient();
+        // Start client discovery
+        networkDiscovery.StartDiscovery();
 
-        Debug.Log("Joining server...");
+        Debug.Log("Searching for servers...");
     }
 }
