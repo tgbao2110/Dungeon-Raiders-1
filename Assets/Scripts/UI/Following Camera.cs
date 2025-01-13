@@ -6,13 +6,16 @@ public class FollowingCamera : MonoBehaviour
 {
     public Transform player;
     public Vector3 offset;
+    private bool isPlayerInitialized = false;
  
-    private void Awake() 
+    public void Initialize(Transform player) 
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        this.player = player;
+        isPlayerInitialized = true;
     }
     void Update () 
     {
+        if (isPlayerInitialized)
         transform.position = new Vector3 (player.position.x + offset.x, player.position.y + offset.y, offset.z); // Camera follows the player with specified offset position
     }
 }

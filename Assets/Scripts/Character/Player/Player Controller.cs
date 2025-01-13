@@ -18,7 +18,13 @@ public class PlayerController : MonoBehaviour, IPausable
 
     private void Start()
     {
+        Debug.Log("PlayerController started");
         RegisterWithPauseManager();
+    }
+
+    private void Awake() {
+        Debug.Log("PlayerController awake");
+        joystick = GameObject.FindGameObjectWithTag("FixedJoystick").GetComponent<Joystick>();
     }
 
     private void RegisterWithPauseManager()

@@ -15,6 +15,7 @@ TagManager:
   - Effect
   - Shield
   - Coin
+  - FixedJoystick
   layers:
   - Default
   - TransparentFX

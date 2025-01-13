@@ -6,17 +6,12 @@ public class CharacterPicker : MonoBehaviour
     [SerializeField] private List<CharacterData> datasets;
     [SerializeField] private Player player;
     private GameObject currentSprite;
-
-    private void Awake()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();;
-        currentSprite = player.transform.GetChild(0).gameObject;
-    }
-
     public bool hasPickedCharacter { get; private set; } = false;
 
     public void Equip(Armor armor)
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        currentSprite = player.transform.GetChild(0).gameObject;
         GameObject newSprite = null;
         CharacterData characterData = null;
 

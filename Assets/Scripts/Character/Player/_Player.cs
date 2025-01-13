@@ -4,6 +4,7 @@ using BarthaSzabolcs.Tutorial_SpriteFlash;
 public class Player : MonoBehaviour
 {
     private CharacterData data;
+    private FollowingCamera followingCamera;
 
     private void Start() {
         Initialize();
@@ -48,6 +49,9 @@ public class Player : MonoBehaviour
             playerController.player = this;
             playerController.Initialize(rb, animator);
         }
+
+        followingCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowingCamera>();
+        followingCamera.Initialize(this.transform);
     }
 
     public void Initialize(GameObject sprite)
