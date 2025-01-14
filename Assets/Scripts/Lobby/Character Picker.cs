@@ -61,5 +61,6 @@ public enum Armor
 {
     Knight,
     Ninja,
+    Ghost,
     Hidden
 }
