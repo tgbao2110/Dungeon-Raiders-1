@@ -23,6 +23,9 @@ public class CharacterPicker : MonoBehaviour
             case Armor.Ninja:
                 characterData = datasets[1];
                 break;
+            case Armor.Ghost:
+                characterData = datasets[2];
+                break;
                 // Add cases for other armor types here
         }
 
@@ -49,6 +52,9 @@ public class CharacterPicker : MonoBehaviour
             case Armor.Ninja:
                 characterData = datasets[1];
                 break;
+               case Armor.Ghost:
+                characterData = datasets[2];
+                break; 
                 // Add cases for other armor types here
         }
         
