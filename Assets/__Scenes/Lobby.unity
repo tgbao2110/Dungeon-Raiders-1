@@ -4984,7 +4984,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ???
+  m_text: Ghost
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f6e0853c31066b849917f7cdb7142844, type: 2}
   m_sharedMaterial: {fileID: -145954563498174151, guid: f6e0853c31066b849917f7cdb7142844, type: 2}
@@ -7033,7 +7033,8 @@ MonoBehaviour:
   datasets:
   - {fileID: 11400000, guid: 704b942b659775d408578d3f083ef230, type: 2}
   - {fileID: 11400000, guid: 7ceb69e518c7d2c47b9823730a94c75c, type: 2}
-  - {fileID: 11400000, guid: 7ceb69e518c7d2c47b9823730a94c75c, type: 2}
+  - {fileID: 11400000, guid: 0536a2993a3d60445a799d894c2f93ed, type: 2}
+  - {fileID: 11400000, guid: 0536a2993a3d60445a799d894c2f93ed, type: 2}
   player: {fileID: 0}
 --- !u!1 &1675309788
 GameObject:

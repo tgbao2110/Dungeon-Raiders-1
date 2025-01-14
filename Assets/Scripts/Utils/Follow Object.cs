@@ -18,6 +18,7 @@ public class FollowObject : MonoBehaviour
     {
         if (objectToFollow != null && text != null)
         {
+            mainCamera = Camera.main;
             // Convert the object's world position to a screen position
             Vector3 screenPosition = mainCamera.WorldToScreenPoint(objectToFollow.position + offset);
 

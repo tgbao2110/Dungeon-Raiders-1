@@ -223,6 +223,16 @@ public class GameManager : MonoBehaviour
         lastLevelIndex = -1;
         lastRoundIndex = -1;
         savedWeaponData = null;
+        if (NetworkServer.active) // Check if the current instance is hosting as a server
+    {
+        NetworkManager.singleton.StopHost(); // Stops both server and client on the host
+        Debug.Log("Server stopped.");
+    }
+    else if (NetworkClient.isConnected) // Check if the current instance is a client
+    {
+        NetworkManager.singleton.StopClient(); // Disconnects the client from the server
+        Debug.Log("Client disconnected.");
+    }
         LoadMenu();
     }
 
